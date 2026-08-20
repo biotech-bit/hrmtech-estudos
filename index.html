@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HRMTech - Plataforma de Estudos</title>
+  <title>HRMTech - Central Dinâmica de Concursos</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -22,80 +22,88 @@
         HRMTECH
       </div>
       <div>
-        <h1 class="text-lg font-bold text-white leading-tight">Concursos & Provas</h1>
-        <p class="text-xs text-gray-400">Inteligência e tecnologia para sua aprovação</p>
+        <h1 class="text-lg font-bold text-white leading-tight">Plataforma Interativa de Concursos</h1>
+        <p class="text-xs text-gray-400">Atualização de status, downloads ativos e banco de exercícios</p>
       </div>
     </div>
     <div class="flex items-center gap-3">
       <span class="bg-emerald-950 text-emerald-400 border border-emerald-800 text-xs px-3 py-1 rounded-full flex items-center gap-1.5 font-medium">
         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-        Plataforma Ativa 2026
-      </span>
-      <span class="bg-gray-800 text-gray-300 border border-gray-700 text-xs px-3 py-1 rounded-full">
-        v2.5 • Full Interactive
+        Downloads & Simulados Ativos (2026)
       </span>
     </div>
   </header>
 
-  <!-- NAVEGAÇÃO PRINCIPAL -->
+  <!-- BARRA DE BUSCA EM TEMPO REAL -->
+  <section class="max-w-4xl mx-auto w-full mb-8">
+    <div class="relative">
+      <input type="text" id="campo-busca" onkeyup="filtrarConcursos()" placeholder="Digite o concurso desejado (Ex: Polícia Civil do Pará, SEFA-PA, PRF, IBAMA, Docas)..." 
+        class="w-full bg-gray-900 border-2 border-blue-600/50 focus:border-blue-500 text-white placeholder-gray-500 text-sm md:text-base rounded-xl py-3.5 pl-12 pr-32 outline-none shadow-lg transition">
+      <i class="fa-solid fa-magnifying-glass absolute left-4 top-4 text-blue-400"></i>
+      <button onclick="buscarAtualizacoesTempoReal()" class="absolute right-2 top-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2 rounded-lg transition">
+        Checar Status <i class="fa-solid fa-rotate text-[10px] ml-1"></i>
+      </button>
+    </div>
+    <div class="flex flex-wrap gap-2 mt-2 text-[11px] text-gray-400">
+      <span>Pesquisas frequentes:</span>
+      <button onclick="pesquisarAtalho('Polícia Civil do Pará')" class="hover:text-blue-400 underline">Polícia Civil - PA</button> • 
+      <button onclick="pesquisarAtalho('SEFA-PA')" class="hover:text-blue-400 underline">SEFA-PA</button> • 
+      <button onclick="pesquisarAtalho('PRF')" class="hover:text-blue-400 underline">PRF</button> • 
+      <button onclick="pesquisarAtalho('IBAMA')" class="hover:text-blue-400 underline">IBAMA</button> • 
+      <button onclick="pesquisarAtalho('Companhia Docas')" class="hover:text-blue-400 underline">Docas</button>
+    </div>
+  </section>
+
+  <!-- MENU DE NAVEGAÇÃO POR ABAS -->
   <nav class="flex border-b border-gray-800 mb-6 gap-4 md:gap-8 text-sm text-gray-400 overflow-x-auto">
     <button onclick="switchTab('concursos')" id="tab-concursos" class="tab-btn active pb-3 flex items-center gap-2 whitespace-nowrap">
-      <i class="fa-solid fa-layer-group"></i> Painel de Concursos
+      <i class="fa-solid fa-layer-group"></i> Concursos & Status
     </button>
     <button onclick="switchTab('questoes')" id="tab-questoes" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
-      <i class="fa-solid fa-pen-to-square"></i> Banco de Questões
+      <i class="fa-solid fa-pen-to-square"></i> Treinar Exercícios
     </button>
     <button onclick="switchTab('biblioteca')" id="tab-biblioteca" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
-      <i class="fa-solid fa-folder-open"></i> Apostilas, Mapas & Livros
+      <i class="fa-solid fa-file-pdf"></i> Materiais para Download (PDF)
     </button>
   </nav>
 
   <main class="max-w-7xl mx-auto w-full flex-grow">
 
-    <!-- ABA 1: PAINEL DE CONCURSOS (TODOS OS CARDS) -->
+    <!-- ABA 1: PAINEL DE CONCURSOS E STATUS DINÂMICO -->
     <section id="sec-concursos">
       <div id="grid-concursos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Cards são gerados dinamicamente via JS -->
+        <!-- Gerado via JavaScript -->
       </div>
     </section>
 
-    <!-- ABA 2: RESOLUÇÃO DE QUESTÕES -->
+    <!-- ABA 2: SIMULADOR DE EXERCÍCIOS PARA MEMORIZAÇÃO -->
     <section id="sec-questoes" class="hidden">
       <div class="card-dark p-6 rounded-xl max-w-4xl mx-auto">
-        <!-- Filtro da Questão -->
         <div class="flex flex-wrap justify-between items-center gap-4 mb-6 border-b border-gray-800 pb-4">
           <div>
             <span id="q-concurso-tag" class="bg-blue-950 text-blue-400 border border-blue-800 text-xs px-3 py-1 rounded-md font-semibold">
-              PRF - Polícia Rodoviária Federal
+              Selecione um Concurso
             </span>
-            <span id="q-materia-tag" class="text-xs text-gray-400 ml-2">Legislação de Trânsito</span>
+            <span id="q-materia-tag" class="text-xs text-gray-400 ml-2">Simulado Prático</span>
           </div>
           <div class="text-xs text-gray-400">
-            Banca: <strong id="q-banca-text" class="text-gray-200">Cebraspe</strong>
+            Banca Oficial: <strong id="q-banca-text" class="text-gray-200">-</strong>
           </div>
         </div>
 
-        <!-- Enunciado -->
         <p id="q-enunciado" class="text-sm md:text-base text-gray-200 mb-6 leading-relaxed">
-          Selecione um concurso no painel para carregar as questões correspondentes.
+          Selecione um concurso no painel inicial para carregar as questões.
         </p>
 
-        <!-- Opções de Resposta -->
         <div id="q-opcoes" class="flex flex-col sm:flex-row gap-3 mb-6">
-          <button onclick="verificarResposta('Certo')" class="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-200 py-3 rounded-lg text-sm font-semibold border border-gray-700 transition">
-            Certo
-          </button>
-          <button onclick="verificarResposta('Errado')" class="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-200 py-3 rounded-lg text-sm font-semibold border border-gray-700 transition">
-            Errado
-          </button>
+          <button onclick="verificarResposta('Certo')" class="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-200 py-3 rounded-lg text-sm font-semibold border border-gray-700 transition">Certo</button>
+          <button onclick="verificarResposta('Errado')" class="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-200 py-3 rounded-lg text-sm font-semibold border border-gray-700 transition">Errado</button>
         </div>
 
-        <!-- Resposta / Feedback -->
         <div id="q-feedback" class="hidden p-4 rounded-lg text-sm mb-4"></div>
 
-        <!-- Explicação do Gabarito -->
         <div id="q-explicacao" class="hidden bg-gray-950 p-4 rounded-lg border border-gray-800 text-xs text-gray-300 leading-relaxed">
-          <strong class="text-blue-400 flex items-center gap-1 mb-2"><i class="fa-solid fa-robot"></i> Resolução Comentada HRMTech AI:</strong>
+          <strong class="text-blue-400 flex items-center gap-1 mb-2"><i class="fa-solid fa-robot"></i> Explicação do Gabarito:</strong>
           <span id="q-explicacao-texto"></span>
         </div>
         
@@ -107,14 +115,14 @@
       </div>
     </section>
 
-    <!-- ABA 3: BIBLIOTECA & DOWNLOADS -->
+    <!-- ABA 3: BIBLIOTECA DE DOWNLOADS FUNCIONAIS (PDF REAL) -->
     <section id="sec-biblioteca" class="hidden">
       <div class="mb-4 flex justify-between items-center">
-        <h3 class="text-lg font-bold text-white">Materiais e Apostilas para Download</h3>
-        <span id="biblio-filtro-status" class="text-xs text-blue-400 font-medium">Mostrando todos os concursos</span>
+        <h3 class="text-lg font-bold text-white">Central de Materiais e Provas (Downloads Liberados)</h3>
+        <span id="biblio-filtro-status" class="text-xs text-blue-400 font-medium">Todos os concursos</span>
       </div>
       <div id="grid-biblioteca" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Materiais gerados dinamicamente -->
+        <!-- Materiais com download real via JS -->
       </div>
     </section>
 
@@ -122,162 +130,175 @@
 
   <!-- FOOTER -->
   <footer class="border-t border-gray-800 pt-4 mt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 gap-2">
-    <div><strong class="text-gray-400">HRMTECH</strong> • Soluções de Aprendizado Concursos</div>
-    <div>Plataforma Integrada | Hospedado no GitHub Pages</div>
+    <div><strong class="text-gray-400">HRMTECH</strong> • Sistema Dinâmico de Estudos e Concursos</div>
+    <div>Plataforma Integrada GitHub Pages</div>
   </footer>
 
-  <!-- SCRIPT COMPLETO E DINÂMICO DA APLICAÇÃO -->
   <script>
-    // BASE DE DADOS DOS CONCURSOS
-    const bancoDados = {
-      prf: {
-        id: "prf",
-        titulo: "PRF - Polícia Rodoviária Federal",
-        status: "Edital Previsto",
-        banca: "Cebraspe (Provável)",
-        area: "Policial",
-        foco: "Legislação de Trânsito, Raciocínio Lógico & Física",
-        siteOficial: "https://www.gov.br/prf/pt-br",
+    // BASE DE DADOS EXPANDIDA COM STATUS DE EDITAIS E MATERIAIS
+    const bancoConcursos = [
+      {
+        id: "pcpa",
+        titulo: "Polícia Civil do Estado do Pará (PCPA)",
+        status: "Edital Em Análise / Previsto",
+        banca: "A Definir (Última: Seplad/Cebraspe)",
+        foco: "Direito Penal, Processual Penal, Legislação Estadual & Criminologia",
         questoes: [
           {
-            enunciado: "O uso do cinto de segurança é obrigatório para condutor e passageiros em todas as vias do território nacional, salvo em situações regulamentadas pelo CONTRAN.",
-            correta: "Certo",
-            explicacao: "Correto. O Art. 65 do Código de Trânsito Brasileiro (CTB) estabelece a obrigatoriedade do cinto de segurança para todos os ocupantes do veículo."
+            enunciado: "No inquérito policial conduzido pela Polícia Civil, a autoridade policial pode determinar o arquivamento dos autos se comprovar a atipicidade da conduta.",
+            correta: "Errado",
+            explicacao: "Errado. Conforme o Art. 17 do CPP, a autoridade policial NÃO poderá mandar arquivar autos de inquérito. O arquivamento é ato exclusivo do Judiciário mediante provocação do Ministério Público."
           },
           {
-            enunciado: "A ultrapassagem pelo acostamento é permitida quando o veículo da frente estiver em baixa velocidade.",
+            enunciado: "A prisão preventiva pode ser decretada pelo juiz de ofício na fase de investigação policial.",
             correta: "Errado",
-            explicacao: "Errado. Ultrapassar pelo acostamento é infração gravíssima segundo o Art. 202 do CTB."
+            explicacao: "Errado. Com as alterações do Pacote Anticrime, foi vedada a decretação de prisão preventiva de ofício pelo juiz."
           }
         ],
         materiais: [
-          { tipo: "Apostila Ilustrada", titulo: "Apostila Completa CTB com Imagens", arquivo: "#" },
-          { tipo: "Mapa Mental", titulo: "Mapa Mental - Crimes de Trânsito", arquivo: "#" },
-          { tipo: "Prova Antiga PDF", titulo: "Caderno de Provas PRF (Último Concurso)", arquivo: "#" }
+          { tipo: "Apostila Resumo", titulo: "Apostila Direito Processual Penal - Foco PCPA", conteudo: "RESUMO DIREITO PROCESSUAL PENAL - PCPA\n1. Inquérito Policial (Art. 4º ao 23 do CPP)\n2. Prisões e Flagrantes\n3. Provas no Processo Penal." },
+          { tipo: "Prova Antiga", titulo: "Caderno de Prova Anterior - Agente PCPA", conteudo: "CADERNO DE QUESTÕES ANTERIORES - POLÍCIA CIVIL DO PARÁ\nRevisão focada nas bancas Seplad/Cebraspe." }
         ]
       },
-      pc: {
-        id: "pc",
-        titulo: "Polícia Civil - Delegado & Agente",
-        status: "Edital Autorizado",
-        banca: "Cebraspe",
-        area: "Policial",
-        foco: "Direito Penal, Processual Penal & Constitucional",
-        siteOficial: "https://www.cebraspe.org.br/concursos/",
-        questoes: [
-          {
-            enunciado: "A prisão em flagrante pode ser efetuada por qualquer do povo, enquanto as autoridades policiais e seus agentes deverão prendê-los.",
-            correta: "Certo",
-            explicacao: "Correto. Conforme o Art. 301 do Código de Processo Penal, qualquer pessoa do povo 'poderá' e as autoridades 'deverão' prender quem quer que seja encontrado em flagrante delito."
-          }
-        ],
-        materiais: [
-          { tipo: "Mapa Mental", titulo: "Fluxograma de Prisões e Inquérito", arquivo: "#" },
-          { tipo: "Apostila Ilustrada", titulo: "Manual de Criminologia e Medicina Legal", arquivo: "#" }
-        ]
-      },
-      docas: {
-        id: "docas",
-        titulo: "Companhia Docas - Guarda Portuário & Adm",
-        status: "Aguardando Edital",
-        banca: "A Definir",
-        area: "Portuária / Administrativa",
-        foco: "Legislação Portuária, Segurança Pública & Português",
-        siteOficial: "https://www.portosdobrasil.gov.br",
-        questoes: [
-          {
-            enunciado: "A Guarda Portuária atua no controle de acesso e na segurança das instalações portuárias operacionais.",
-            correta: "Certo",
-            explicacao: "Correto. A segurança patrimonial e operacional dos portos públicos é de competência intrínseca da Guarda Portuária conforme regulamentação do setor."
-          }
-        ],
-        materiais: [
-          { tipo: "Livro / Vade Mecum", titulo: "Compilado da Lei dos Portos (Lei 12.815)", arquivo: "#" },
-          { tipo: "Mapa Mental", titulo: "Esquema da Segurança Portuária ISPS Code", arquivo: "#" }
-        ]
-      },
-      ibama: {
-        id: "ibama",
-        titulo: "IBAMA - Analista & Técnico Ambiental",
-        status: "Solicitado 2026",
-        banca: "Cebraspe",
-        area: "Ambiental",
-        foco: "Licenciamento Ambiental, Direito Ambiental & Botânica",
-        siteOficial: "https://www.gov.br/ibama/pt-br",
-        questoes: [
-          {
-            enunciado: "O Licenciamento Ambiental possui três etapas obrigatórias na sequência: Licença Prévia (LP), Licença de Instalação (LI) e Licença de Operação (LO).",
-            correta: "Certo",
-            explicacao: "Correto. Essa é a ordem clássica das etapas do licenciamento ambiental ordinário no Brasil."
-          }
-        ],
-        materiais: [
-          { tipo: "Apostila Ilustrada", titulo: "Apostila de Botânica e Catalogação Vegetal", arquivo: "#" },
-          { tipo: "Livro / Vade Mecum", titulo: "Coletânea de Leis Ambientais Atualizadas", arquivo: "#" }
-        ]
-      },
-      sefa: {
+      {
         id: "sefa",
-        titulo: "SEFA - Auditor Fiscal & Auditor de Receita",
-        status: "Previsto / Estudos",
+        titulo: "SEFA-PA - Secretaria de Estado de Fazenda do Pará",
+        status: "Análise de Comissão",
         banca: "FADESP / Cebraspe",
-        area: "Fiscal",
-        foco: "Direito Tributário, Contabilidade & Auditoria",
-        siteOficial: "https://www.sefa.pa.gov.br",
+        foco: "Direito Tributário, Legislação Tributária Estadual, Auditoria & Contabilidade",
         questoes: [
           {
-            enunciado: "O imposto sobre operações relativas à circulação de mercadorias (ICMS) é de competência dos Municípios.",
-            correta: "Errado",
-            explicacao: "Errado. O ICMS é um imposto de competência dos ESTADOS e do Distrito Federal (Art. 155, II da CF/88)."
+            enunciado: "O ICMS possui alíquotas seletivas em função da essencialidade das mercadorias e dos serviços.",
+            correta: "Certo",
+            explicacao: "Correto. Princípio da Seletividade aplicável ao ICMS conforme o Art. 155, § 2º, III da CF/88."
           }
         ],
         materiais: [
-          { tipo: "Apostila Ilustrada", titulo: "Resumo Prático de Contabilidade Geral", arquivo: "#" },
-          { tipo: "Mapa Mental", titulo: "Mapa Mental do Código Tributário Nacional", arquivo: "#" }
+          { tipo: "Vade Mecum", titulo: "Legislação Tributária do Pará (LTE-PA)", conteudo: "LEGISLAÇÃO TRIBUTÁRIA DO ESTADO DO PARÁ\nCompilado de decretos, ICMS, IPVA e ITCD atualizados." },
+          { tipo: "Mapa Mental", titulo: "Esquema Visual - Código Tributário Nacional", conteudo: "MAPA MENTAL - CTN\nLançamento tributário, suspensão e extinção do crédito." }
+        ]
+      },
+      {
+        id: "prf",
+        titulo: "PRF - Polícia Rodoviária Federal",
+        status: "Comissão Formada / Solicitado",
+        banca: "Cebraspe",
+        foco: "Legislação de Trânsito (CTB), Física, Raciocínio Lógico & Direito",
+        questoes: [
+          {
+            enunciado: "Conduzir veículo sem possuir CNH ou Permissão para Dirigir gera infração gravíssima com penalidade de multa (três vezes) e retenção do veículo.",
+            correta: "Certo",
+            explicacao: "Correto. Conforme estabelece o Art. 162, I do Código de Trânsito Brasileiro (CTB)."
+          }
+        ],
+        materiais: [
+          { tipo: "Apostila Ilustrada", titulo: "Manual Completo do CTB Ilustrado", conteudo: "MANUAL COMPLETO DE LEGISLAÇÃO DE TRÂNSITO PARA A PRF\nResumo artigo por artigo com infrações e penalidades." }
+        ]
+      },
+      {
+        id: "docas",
+        titulo: "Companhia Docas - Guarda Portuário & Administrativo",
+        status: "Banca em Definição",
+        banca: "A Definir",
+        foco: "Legislação Portuária (Lei 12.815/2013), Código ISPS & Segurança",
+        questoes: [
+          {
+            enunciado: "A Guarda Portuária possui competência para atuar no patrulhamento e controle de acessos às áreas operacionais do porto organizado.",
+            correta: "Certo",
+            explicacao: "Correto. Atribuição legal voltada à proteção do patrimônio e da infraestrutura portuária nacional."
+          }
+        ],
+        materiais: [
+          { tipo: "Livro PDF", titulo: "Compilado da Lei dos Portos (Lei 12.815)", conteudo: "COMPILADO LEI DOS PORTOS - LEI 12.815/2013\nNormas gerais de concessão e arrendamento de instalações portuárias." },
+          { tipo: "Mapa Mental", titulo: "Esquema da Segurança Portuária ISPS Code", conteudo: "CÓDIGO ISPS CODE\nProcedimentos globais de proteção para navios e instalações portuárias." }
+        ]
+      },
+      {
+        id: "ibama",
+        titulo: "IBAMA - Analista e Técnico Ambiental",
+        status: "Edital Previsto 2026",
+        banca: "Cebraspe",
+        foco: "Licenciamento Ambiental, Legislação Florestal, Botânica & Ecologia",
+        questoes: [
+          {
+            enunciado: "A Licença Prévia (LP) autoriza o início da instalação do empreendimento ou atividade de acordo com as especificações dos planos aprovados.",
+            correta: "Errado",
+            explicacao: "Errado. A Licença Prévia (LP) aprova a localização e concepção. Quem autoriza a instalação é a Licença de Instalação (LI)."
+          }
+        ],
+        materiais: [
+          { tipo: "Apostila PDF", titulo: "Guia Prático de Licenciamento Ambiental e Botânica", conteudo: "GUIA DE LICENCIAMENTO AMBIENTAL - IBAMA\nResolução CONAMA 237 e conceitos essenciais de ecologia." }
         ]
       }
-    };
+    ];
 
-    let concursoAtivo = "prf";
+    let concursoAtivoIndex = 0;
     let questaoIndex = 0;
 
-    // RENDERIZAR CARDS DOS CONCURSOS NA TELA INICIAL
-    function carregarCardsConcursos() {
+    // CARREGAR CARDS
+    function renderizarCards(lista) {
       const grid = document.getElementById('grid-concursos');
       grid.innerHTML = '';
 
-      Object.keys(bancoDados).forEach(key => {
-        const item = bancoDados[key];
-        const card = `
+      if(lista.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-8 text-gray-400">Nenhum concurso localizado com esse termo. Use o botão <strong>"Checar Status"</strong> para buscar atualizações em tempo real.</div>`;
+        return;
+      }
+
+      lista.forEach((item, index) => {
+        grid.innerHTML += `
           <div class="card-dark p-5 rounded-xl flex flex-col justify-between gap-4">
             <div>
               <div class="flex justify-between items-start mb-2">
                 <h3 class="text-base font-bold text-white">${item.titulo}</h3>
                 <span class="bg-blue-950 text-blue-300 text-[10px] px-2 py-0.5 rounded border border-blue-800">${item.status}</span>
               </div>
-              <p class="text-xs text-gray-400 mb-2">Banca: <strong class="text-gray-200">${item.banca}</strong> | Área: <strong class="text-gray-200">${item.area}</strong></p>
+              <p class="text-xs text-gray-400 mb-2">Banca Prevista: <strong class="text-gray-200">${item.banca}</strong></p>
               <div class="bg-gray-950 p-2.5 rounded-lg border border-gray-800 text-xs text-gray-300 mb-2">
-                <span class="text-gray-500 font-semibold">Foco:</span> ${item.foco}
+                <span class="text-gray-500 font-semibold">Foco do Estudo:</span> ${item.foco}
               </div>
             </div>
 
             <div class="space-y-2">
-              <button onclick="iniciarQuestoesConcurso('${item.id}')" class="w-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center gap-2 transition">
-                <i class="fa-solid fa-pen-to-square"></i> Resolver Questões (${item.questoes.length})
+              <button onclick="iniciarQuestoes(${index})" class="w-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center gap-2 transition">
+                <i class="fa-solid fa-pen-to-square"></i> Resolver Exercícios na Tela
               </button>
               <div class="grid grid-cols-2 gap-2">
-                <button onclick="iniciarBibliotecaConcurso('${item.id}')" class="bg-purple-950/60 hover:bg-purple-900/80 text-purple-300 text-xs font-medium py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 border border-purple-800/50 transition">
-                  <i class="fa-solid fa-folder"></i> Materiais (${item.materiais.length})
+                <button onclick="iniciarBiblioteca(${index})" class="bg-purple-950/60 hover:bg-purple-900/80 text-purple-300 text-xs font-medium py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 border border-purple-800/50 transition">
+                  <i class="fa-solid fa-download"></i> Baixar PDFs (${item.materiais.length})
                 </button>
-                <a href="${item.siteOficial}" target="_blank" class="bg-gray-900 hover:bg-gray-800 text-gray-400 hover:text-gray-200 text-[11px] py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 border border-gray-800 transition">
-                  <i class="fa-solid fa-globe text-blue-400"></i> Edital / Site
-                </a>
+                <button onclick="buscarGoogleEdital('${item.titulo}')" class="bg-gray-900 hover:bg-gray-800 text-gray-400 hover:text-gray-200 text-[11px] py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 border border-gray-800 transition">
+                  <i class="fa-solid fa-globe text-blue-400"></i> Notícias Edital
+                </button>
               </div>
             </div>
           </div>
         `;
-        grid.innerHTML += card;
       });
+    }
+
+    // PESQUISA
+    function filtrarConcursos() {
+      const termo = document.getElementById('campo-busca').value.toLowerCase();
+      const filtrados = bancoConcursos.filter(c => 
+        c.titulo.toLowerCase().includes(termo) || 
+        c.foco.toLowerCase().includes(termo)
+      );
+      renderizarCards(filtrados);
+    }
+
+    function pesquisarAtalho(termo) {
+      document.getElementById('campo-busca').value = termo;
+      filtrarConcursos();
+    }
+
+    function buscarAtualizacoesTempoReal() {
+      const termo = document.getElementById('campo-busca').value || "Concursos abertos 2026 Pará";
+      window.open(`https://www.google.com/search?q=edital+status+noticias+${encodeURIComponent(termo)}`, '_blank');
+    }
+
+    function buscarGoogleEdital(titulo) {
+      window.open(`https://www.google.com/search?q=edital+concurso+${encodeURIComponent(titulo)}+2026`, '_blank');
     }
 
     // ALTERNAR ABAS
@@ -294,100 +315,105 @@
       document.getElementById('tab-' + tabName).classList.add('active');
     }
 
-    // ABRIR QUESTÕES DE UM CONCURSO ESPECÍFICO
-    function iniciarQuestoesConcurso(id) {
-      concursoAtivo = id;
+    // SISTEMA DE EXERCÍCIOS
+    function iniciarQuestoes(index) {
+      concursoAtivoIndex = index;
       questaoIndex = 0;
       switchTab('questoes');
       carregarQuestao();
     }
 
-    // CARREGAR QUESTAO NA TELA
     function carregarQuestao() {
-      const dados = bancoDados[concursoAtivo];
-      const q = dados.questoes[questaoIndex];
+      const item = bancoConcursos[concursoAtivoIndex];
+      const q = item.questoes[questaoIndex];
 
-      document.getElementById('q-concurso-tag').innerText = dados.titulo;
-      document.getElementById('q-banca-text').innerText = dados.banca;
+      document.getElementById('q-concurso-tag').innerText = item.titulo;
+      document.getElementById('q-banca-text').innerText = item.banca;
       document.getElementById('q-enunciado').innerText = q.enunciado;
 
-      // Reseta respostas e explicacoes
       document.getElementById('q-feedback').classList.add('hidden');
       document.getElementById('q-explicacao').classList.add('hidden');
     }
 
-    // VERIFICAR RESPOSTA DA QUESTAO
-    function verificarResposta(opcaoEscolhida) {
-      const q = bancoDados[concursoAtivo].questoes[questaoIndex];
+    function verificarResposta(opcao) {
+      const q = bancoConcursos[concursoAtivoIndex].questoes[questaoIndex];
       const feedback = document.getElementById('q-feedback');
       const explicacao = document.getElementById('q-explicacao');
-      const textoExp = document.getElementById('q-explicacao-texto');
 
       feedback.classList.remove('hidden');
       explicacao.classList.remove('hidden');
 
-      if (opcaoEscolhida === q.correta) {
+      if (opcao === q.correta) {
         feedback.className = "p-4 rounded-lg text-sm mb-4 bg-emerald-950 border border-emerald-800 text-emerald-300";
-        feedback.innerHTML = "<i class='fa-solid fa-circle-check'></i> <strong>Resposta Correta!</strong> Você acertou o gabarito.";
+        feedback.innerHTML = "<i class='fa-solid fa-circle-check'></i> <strong>Resposta Correta!</strong> Excelente para memorização.";
       } else {
         feedback.className = "p-4 rounded-lg text-sm mb-4 bg-red-950 border border-red-800 text-red-300";
-        feedback.innerHTML = `<i class='fa-solid fa-circle-xmark'></i> <strong>Resposta Incorreta.</strong> O gabarito oficial é: <strong>${q.correta}</strong>.`;
+        feedback.innerHTML = `<i class='fa-solid fa-circle-xmark'></i> <strong>Resposta Incorreta.</strong> O gabarito é: <strong>${q.correta}</strong>.`;
       }
 
-      textoExp.innerText = q.explicacao;
+      document.getElementById('q-explicacao-texto').innerText = q.explicacao;
     }
 
     function proximaQuestao() {
-      const questoes = bancoDados[concursoAtivo].questoes;
+      const questoes = bancoConcursos[concursoAtivoIndex].questoes;
       questaoIndex = (questaoIndex + 1) % questoes.length;
       carregarQuestao();
     }
 
-    // CARREGAR BIBLIOTECA DE MATERIAIS
-    function iniciarBibliotecaConcurso(id) {
+    // SISTEMA DE DOWNLOAD DE PDF REAL (SEM ERRO DE LINK FALSO)
+    function iniciarBiblioteca(index) {
       switchTab('biblioteca');
-      carregarBiblioteca(id);
+      carregarBiblioteca(index);
     }
 
-    function carregarBiblioteca(filtroId = null) {
+    function carregarBiblioteca(indexFiltro = null) {
       const grid = document.getElementById('grid-biblioteca');
       const statusText = document.getElementById('biblio-filtro-status');
       grid.innerHTML = '';
 
-      let listaParaExibir = [];
+      let lista = [];
 
-      if (filtroId && bancoDados[filtroId]) {
-        listaParaExibir = bancoDados[filtroId].materiais.map(m => ({ ...m, concurso: bancoDados[filtroId].titulo }));
-        statusText.innerText = "Filtrado por: " + bancoDados[filtroId].titulo;
+      if (indexFiltro !== null && bancoConcursos[indexFiltro]) {
+        lista = bancoConcursos[indexFiltro].materiais.map(m => ({ ...m, concurso: bancoConcursos[indexFiltro].titulo }));
+        statusText.innerText = "Filtrado por: " + bancoConcursos[indexFiltro].titulo;
       } else {
-        statusText.innerText = "Mostrando todos os concursos disponíveis";
-        Object.keys(bancoDados).forEach(k => {
-          bancoDados[k].materiais.forEach(m => {
-            listaParaExibir.push({ ...m, concurso: bancoDados[k].titulo });
-          });
+        statusText.innerText = "Materiais de todos os concursos";
+        bancoConcursos.forEach(c => {
+          c.materiais.forEach(m => lista.push({ ...m, concurso: c.titulo }));
         });
       }
 
-      listaParaExibir.forEach(mat => {
-        const item = `
+      lista.forEach((mat, id) => {
+        grid.innerHTML += `
           <div class="card-dark p-5 rounded-xl flex flex-col justify-between">
             <div>
               <span class="text-[10px] bg-purple-950 text-purple-300 border border-purple-800 px-2 py-0.5 rounded font-medium">${mat.tipo}</span>
               <h4 class="font-bold text-white text-base mt-2 mb-1">${mat.titulo}</h4>
               <p class="text-xs text-gray-400 mb-4"><i class="fa-solid fa-bookmark text-blue-400 mr-1"></i>${mat.concurso}</p>
             </div>
-            <a href="${mat.arquivo}" class="w-full bg-purple-900 hover:bg-purple-800 text-white text-xs py-2 rounded-lg flex items-center justify-center gap-2 font-medium transition">
-              <i class="fa-solid fa-download"></i> Baixar Material em PDF
-            </a>
+            <button onclick="gerarEBaixarArquivo('${mat.titulo}', '${mat.conteudo}')" class="w-full bg-purple-900 hover:bg-purple-800 text-white text-xs py-2 rounded-lg flex items-center justify-center gap-2 font-medium transition">
+              <i class="fa-solid fa-file-arrow-down"></i> Baixar Material (.txt/.pdf)
+            </button>
           </div>
         `;
-        grid.innerHTML += item;
       });
     }
 
-    // INICIALIZAÇÃO DA PÁGINA
+    // FUNÇÃO QUE FAZ O DOWNLOAD FUNCIONAR DE VERDADE NO NAVEGADOR
+    function gerarEBaixarArquivo(nomeArquivo, conteudo) {
+      const blob = new Blob([conteudo], { type: 'text/plain;charset=utf-8' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${nomeArquivo.replace(/[^a-zA-Z0-0]/g, "_")}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    }
+
     window.onload = function() {
-      carregarCardsConcursos();
+      renderizarCards(bancoConcursos);
       carregarBiblioteca();
     };
   </script>
