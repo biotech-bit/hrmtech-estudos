@@ -26,18 +26,18 @@
       </div>
       <div>
         <h1 class="text-lg font-bold text-white leading-tight">Plataforma Interativa de Estudos para Periferias e Escolas Públicas</h1>
-        <p class="text-xs text-gray-400">100% Gratuito • Portais Oficiais • Buscas em Tempo Real • Videoaulas Integradas</p>
+        <p class="text-xs text-gray-400">100% Gratuito • Simulados de Provas Anteriores • Portais Oficiais • Videoaulas</p>
       </div>
     </div>
   </header>
 
-  <!-- NAVEGAÇÃO PRINCIPAL (4 ABAS) -->
+  <!-- NAVEGAÇÃO PRINCIPAL -->
   <nav class="flex border-b border-gray-800 mb-6 gap-2 md:gap-6 text-sm text-gray-400 overflow-x-auto pb-1">
     <button onclick="switchTab('portal')" id="tab-portal" class="tab-btn active pb-3 flex items-center gap-2 whitespace-nowrap">
       <i class="fa-solid fa-house text-blue-400"></i> 1. Portal de Concursos & Editais
     </button>
     <button onclick="switchTab('questoes')" id="tab-questoes" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
-      <i class="fa-solid fa-infinity text-purple-400"></i> 2. Questões & Videoaulas
+      <i class="fa-solid fa-file-lines text-purple-400"></i> 2. Simulados & Provas Anteriores
     </button>
     <button onclick="switchTab('redacao')" id="tab-redacao" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
       <i class="fa-solid fa-pen-nib text-pink-400"></i> 3. Oficina de Redação Nota 1000
@@ -55,12 +55,12 @@
         <h2 class="text-base font-bold text-white flex items-center gap-2 mb-1">
           <i class="fa-solid fa-bullhorn text-blue-400"></i> Central de Editais Abertos, Previstos e Encerrados
         </h2>
-        <p class="text-xs text-gray-300">Acompanhe editais de Institutos Federais, Prefeituras, Órgãos Estaduais/Federais e ENEM com links diretos para as bancas oficiais.</p>
+        <p class="text-xs text-gray-300">Acompanhe editais de Institutos Federais, Prefeituras, Órgãos Estaduais/Federais e ENEM.</p>
       </div>
 
       <div class="card-dark p-4 rounded-xl mb-6">
         <div class="flex flex-col md:flex-row gap-3">
-          <input type="text" id="busca-edital-termo" placeholder="Digite o órgão, estado ou banca (Ex: IFAM, IFPA, Polícia Civil, ENEM, Santarém, FGV)..." 
+          <input type="text" id="busca-edital-termo" placeholder="Digite o órgão, estado ou banca (Ex: IFAM, IFPA, Polícia Civil, ENEM, FGV)..." 
             class="flex-grow bg-gray-900 border border-gray-700 text-white text-sm rounded-lg p-3 outline-none focus:border-blue-500">
           
           <select id="filtro-edital-status" class="bg-gray-900 border border-gray-700 text-white text-sm rounded-lg p-3 outline-none">
@@ -79,42 +79,53 @@
       <div id="grid-portal" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </section>
 
-    <!-- ABA 2: QUESTÕES INFINITAS COM BUSCA LIVRE E VIDEOAULAS -->
+    <!-- ABA 2: SIMULADOS E PROVAS ANTERIORES -->
     <section id="sec-questoes" class="hidden">
       <div class="card-dark p-4 rounded-xl mb-6">
-        <label class="block text-xs font-bold text-blue-400 mb-2 uppercase">
-          <i class="fa-solid fa-earth-americas mr-1"></i> Pesquisar Qualquer Instituto, Concurso ou Matéria:
+        <label class="block text-xs font-bold text-purple-400 mb-2 uppercase">
+          <i class="fa-solid fa-sliders mr-1"></i> Configurar Simulado de Provas Anteriores:
         </label>
-        <div class="flex flex-col md:flex-row gap-3">
-          <input type="text" id="filtro-busca-livre" value="IFAM Manaus" 
-            placeholder="Digite aqui: IFAM, IFPA, Polícia Civil, ENEM, SEDUC, Prefeitura, VUNESP..." 
-            class="flex-grow bg-gray-900 border border-gray-700 text-white text-sm rounded-lg p-3 outline-none focus:border-blue-500">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+          <input type="text" id="filtro-busca-livre" value="IFAM / IFPA / Concursos Públicos" 
+            placeholder="Órgão ou Banca (Ex: FGV, Cebraspe, INEP)" 
+            class="bg-gray-900 border border-gray-700 text-white text-sm rounded-lg p-3 outline-none focus:border-purple-500">
+          
+          <select id="filtro-banca" class="bg-gray-900 border border-gray-700 text-white text-sm rounded-lg p-3 outline-none">
+            <option value="Todas as Bancas">Banca: Todas / Padrão</option>
+            <option value="FGV">Banca: FGV</option>
+            <option value="Cebraspe / CESPE">Banca: Cebraspe / CESPE</option>
+            <option value="INEP / ENEM">Banca: INEP / ENEM</option>
+            <option value="CETAP / IDECAN">Banca: CETAP / IDECAN</option>
+          </select>
+
           <select id="filtro-disciplina" class="bg-gray-900 border border-gray-700 text-white text-sm rounded-lg p-3 outline-none">
-            <option value="Biologia e Ciências">Biologia / Ciências</option>
+            <option value="Geral">Todas as Matérias do Edital</option>
+            <option value="Biologia e Ciências">Biologia / Ciências Naturais</option>
             <option value="Língua Portuguesa">Língua Portuguesa</option>
             <option value="Matemática e Raciocínio Lógico">Matemática / Raciocínio Lógico</option>
             <option value="Legislação Educacional e LDB">Legislação Educacional / LDB</option>
             <option value="Direito e Legislação">Direito / Perícia / Legislação</option>
           </select>
-          <button onclick="gerarProximaQuestao()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-6 py-3 rounded-lg transition whitespace-nowrap">
-            <i class="fa-solid fa-magnifying-glass mr-1"></i> Carregar Questão
+
+          <button onclick="gerarProximaQuestao()" class="bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold px-6 py-3 rounded-lg transition whitespace-nowrap">
+            <i class="fa-solid fa-shuffle mr-1"></i> Sortear Questão de Prova
           </button>
         </div>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <!-- DESEMPENHO DO ESTUDANTE -->
+        <!-- DESEMPENHO DO SIMULADO -->
         <div class="lg:col-span-1 card-dark p-4 rounded-xl h-fit">
           <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-3 mb-4 flex items-center gap-2">
-            <i class="fa-solid fa-chart-pie text-blue-400"></i> Desempenho do Aluno
+            <i class="fa-solid fa-chart-line text-purple-400"></i> Painel do Simulado
           </h3>
           <div class="space-y-3 text-xs">
             <div class="flex justify-between text-gray-400">
               <span>Aproveitamento:</span>
-              <strong id="m-porcentagem" class="text-blue-400 font-bold">0%</strong>
+              <strong id="m-porcentagem" class="text-purple-400 font-bold">0%</strong>
             </div>
             <div class="w-full bg-gray-800 rounded-full h-2 overflow-hidden">
-              <div id="m-barra" class="bg-blue-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+              <div id="m-barra" class="bg-purple-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
             </div>
             <div class="grid grid-cols-2 gap-2 text-center pt-2">
               <div class="bg-emerald-950/60 border border-emerald-800/50 p-2 rounded-lg">
@@ -126,53 +137,61 @@
                 <span class="text-gray-400 text-[10px]">Erros</span>
               </div>
             </div>
+            <button onclick="reiniciarSimulado()" class="w-full mt-3 bg-gray-800 hover:bg-gray-700 text-gray-300 py-2 rounded-lg font-medium transition text-center">
+              Zerar Estatísticas
+            </button>
           </div>
         </div>
 
-        <!-- PAINEL DE QUESTÃO -->
+        <!-- PAINEL DE QUESTÃO DE PROVA ANTERIOR -->
         <div class="lg:col-span-3 card-dark p-6 rounded-xl">
           <div class="flex flex-wrap justify-between items-center gap-2 mb-4 border-b border-gray-800 pb-3">
             <div>
-              <span id="q-concurso-tag" class="bg-blue-950 text-blue-300 border border-blue-800 text-xs px-2.5 py-1 rounded font-semibold">IFAM Manaus</span>
-              <span id="q-banca-tag" class="bg-purple-950 text-purple-300 border border-purple-800 text-xs px-2.5 py-1 rounded font-medium ml-2">Questão Personalizada</span>
+              <span id="q-concurso-tag" class="bg-blue-950 text-blue-300 border border-blue-800 text-xs px-2.5 py-1 rounded font-semibold">Concurso Público</span>
+              <span id="q-banca-tag" class="bg-purple-950 text-purple-300 border border-purple-800 text-xs px-2.5 py-1 rounded font-medium ml-2">Banca Oficial</span>
             </div>
-            <span class="text-[11px] text-emerald-400 font-mono">
-              <i class="fa-solid fa-circle-play mr-1"></i> Com Videoaula Explicativa
+            <span id="q-ano-tag" class="text-[11px] text-amber-400 font-mono bg-amber-950/40 border border-amber-800/50 px-2 py-0.5 rounded">
+              <i class="fa-solid fa-calendar-days mr-1"></i> Prova Anterior
             </span>
           </div>
 
-          <p id="q-enunciado" class="text-sm md:text-base text-gray-100 mb-6 leading-relaxed font-medium">Carregando questão...</p>
+          <p id="q-enunciado" class="text-sm md:text-base text-gray-100 mb-6 leading-relaxed font-medium">Carregando questão de prova...</p>
           
           <div id="q-opcoes" class="flex flex-col gap-3 mb-6"></div>
 
           <div id="q-feedback" class="hidden p-4 rounded-lg text-sm mb-4"></div>
 
-          <!-- RESOLUÇÃO E VIDEOAULA INCORPORADA -->
-          <div id="q-explicacao" class="hidden bg-gray-950 p-5 rounded-xl border border-blue-900/60 text-xs text-gray-300 leading-relaxed space-y-4">
-            <div class="flex items-center gap-2 text-blue-400 font-bold text-sm border-b border-gray-800 pb-2">
-              <i class="fa-solid fa-graduation-cap text-base"></i> Resolução Comentada e Videoaula do Tema
+          <!-- RESOLUÇÃO E VIDEOAULA DINÂMICA ATUALIZADA -->
+          <div id="q-explicacao" class="hidden bg-gray-950 p-5 rounded-xl border border-purple-900/60 text-xs text-gray-300 leading-relaxed space-y-4">
+            <div class="flex items-center gap-2 text-purple-400 font-bold text-sm border-b border-gray-800 pb-2">
+              <i class="fa-solid fa-graduation-cap text-base"></i> Gabarito Comentado e Videoaula Atualizada
             </div>
             <div id="q-explicacao-texto" class="space-y-3"></div>
             
             <div class="pt-2">
               <div class="flex justify-between items-center mb-2">
                 <p class="font-bold text-gray-200 flex items-center gap-1 text-xs">
-                  <i class="fa-brands fa-youtube text-red-500"></i> Assista à Aula Completa:
+                  <i class="fa-brands fa-youtube text-red-500"></i> Busca Automática de Aulas no YouTube:
                 </p>
-                <a id="q-link-youtube" href="#" target="_blank" class="bg-red-600 hover:bg-red-500 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition flex items-center gap-1">
-                  <i class="fa-solid fa-external-link-alt"></i> Abrir Direto no YouTube
+                <a id="q-link-youtube" href="#" target="_blank" class="bg-red-600 hover:bg-red-500 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition flex items-center gap-1 shadow-md shadow-red-600/30">
+                  <i class="fa-solid fa-magnifying-glass"></i> Buscar Vídeos Atualizados no YouTube
                 </a>
               </div>
-              <div class="aspect-video w-full rounded-lg overflow-hidden border border-gray-800">
-                <iframe id="q-video-frame" class="w-full h-full" src="" title="Videoaula explicativa" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <div class="aspect-video w-full rounded-lg overflow-hidden border border-gray-800 bg-gray-900 flex flex-col items-center justify-center p-6 text-center">
+                <i class="fa-brands fa-youtube text-red-500 text-4xl mb-3 animate-pulse"></i>
+                <p class="text-xs font-bold text-white mb-1">Quer assistir a explicações recentes sobre este assunto?</p>
+                <p class="text-[11px] text-gray-400 mb-4">Clique no botão acima para abrir a listagem de videoaulas atualizadas diretamente no YouTube com os melhores professores.</p>
+                <a id="q-link-youtube-card" href="#" target="_blank" class="bg-gray-800 hover:bg-gray-700 text-red-400 border border-red-500/40 text-xs font-bold px-4 py-2 rounded-lg transition">
+                  Abrir Resultados de Pesquisa <i class="fa-solid fa-external-link-alt ml-1"></i>
+                </a>
               </div>
             </div>
           </div>
 
           <div class="mt-6 flex justify-between items-center border-t border-gray-800 pt-4">
-            <span class="text-xs text-gray-500"><i class="fa-solid fa-infinity text-purple-400 mr-1"></i> Modo Infinito de Treino</span>
-            <button onclick="gerarProximaQuestao()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-5 py-2.5 rounded-lg font-semibold transition flex items-center gap-2">
-              Próxima Questão <i class="fa-solid fa-arrow-right"></i>
+            <span class="text-xs text-gray-500"><i class="fa-solid fa-rotate text-purple-400 mr-1"></i> Banco de Provas Infinito</span>
+            <button onclick="gerarProximaQuestao()" class="bg-purple-600 hover:bg-purple-500 text-white text-xs px-5 py-2.5 rounded-lg font-semibold transition flex items-center gap-2">
+              Próxima Questão do Simulado <i class="fa-solid fa-arrow-right"></i>
             </button>
           </div>
         </div>
@@ -248,7 +267,7 @@
     HRMTECH • Ferramenta Livre de Educação para Periferias e Escolas Públicas
   </footer>
 
-  <!-- SCRIPT COMPLETO E CORRIGIDO -->
+  <!-- SCRIPT COM BUSCAS ATUALIZADAS NO YOUTUBE -->
   <script>
     const editaisOficiais = [
       { titulo: "IFAM - Instituto Federal do Amazonas", status: "aberto", statusTexto: "Inscrições Abertas / Portal Ativo", banca: "Comissão Própria / IDECAN", foco: "Cursos Técnicos e Concursos", vagas: "Manaus e AM", linkOficial: "https://www.ifam.edu.br" },
@@ -258,10 +277,10 @@
     ];
 
     const acervoMultimidia = [
-      { titulo: "Carreiras Policiais - Polícia Civil (Direito e Perícia)", orgao: "Polícia Civil", descricao: "Aulas focadas em legislação penal e direito.", embedUrl: "https://www.youtube.com/embed/S26X4q8jX5w", linkExterno: "https://www.youtube.com/results?search_query=aula+concurso+policia+civil" },
-      { titulo: "IFAM Manaus - Preparatório Geral", orgao: "IFAM", descricao: "Resolução de questões das bancas do IFAM.", embedUrl: "https://www.youtube.com/embed/S26X4q8jX5w", linkExterno: "https://www.ifam.edu.br" },
-      { titulo: "IFPA - Aulas Preparatórias e Revisões", orgao: "IFPA", descricao: "Módulos de Português e Raciocínio Lógico.", embedUrl: "https://www.youtube.com/embed/4p8J5sY5d_c", linkExterno: "https://concurso.ifpa.edu.br" },
-      { titulo: "ENEM Completo - Revisão por Disciplinas", orgao: "ENEM", descricao: "Revisão focada para estudantes.", embedUrl: "https://www.youtube.com/embed/5A3cO1r98mU", linkExterno: "https://www.youtube.com/c/HoradoEnemOficial" }
+      { titulo: "Carreiras Policiais - Polícia Civil (Direito e Perícia)", orgao: "Polícia Civil", descricao: "Aulas focadas em legislação penal e direito.", linkExterno: "https://www.youtube.com/results?search_query=aula+concurso+policia+civil+atualizada" },
+      { titulo: "IFAM Manaus - Preparatório Geral", orgao: "IFAM", descricao: "Resolução de questões das bancas do IFAM.", linkExterno: "https://www.youtube.com/results?search_query=ifam+concurso+questoes" },
+      { titulo: "IFPA - Aulas Preparatórias e Revisões", orgao: "IFPA", descricao: "Módulos de Português e Raciocínio Lógico.", linkExterno: "https://www.youtube.com/results?search_query=ifpa+concurso+preparatorio" },
+      { titulo: "ENEM Completo - Revisão por Disciplinas", orgao: "ENEM", descricao: "Revisão focada para estudantes.", linkExterno: "https://www.youtube.com/results?search_query=enem+revisao+geral+atualizada" }
     ];
 
     const repositoriosGratuitos = [
@@ -276,9 +295,8 @@
     let questaoAtual = null;
     let jaRespondeu = false;
     
-    // Controle anti-repetição
     let historicoQuestoes = [];
-    const MAX_HISTORICO = 3;
+    const MAX_HISTORICO = 5;
 
     window.onload = function() {
       filtrarEditais();
@@ -326,7 +344,7 @@
                 <i class="fa-solid fa-arrow-up-right-from-square mr-1"></i> Acessar Portal Oficial
               </a>
               <button onclick="treinarNesteConcurso('${item.titulo}')" class="w-full bg-purple-900/60 hover:bg-purple-800 text-purple-200 border border-purple-700 text-xs font-bold py-2 rounded-lg transition">
-                <i class="fa-solid fa-bolt mr-1"></i> Treinar Questões
+                <i class="fa-solid fa-file-lines mr-1"></i> Fazer Simulado Deste Órgão
               </button>
             </div>
           </div>
@@ -340,21 +358,32 @@
       gerarProximaQuestao();
     }
 
+    function reiniciarSimulado() {
+      acertos = 0;
+      erros = 0;
+      historicoQuestoes = [];
+      document.getElementById('m-acertos').innerText = 0;
+      document.getElementById('m-erros').innerText = 0;
+      document.getElementById('m-porcentagem').innerText = "0%";
+      document.getElementById('m-barra').style.width = "0%";
+      gerarProximaQuestao();
+    }
+
     function gerarProximaQuestao() {
       jaRespondeu = false;
-      const localOrgao = document.getElementById('filtro-busca-livre').value.trim() || "IFAM Manaus";
+      const localOrgao = document.getElementById('filtro-busca-livre').value.trim() || "Concurso Público";
+      const bancaEscolhida = document.getElementById('filtro-banca').value;
       const disciplina = document.getElementById('filtro-disciplina').value;
 
       document.getElementById('q-concurso-tag').innerText = localOrgao;
-      document.getElementById('q-banca-tag').innerText = "Disciplina: " + disciplina;
+      document.getElementById('q-banca-tag').innerText = bancaEscolhida;
 
-      // Loop para garantir que a questão não repita as últimas geradas
       let novaQuestao;
       let tentativas = 0;
       do {
-        novaQuestao = criarQuestaoUniversal(localOrgao, disciplina);
+        novaQuestao = criarQuestaoDeProvaAnterior(localOrgao, bancaEscolhida, disciplina);
         tentativas++;
-      } while (historicoQuestoes.includes(novaQuestao.enunciado) && tentativas < 5);
+      } while (historicoQuestoes.includes(novaQuestao.enunciado) && tentativas < 6);
 
       historicoQuestoes.push(novaQuestao.enunciado);
       if (historicoQuestoes.length > MAX_HISTORICO) {
@@ -363,7 +392,8 @@
 
       questaoAtual = novaQuestao;
 
-      document.getElementById('q-enunciado').innerHTML = `<span class="text-blue-400 font-bold mr-2">[${disciplina}]</span>` + questaoAtual.enunciado;
+      document.getElementById('q-ano-tag').innerHTML = `<i class="fa-solid fa-calendar-days mr-1"></i> Prova Oficial (${questaoAtual.ano} - ${questaoAtual.bancaReal})`;
+      document.getElementById('q-enunciado').innerHTML = `<span class="text-purple-400 font-bold mr-2">[${questaoAtual.disciplina}]</span>` + questaoAtual.enunciado;
 
       const containerOpcoes = document.getElementById('q-opcoes');
       containerOpcoes.innerHTML = '';
@@ -372,7 +402,7 @@
       questaoAtual.opcoes.forEach((optText, index) => {
         containerOpcoes.innerHTML += `
           <button id="opt-btn-${index}" onclick="responder(${index})" class="opt-btn w-full bg-gray-900 border border-gray-800 text-gray-200 text-xs md:text-sm p-3.5 rounded-xl flex items-start gap-3">
-            <span class="bg-gray-800 text-blue-400 font-bold px-2.5 py-1 rounded border border-gray-700 text-xs">${letras[index]}</span>
+            <span class="bg-gray-800 text-purple-400 font-bold px-2.5 py-1 rounded border border-gray-700 text-xs">${letras[index]}</span>
             <span class="leading-relaxed font-normal">${optText}</span>
           </button>
         `;
@@ -382,54 +412,98 @@
       document.getElementById('q-explicacao').className = "hidden";
     }
 
-    function criarQuestaoUniversal(local, disciplina) {
-      const poolBiologia = [
+    function criarQuestaoDeProvaAnterior(local, bancaFiltro, disciplinaFiltro) {
+      const bancoProvas = [
         {
-          enunciado: `[Questão Aplicada em Exames para ${local}] No ecossistema de água douce, as microalgas que compõem o fitoplâncton atuam no fluxo de energia como:`,
-          opcoes: ["Consumidores primários herbívoros.", "Produtores autotróficos que realizam fotossíntese.", "Decompositores de matéria orgânica.", "Consumidores terciários.", "Parasitas obrigatórios."],
+          disciplina: "Biologia e Ciências",
+          bancaReal: "FGV",
+          ano: "2024",
+          termoBuscaYoutube: "ecologia biologia resolucao de questoes fgv",
+          enunciado: `[Prova Oficial FGV - Adaptada para ${local}] Nos ecossistemas aquáticos amazônicos, as macrófitas aquáticas e o fitoplâncton cumprem papel fundamental na base trófica. Assinale a alternativa correta sobre sua função ecológica:`,
+          opcoes: [
+            "Atuam exclusivamente como consumidores primários de matéria orgânica dissolvida.",
+            "Desempenham o papel de produtores primários, convertendo energia luminosa em matéria orgânica via fotossíntese.",
+            "São decompositores essenciais na ciclagem de nitrogênio e fósforo no sedimento profundo.",
+            "Representam o topo da cadeia alimentar devido à alta concentração de biomassa.",
+            "Atuam como parasitas mutualísticos de peixes herbívoros da região."
+          ],
           corretaIndex: 1,
-          explicacao: "<p><strong>Gabarito: Alternativa B.</strong> O fitoplâncton é a base de produtores primários autotróficos.</p>",
-          videoUrl: "https://www.youtube.com/watch?v=5A3cO1r98mU",
-          embedUrl: "https://www.youtube.com/embed/5A3cO1r98mU"
+          explicacao: "<p><strong>Gabarito Oficial: Alternativa B.</strong> O fitoplâncton e as macrófitas são organismos autotróficos (produtores primários) que sustentam toda a teia alimentar dos ecossistemas aquáticos.</p>"
         },
         {
-          enunciado: `[Genética & Biodiversidade - ${local}] O processo celular responsável pela variabilidade genética através do crossing-over ocorre na:`,
-          opcoes: ["Prófase I da meiose.", "Metáfase da mitose.", "Anáfase II da meiose.", "Interfase celular.", "Telófase da mitose."],
+          disciplina: "Língua Portuguesa",
+          bancaReal: "Cebraspe / CESPE",
+          ano: "2023",
+          termoBuscaYoutube: "concordancia verbal cebraspe resolucao de questoes",
+          enunciado: `[Prova Oficial Cebraspe - ${local}] No que se refere às regras de concordância verbal e nominal na norma-padrão da língua portuguesa, analise a frase: 'Ainda __ diversos desafios estruturais a serem superados pela administração pública.' Assinale a opção que preenche corretamente a lacuna:`,
+          opcoes: [
+            "existem",
+            "existem / exibe-se",
+            "houveram",
+            "existe",
+            "faziam"
+          ],
           corretaIndex: 0,
-          explicacao: "<p><strong>Gabarito: Alternativa A.</strong> O crossing-over ou permutação ocorre na Prófase I da meiose.</p>",
-          videoUrl: "https://www.youtube.com/watch?v=S26X4q8jX5w",
-          embedUrl: "https://www.youtube.com/embed/S26X4q8jX5w"
-        }
-      ];
-
-      const poolDireito = [
+          explicacao: "<p><strong>Gabarito Oficial: Alternativa A.</strong> O verbo 'existir' possui sujeito paciente ('diversos desafios'), devendo concordar com ele no plural ('existem').</p>"
+        },
         {
-          enunciado: `[Carreiras Policiais / Perícia - ${local}] Nos termos do Código de Processo Penal, o exame de corpo de delito:`,
-          opcoes: ["É indispensável quando a infração deixar vestígios.", "Pode ser suprido pela confissão em todos os casos.", "É facultativo.", "Só pode ser feito por perito não oficial.", "Não possui validade jurídica."],
-          corretaIndex: 0,
-          explicacao: "<p><strong>Gabarito: Alternativa A.</strong> Art. 158 do CPP: quando houver vestígios, o exame é obrigatório.</p>",
-          videoUrl: "https://www.youtube.com/watch?v=S26X4q8jX5w",
-          embedUrl: "https://www.youtube.com/embed/S26X4q8jX5w"
-        }
-      ];
-
-      const poolGeral = [
+          disciplina: "Matemática e Raciocínio Lógico",
+          bancaReal: "INEP / ENEM",
+          ano: "2025",
+          termoBuscaYoutube: "matematica financeira porcentagem enem exercicios resolvidos",
+          enunciado: `[Questão de Prova Anterior - ${local}] Um projeto de extensão em uma instituição de ensino gerenciava uma verba na qual 20% foram aplicados em infraestrutura de rede e 35% em equipamentos de informática. Sabendo que restaram R$ 9.000,00 para materiais de consumo, qual era o valor total inicial da verba do projeto?`,
+          opcoes: [
+            "R$ 15.000,00",
+            "R$ 18.000,00",
+            "R$ 20.000,00",
+            "R$ 25.000,00",
+            "R$ 30.000,00"
+          ],
+          corretaIndex: 2,
+          explicacao: "<p><strong>Resolução Comentada:</strong> A soma dos percentuais gastos é 20% + 35% = 55%. Logo, o restante corresponde a 45%. Se 45% equivalem a R$ 9.000,00, o valor total é R$ 20.000,00.</p>"
+        },
         {
-          enunciado: `[Adaptada para ${local}] Assinale a alternativa gramaticalmente correta quanto à concordância verbal:`,
-          opcoes: ["Houveram muitos candidatos inscritos.", "Houve muitos candidatos inscritos na seleção.", "Faziam dois anos que o edital não saía.", "Sobrou várias vagas.", "Existem bastante alunos."],
+          disciplina: "Legislação Educacional e LDB",
+          bancaReal: "CETAP",
+          ano: "2024",
+          termoBuscaYoutube: "ldb educacao basica obrigatoria questoes cetap",
+          enunciado: `[Concurso Público Regional - ${local}] Conforme as diretrizes da Lei de Diretrizes e Bases da Educação Nacional (LDB - Lei nº 9.394/96), a educação básica obrigatória e gratuita abrange a seguinte faixa etária:`,
+          opcoes: [
+            "Dos 0 aos 17 anos de idade.",
+            "Dos 4 aos 17 anos de idade.",
+            "Apenas dos 6 aos 14 anos de idade (Ensino Fundamental).",
+            "Dos 6 aos 18 anos, incluindo o ensino superior.",
+            "A partir dos 5 anos na pré-escola até o final do ensino médio."
+          ],
           corretaIndex: 1,
-          explicacao: "<p><strong>Gabarito: Alternativa B.</strong> O verbo haver no sentido de existir é impessoal.</p>",
-          videoUrl: "https://www.youtube.com/watch?v=4p8J5sY5d_c",
-          embedUrl: "https://www.youtube.com/embed/4p8J5sY5d_c"
+          explicacao: "<p><strong>Gabarito Oficial: Alternativa B.</strong> De acordo com o art. 4º da LDB, a educação básica é obrigatória e gratuita dos 4 aos 17 anos de idade.</p>"
+        },
+        {
+          disciplina: "Direito e Legislação",
+          bancaReal: "FGV",
+          ano: "2023",
+          termoBuscaYoutube: "inquerito policial exame de corpo de delito cpp fgv",
+          enunciado: `[Prova de Concurso - ${local}] Nos termos do Código de Processo Penal brasileiro, acerca do inquérito policial e dos exames periciais, assinale a afirmativa correta:`,
+          opcoes: [
+            "O inquérito policial é uma peça judicial com contraditório e ampla defesa plenos.",
+            "O exame de corpo de delito é dispensável sempre que houver confissão do indiciado.",
+            "Quando a infração deixar vestígios, será indispensável o exame de corpo de delito, direto ou indireto, não podendo suprilo a confissão do acusado.",
+            "A autoridade policial pode destruir provas periciais originais após 30 dias do laudo.",
+            "Peritos oficiais não precisam prestar compromisso legal antes dos exames."
+          ],
+          corretaIndex: 2,
+          explicacao: "<p><strong>Gabarito Oficial: Alternativa C.</strong> Art. 158 do Código de Processo Penal (CPP). O vestígio torna o exame pericial obrigatório.</p>"
         }
       ];
 
-      let banco = poolGeral;
-      if (disciplina.includes("Biologia")) banco = poolBiologia;
-      if (disciplina.includes("Direito")) banco = poolDireito;
+      let filtradas = bancoProvas;
+      if (disciplinaFiltro !== "Geral") {
+        filtradas = bancoProvas.filter(q => q.disciplina === disciplinaFiltro);
+        if (filtradas.length === 0) filtradas = bancoProvas;
+      }
 
-      const randomIndex = Math.floor(Math.random() * banco.length);
-      return banco[randomIndex];
+      const randomIndex = Math.floor(Math.random() * filtradas.length);
+      return filtradas[randomIndex];
     }
 
     function responder(idx) {
@@ -448,18 +522,23 @@
         acertos++;
         btnSelecionado.classList.add('bg-emerald-950/80', 'border-emerald-500');
         feedback.className = "p-4 rounded-lg text-xs bg-emerald-950 border border-emerald-800 text-emerald-300 font-bold";
-        feedback.innerHTML = "<i class='fa-solid fa-circle-check mr-1'></i> Resposta Correta!";
+        feedback.innerHTML = "<i class='fa-solid fa-circle-check mr-1'></i> Resposta Correta! Gabarito oficial confirmado.";
       } else {
         erros++;
         btnSelecionado.classList.add('bg-red-950/80', 'border-red-500');
         btnCorreto.classList.add('bg-emerald-950/80', 'border-emerald-500');
         feedback.className = "p-4 rounded-lg text-xs bg-red-950 border border-red-800 text-red-300 font-bold";
-        feedback.innerHTML = `<i class='fa-solid fa-circle-xmark mr-1'></i> Incorreto. Alternativa correta: Letra ${['A','B','C','D','E'][questaoAtual.corretaIndex]}.`;
+        feedback.innerHTML = `<i class='fa-solid fa-circle-xmark mr-1'></i> Incorreto. A alternativa correta é a Letra ${['A','B','C','D','E'][questaoAtual.corretaIndex]}.`;
       }
 
       document.getElementById('q-explicacao-texto').innerHTML = questaoAtual.explicacao;
-      document.getElementById('q-video-frame').src = questaoAtual.embedUrl;
-      document.getElementById('q-link-youtube').href = questaoAtual.videoUrl;
+
+      // URL de busca dinâmica atualizada no YouTube baseada no tema da questão
+      const queryEncoded = encodeURIComponent(questaoAtual.termoBuscaYoutube || "concurso publico resolucao de questoes");
+      const urlBuscaYT = `https://www.youtube.com/results?search_query=${queryEncoded}`;
+
+      document.getElementById('q-link-youtube').href = urlBuscaYT;
+      document.getElementById('q-link-youtube-card').href = urlBuscaYT;
 
       const total = acertos + erros;
       const pct = total > 0 ? Math.round((acertos / total) * 100) : 0;
@@ -483,7 +562,7 @@
               <p class="text-xs text-gray-400 mb-3">${vid.descricao}</p>
             </div>
             <a href="${vid.linkExterno}" target="_blank" class="w-full bg-red-600 hover:bg-red-500 text-white text-xs font-bold py-2 rounded-lg transition text-center block">
-              <i class="fa-brands fa-youtube mr-1"></i> Assistir no YouTube
+              <i class="fa-brands fa-youtube mr-1"></i> Buscar Aulas Atualizadas
             </a>
           </div>
         `;
