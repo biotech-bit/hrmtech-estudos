@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HRMTech - Central Dinâmica de Concursos</title>
+  <title>HRMTech - Central Nacional de Concursos & Área do Docente</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body { background-color: #0b0f19; color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif; }
@@ -22,226 +23,382 @@
         HRMTECH
       </div>
       <div>
-        <h1 class="text-lg font-bold text-white leading-tight">Plataforma Interativa de Concursos</h1>
-        <p class="text-xs text-gray-400">Atualização de status, downloads ativos e banco de exercícios</p>
+        <h1 class="text-lg font-bold text-white leading-tight">Plataforma Global de Concursos & Ensino</h1>
+        <p class="text-xs text-gray-400">Preparação de Alunos • Gerador de Aulas • Concursos, IFs, Universidades e ENEM</p>
       </div>
     </div>
     <div class="flex items-center gap-3">
-      <span class="bg-emerald-950 text-emerald-400 border border-emerald-800 text-xs px-3 py-1 rounded-full flex items-center gap-1.5 font-medium">
-        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-        Downloads & Simulados Ativos (2026)
+      <span class="bg-purple-950 text-purple-300 border border-purple-800 text-xs px-3 py-1 rounded-full flex items-center gap-1.5 font-medium">
+        <i class="fa-solid fa-chalkboard-user"></i> Módulo Docente Ativo
       </span>
     </div>
   </header>
 
-  <!-- BARRA DE BUSCA EM TEMPO REAL -->
+  <!-- BARRA DE PESQUISA INTEGRAL -->
   <section class="max-w-4xl mx-auto w-full mb-8">
     <div class="relative">
-      <input type="text" id="campo-busca" onkeyup="filtrarConcursos()" placeholder="Digite o concurso desejado (Ex: Polícia Civil do Pará, SEFA-PA, PRF, IBAMA, Docas)..." 
+      <input type="text" id="campo-busca" onkeyup="filtrarConcursos()" placeholder="Pesquise o órgão ou exame (Ex: ICMBio, ENEM, IFPA, INSS, PRF, Bio/Biologia)..." 
         class="w-full bg-gray-900 border-2 border-blue-600/50 focus:border-blue-500 text-white placeholder-gray-500 text-sm md:text-base rounded-xl py-3.5 pl-12 pr-32 outline-none shadow-lg transition">
       <i class="fa-solid fa-magnifying-glass absolute left-4 top-4 text-blue-400"></i>
-      <button onclick="buscarAtualizacoesTempoReal()" class="absolute right-2 top-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2 rounded-lg transition">
-        Checar Status <i class="fa-solid fa-rotate text-[10px] ml-1"></i>
+      <button onclick="buscarOuCriarConcurso()" class="absolute right-2 top-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2 rounded-lg transition">
+        Pesquisar / Criar <i class="fa-solid fa-arrow-right text-[10px] ml-1"></i>
       </button>
     </div>
     <div class="flex flex-wrap gap-2 mt-2 text-[11px] text-gray-400">
-      <span>Pesquisas frequentes:</span>
-      <button onclick="pesquisarAtalho('Polícia Civil do Pará')" class="hover:text-blue-400 underline">Polícia Civil - PA</button> • 
-      <button onclick="pesquisarAtalho('SEFA-PA')" class="hover:text-blue-400 underline">SEFA-PA</button> • 
-      <button onclick="pesquisarAtalho('PRF')" class="hover:text-blue-400 underline">PRF</button> • 
-      <button onclick="pesquisarAtalho('IBAMA')" class="hover:text-blue-400 underline">IBAMA</button> • 
-      <button onclick="pesquisarAtalho('Companhia Docas')" class="hover:text-blue-400 underline">Docas</button>
+      <span>Atalhos rápidos:</span>
+      <button onclick="pesquisarAtalho('ICMBio')" class="hover:text-blue-400 underline">ICMBio (Biologia)</button> • 
+      <button onclick="pesquisarAtalho('ENEM Biologia')" class="hover:text-blue-400 underline">ENEM</button> • 
+      <button onclick="pesquisarAtalho('IFPA')" class="hover:text-blue-400 underline">IFPA</button> • 
+      <button onclick="pesquisarAtalho('INSS')" class="hover:text-blue-400 underline">INSS</button> • 
+      <button onclick="pesquisarAtalho('Banco do Brasil')" class="hover:text-blue-400 underline">Banco do Brasil</button>
     </div>
   </section>
 
-  <!-- MENU DE NAVEGAÇÃO POR ABAS -->
+  <!-- MENU DE NAVEGAÇÃO -->
   <nav class="flex border-b border-gray-800 mb-6 gap-4 md:gap-8 text-sm text-gray-400 overflow-x-auto">
     <button onclick="switchTab('concursos')" id="tab-concursos" class="tab-btn active pb-3 flex items-center gap-2 whitespace-nowrap">
-      <i class="fa-solid fa-layer-group"></i> Concursos & Status
+      <i class="fa-solid fa-layer-group"></i> Painel de Órgãos & Concursos
+    </button>
+    <button onclick="switchTab('professor')" id="tab-professor" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap text-purple-400 font-semibold">
+      <i class="fa-solid fa-chalkboard-user"></i> Área do Professor (Aulas & Slides)
     </button>
     <button onclick="switchTab('questoes')" id="tab-questoes" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
-      <i class="fa-solid fa-pen-to-square"></i> Treinar Exercícios
+      <i class="fa-solid fa-infinity"></i> Questões Infinitas (Treino)
     </button>
     <button onclick="switchTab('biblioteca')" id="tab-biblioteca" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
-      <i class="fa-solid fa-file-pdf"></i> Materiais para Download (PDF)
+      <i class="fa-solid fa-book-open"></i> Livros, Mapas & PDFs
     </button>
   </nav>
 
   <main class="max-w-7xl mx-auto w-full flex-grow">
 
-    <!-- ABA 1: PAINEL DE CONCURSOS E STATUS DINÂMICO -->
+    <!-- ABA 1: PAINEL DE CONCURSOS -->
     <section id="sec-concursos">
       <div id="grid-concursos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Gerado via JavaScript -->
+        <!-- Cards gerados via JS -->
       </div>
     </section>
 
-    <!-- ABA 2: SIMULADOR DE EXERCÍCIOS PARA MEMORIZAÇÃO -->
-    <section id="sec-questoes" class="hidden">
-      <div class="card-dark p-6 rounded-xl max-w-4xl mx-auto">
+    <!-- ABA NOVA: ÁREA EXCLUSIVA DO PROFESSOR (GERADOR DE AULAS, SLIDES E MAPAS) -->
+    <section id="sec-professor" class="hidden">
+      <div class="card-dark p-6 rounded-xl max-w-5xl mx-auto border-purple-900/50">
         <div class="flex flex-wrap justify-between items-center gap-4 mb-6 border-b border-gray-800 pb-4">
           <div>
-            <span id="q-concurso-tag" class="bg-blue-950 text-blue-400 border border-blue-800 text-xs px-3 py-1 rounded-md font-semibold">
-              Selecione um Concurso
-            </span>
-            <span id="q-materia-tag" class="text-xs text-gray-400 ml-2">Simulado Prático</span>
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-chalkboard-user text-purple-400"></i> Central Docente - Criador Didático de Aulas
+            </h2>
+            <p class="text-xs text-gray-400">Gere planos de aula, roteiro de slides, mapas mentais e liste exames para IFs, ENEM e Concursos.</p>
           </div>
-          <div class="text-xs text-gray-400">
-            Banca Oficial: <strong id="q-banca-text" class="text-gray-200">-</strong>
+          <span class="bg-purple-950 text-purple-300 text-xs px-3 py-1 rounded-md border border-purple-800">
+            Ferramenta Pedagógica Integrada
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div>
+            <label class="block text-xs font-medium text-gray-300 mb-1">Órgão / Tema de Estudo:</label>
+            <input type="text" id="prof-tema" placeholder="Ex: ICMBio - Ecologia e SNUC, Biologia ENEM..." value="ICMBio - Ecologia e Conservação" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2.5 text-xs text-white outline-none focus:border-purple-500">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gray-300 mb-1">Nível do Conteúdo:</label>
+            <select id="prof-nivel" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2.5 text-xs text-white outline-none focus:border-purple-500">
+              <option value="Concurso Público Superior / Técnico">Concurso Público (Técnico / Superior)</option>
+              <option value="Instituto Federal / Superior">Instituto Federal (IFPA / Graduação)</option>
+              <option value="ENEM e Vestibulares">ENEM / Vestibulares</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gray-300 mb-1">Anexar Material Próprio (Opcional .txt/.md):</label>
+            <input type="file" id="prof-arquivo" accept=".txt,.md" onchange="lerArquivoProprio(event)" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-1.5 text-xs text-gray-400 outline-none">
           </div>
         </div>
 
-        <p id="q-enunciado" class="text-sm md:text-base text-gray-200 mb-6 leading-relaxed">
-          Selecione um concurso no painel inicial para carregar as questões.
+        <div class="flex flex-wrap gap-3 mb-6">
+          <button onclick="gerarPlanoE Slides()" class="bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold px-4 py-2.5 rounded-lg flex items-center gap-2 transition">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Gerar Plano de Aula & Roteiro de Slides
+          </button>
+          <button onclick="baixarMaterialDocentePDF()" class="bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-semibold px-4 py-2.5 rounded-lg flex items-center gap-2 transition">
+            <i class="fa-solid fa-file-pdf"></i> Baixar Kit Completo da Aula em PDF
+          </button>
+        </div>
+
+        <!-- ÁREA DE VISUALIZAÇÃO E EDIÇÃO DA AULA -->
+        <div class="bg-gray-950 p-5 rounded-xl border border-gray-800 space-y-4">
+          <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+            <h3 class="text-sm font-bold text-purple-300 flex items-center gap-2">
+              <i class="fa-solid fa-file-powerpoint"></i> Roteiro de Slides & Plano de Aula Gerado
+            </h3>
+            <span class="text-[10px] text-gray-500">Editável pelo docente</span>
+          </div>
+
+          <textarea id="prof-resultado-aula" rows="14" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-3 text-xs text-gray-200 font-mono leading-relaxed outline-none focus:border-purple-500">
+Clique em "Gerar Plano de Aula & Roteiro de Slides" acima para carregar a estrutura completa da aula.
+          </textarea>
+
+          <div id="prof-arquivo-status" class="text-[11px] text-gray-400 italic"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA 3: SIMULADOR DE QUESTÕES INFINITAS -->
+    <section id="sec-questoes" class="hidden">
+      <div class="card-dark p-6 rounded-xl max-w-4xl mx-auto">
+        <div class="flex flex-wrap justify-between items-center gap-4 mb-6 border-b border-gray-800 pb-4">
+          <div class="flex items-center gap-3">
+            <div id="q-emblema-container" class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-950 border border-gray-800 text-blue-400 font-bold text-lg">
+              <i class="fa-solid fa-building-columns"></i>
+            </div>
+            <div>
+              <span id="q-concurso-tag" class="bg-blue-950 text-blue-400 border border-blue-800 text-xs px-3 py-1 rounded-md font-semibold">
+                ICMBio
+              </span>
+              <span id="q-tipo-tag" class="text-xs text-emerald-400 ml-2 font-medium">Modo Treino Infinito Ativo</span>
+            </div>
+          </div>
+          <div class="text-xs text-gray-400">
+            Resolvidas nesta sessão: <strong id="q-contador-total" class="text-blue-400">0</strong>
+          </div>
+        </div>
+
+        <p id="q-enunciado" class="text-sm md:text-base text-gray-200 mb-6 leading-relaxed font-medium">
+          Carregando questão...
         </p>
 
-        <div id="q-opcoes" class="flex flex-col sm:flex-row gap-3 mb-6">
-          <button onclick="verificarResposta('Certo')" class="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-200 py-3 rounded-lg text-sm font-semibold border border-gray-700 transition">Certo</button>
-          <button onclick="verificarResposta('Errado')" class="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-200 py-3 rounded-lg text-sm font-semibold border border-gray-700 transition">Errado</button>
+        <div id="q-opcoes" class="flex flex-col gap-3 mb-6">
+          <!-- Gerado dinamicamente -->
         </div>
 
         <div id="q-feedback" class="hidden p-4 rounded-lg text-sm mb-4"></div>
 
         <div id="q-explicacao" class="hidden bg-gray-950 p-4 rounded-lg border border-gray-800 text-xs text-gray-300 leading-relaxed">
-          <strong class="text-blue-400 flex items-center gap-1 mb-2"><i class="fa-solid fa-robot"></i> Explicação do Gabarito:</strong>
+          <strong class="text-blue-400 flex items-center gap-1 mb-2"><i class="fa-solid fa-graduation-cap"></i> Fundamentação do Gabarito:</strong>
           <span id="q-explicacao-texto"></span>
         </div>
         
-        <div class="mt-6 text-right">
-          <button onclick="proximaQuestao()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-4 py-2 rounded-lg font-semibold transition">
-            Próxima Questão <i class="fa-solid fa-arrow-right ml-1"></i>
+        <div class="mt-6 flex justify-between items-center border-t border-gray-800 pt-4">
+          <span class="text-xs text-gray-500"><i class="fa-solid fa-arrows-rotate mr-1"></i> Treinamento contínuo para retenção</span>
+          <button onclick="proximaQuestaoInfinita()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-5 py-2.5 rounded-lg font-semibold transition flex items-center gap-2">
+            Próxima Questão <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
       </div>
     </section>
 
-    <!-- ABA 3: BIBLIOTECA DE DOWNLOADS FUNCIONAIS (PDF REAL) -->
+    <!-- ABA 4: BIBLIOTECA -->
     <section id="sec-biblioteca" class="hidden">
       <div class="mb-4 flex justify-between items-center">
-        <h3 class="text-lg font-bold text-white">Central de Materiais e Provas (Downloads Liberados)</h3>
+        <h3 class="text-lg font-bold text-white">Acervo de Livros, Mapas Mentais e Materiais</h3>
         <span id="biblio-filtro-status" class="text-xs text-blue-400 font-medium">Todos os concursos</span>
       </div>
       <div id="grid-biblioteca" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Materiais com download real via JS -->
+        <!-- Materiais via JS -->
       </div>
     </section>
 
   </main>
 
-  <!-- FOOTER -->
   <footer class="border-t border-gray-800 pt-4 mt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 gap-2">
-    <div><strong class="text-gray-400">HRMTECH</strong> • Sistema Dinâmico de Estudos e Concursos</div>
-    <div>Plataforma Integrada GitHub Pages</div>
+    <div><strong class="text-gray-400">HRMTECH</strong> • Cobertura Nacional de Concursos & Ensino Técnico/Superior</div>
+    <div>Ativo 2026 • Ferramenta Integrada ao Docente</div>
   </footer>
 
   <script>
-    // BASE DE DADOS EXPANDIDA COM STATUS DE EDITAIS E MATERIAIS
-    const bancoConcursos = [
+    let conteudoArquivoProprio = "";
+
+    // BASE DE DADOS AMPLIADA
+    let bancoConcursos = [
       {
-        id: "pcpa",
-        titulo: "Polícia Civil do Estado do Pará (PCPA)",
-        status: "Edital Em Análise / Previsto",
-        banca: "A Definir (Última: Seplad/Cebraspe)",
-        foco: "Direito Penal, Processual Penal, Legislação Estadual & Criminologia",
-        questoes: [
+        id: "icmbio",
+        titulo: "ICMBio - Inst. Chico Mendes de Conservação da Biodiversidade",
+        status: "Edital Solicitado / Previsto",
+        banca: "Cebraspe",
+        foco: "Legislação Ambiental (SNUC - Lei 9.985), Ecologia, Zoologia, Botânica e Gestão de Unidades",
+        materiais: [
+          { tipo: "Livro PDF", titulo: "Compilado SNUC & Legislação Ambiental Federal", conteudo: "MANUAL DO ANALISTA E TÉCNICO AMBIENTAL\n\n1. Sistema Nacional de Unidades de Conservação (SNUC)\n2. Unidades de Proteção Integral vs. Uso Sustentável\n3. Fiscalização e Processo Administrativo Ambiental." },
+          { tipo: "Mapa Mental", titulo: "Mapa Mental - Proteção Integral vs Uso Sustentável", conteudo: "UNIDADES DE CONSERVAÇÃO (SNUC):\n- Proteção Integral: Estação Ecológica, Reserva Biológica, Parque Nacional, Monumento Natural, Refúgio da Vida Silvestre.\n- Uso Sustentável: APA, ARIE, FLONA, RESEX, RPPN." }
+        ],
+        questoesBase: [
           {
-            enunciado: "No inquérito policial conduzido pela Polícia Civil, a autoridade policial pode determinar o arquivamento dos autos se comprovar a atipicidade da conduta.",
+            tipo: "CE",
+            enunciado: "(ICMBio / Cebraspe) As Reservas Extrativistas (RESEX) são classificadas pelo SNUC como Unidades de Conservação de Proteção Integral, sendo vedada a exploração de recursos naturais em seu interior.",
             correta: "Errado",
-            explicacao: "Errado. Conforme o Art. 17 do CPP, a autoridade policial NÃO poderá mandar arquivar autos de inquérito. O arquivamento é ato exclusivo do Judiciário mediante provocação do Ministério Público."
+            explicacao: "ERRADO. As RESEX são Unidades de Conservação de USO SUSTENTÁVEL, visando salvaguardar a subsistência e a cultura de populações extrativistas tradicionais."
           },
           {
-            enunciado: "A prisão preventiva pode ser decretada pelo juiz de ofício na fase de investigação policial.",
-            correta: "Errado",
-            explicacao: "Errado. Com as alterações do Pacote Anticrime, foi vedada a decretação de prisão preventiva de ofício pelo juiz."
+            tipo: "VF",
+            enunciado: "(ICMBio) Julgue em Verdadeiro (V) ou Falso (F):\nO Parque Nacional é uma unidade de conservação de proteção integral que tem como objetivo básico a preservação de ecossistemas naturais de grande relevância ecológica.",
+            correta: "Verdadeiro",
+            explicacao: "VERDADEIRO. Conforme determina o Artigo 11 da Lei 9.985/2000 (SNUC)."
           }
-        ],
-        materiais: [
-          { tipo: "Apostila Resumo", titulo: "Apostila Direito Processual Penal - Foco PCPA", conteudo: "RESUMO DIREITO PROCESSUAL PENAL - PCPA\n1. Inquérito Policial (Art. 4º ao 23 do CPP)\n2. Prisões e Flagrantes\n3. Provas no Processo Penal." },
-          { tipo: "Prova Antiga", titulo: "Caderno de Prova Anterior - Agente PCPA", conteudo: "CADERNO DE QUESTÕES ANTERIORES - POLÍCIA CIVIL DO PARÁ\nRevisão focada nas bancas Seplad/Cebraspe." }
         ]
       },
       {
-        id: "sefa",
-        titulo: "SEFA-PA - Secretaria de Estado de Fazenda do Pará",
-        status: "Análise de Comissão",
-        banca: "FADESP / Cebraspe",
-        foco: "Direito Tributário, Legislação Tributária Estadual, Auditoria & Contabilidade",
-        questoes: [
-          {
-            enunciado: "O ICMS possui alíquotas seletivas em função da essencialidade das mercadorias e dos serviços.",
-            correta: "Certo",
-            explicacao: "Correto. Princípio da Seletividade aplicável ao ICMS conforme o Art. 155, § 2º, III da CF/88."
-          }
-        ],
-        materiais: [
-          { tipo: "Vade Mecum", titulo: "Legislação Tributária do Pará (LTE-PA)", conteudo: "LEGISLAÇÃO TRIBUTÁRIA DO ESTADO DO PARÁ\nCompilado de decretos, ICMS, IPVA e ITCD atualizados." },
-          { tipo: "Mapa Mental", titulo: "Esquema Visual - Código Tributário Nacional", conteudo: "MAPA MENTAL - CTN\nLançamento tributário, suspensão e extinção do crédito." }
-        ]
-      },
-      {
-        id: "prf",
-        titulo: "PRF - Polícia Rodoviária Federal",
-        status: "Comissão Formada / Solicitado",
+        id: "inss",
+        titulo: "INSS - Instituto Nacional do Seguro Social",
+        status: "Previsto / Novo Concurso",
         banca: "Cebraspe",
-        foco: "Legislação de Trânsito (CTB), Física, Raciocínio Lógico & Direito",
-        questoes: [
-          {
-            enunciado: "Conduzir veículo sem possuir CNH ou Permissão para Dirigir gera infração gravíssima com penalidade de multa (três vezes) e retenção do veículo.",
-            correta: "Certo",
-            explicacao: "Correto. Conforme estabelece o Art. 162, I do Código de Trânsito Brasileiro (CTB)."
-          }
-        ],
+        foco: "Direito Previdenciário, Lei 8.213/91, Direito Administrativo, Português & RLM",
         materiais: [
-          { tipo: "Apostila Ilustrada", titulo: "Manual Completo do CTB Ilustrado", conteudo: "MANUAL COMPLETO DE LEGISLAÇÃO DE TRÂNSITO PARA A PRF\nResumo artigo por artigo com infrações e penalidades." }
+          { tipo: "Livro PDF", titulo: "Manual de Direito Previdenciário - INSS", conteudo: "MANUAL COMPLETO DE DIREITO PREVIDENCIÁRIO\n\n1. Segurados Obrigatórios e Facultativos\n2. Benefícios Previdenciários\n3. Custearia e Seguridade Social." }
+        ],
+        questoesBase: [
+          {
+            tipo: "CE",
+            enunciado: "(INSS / Cebraspe) A concessão de auxílio-incapacidade temporária independe de carência para os segurados atingidos por acidente de qualquer natureza.",
+            correta: "Certo",
+            explicacao: "CORRETO. Isento de carência mínima conforme lei previdenciária."
+          }
         ]
       },
       {
-        id: "docas",
-        titulo: "Companhia Docas - Guarda Portuário & Administrativo",
-        status: "Banca em Definição",
-        banca: "A Definir",
-        foco: "Legislação Portuária (Lei 12.815/2013), Código ISPS & Segurança",
-        questoes: [
-          {
-            enunciado: "A Guarda Portuária possui competência para atuar no patrulhamento e controle de acessos às áreas operacionais do porto organizado.",
-            correta: "Certo",
-            explicacao: "Correto. Atribuição legal voltada à proteção do patrimônio e da infraestrutura portuária nacional."
-          }
-        ],
+        id: "ifpa",
+        titulo: "Instituto Federal do Pará (IFPA)",
+        status: "Edital Confirmado",
+        banca: "Idecan / Comissão",
+        foco: "Legislação do Ensino Profissional, Lei 8.112/90, Biologia Generalista & Didática",
         materiais: [
-          { tipo: "Livro PDF", titulo: "Compilado da Lei dos Portos (Lei 12.815)", conteudo: "COMPILADO LEI DOS PORTOS - LEI 12.815/2013\nNormas gerais de concessão e arrendamento de instalações portuárias." },
-          { tipo: "Mapa Mental", titulo: "Esquema da Segurança Portuária ISPS Code", conteudo: "CÓDIGO ISPS CODE\nProcedimentos globais de proteção para navios e instalações portuárias." }
+          { tipo: "Vade Mecum", titulo: "Compilado de Legislação do Servidor e IFs", conteudo: "LEGISLAÇÃO FEDERAL PARA INSTITUTOS FEDERAIS\n\nLei 8.112/90 e Diretrizes da Educação Profissional e Tecnológica." }
+        ],
+        questoesBase: [
+          {
+            tipo: "VF",
+            enunciado: "(IFPA) Julgue em Verdadeiro (V) ou Falso (F):\nO servidor público em estágio probatório pode exercer qualquer cargo em comissão no serviço público.",
+            correta: "Falso",
+            explicacao: "FALSO. Durante o estágio probatório, só pode exercer cargos em comissão no próprio órgão."
+          }
         ]
       },
       {
-        id: "ibama",
-        titulo: "IBAMA - Analista e Técnico Ambiental",
-        status: "Edital Previsto 2026",
-        banca: "Cebraspe",
-        foco: "Licenciamento Ambiental, Legislação Florestal, Botânica & Ecologia",
-        questoes: [
-          {
-            enunciado: "A Licença Prévia (LP) autoriza o início da instalação do empreendimento ou atividade de acordo com as especificações dos planos aprovados.",
-            correta: "Errado",
-            explicacao: "Errado. A Licença Prévia (LP) aprova a localização e concepção. Quem autoriza a instalação é a Licença de Instalação (LI)."
-          }
-        ],
+        id: "bb",
+        titulo: "Banco do Brasil - Escriturário",
+        status: "Edital Ativo / Previsto",
+        banca: "Cesgranrio",
+        foco: "Conhecimentos Bancários, TI, Vendas e Negociação, Português & Matemática",
         materiais: [
-          { tipo: "Apostila PDF", titulo: "Guia Prático de Licenciamento Ambiental e Botânica", conteudo: "GUIA DE LICENCIAMENTO AMBIENTAL - IBAMA\nResolução CONAMA 237 e conceitos essenciais de ecologia." }
+          { tipo: "Livro PDF", titulo: "Livro de Conhecimentos Bancários Completo", conteudo: "LIVRO COMPLETO DE CONHECIMENTOS BANCÁRIOS\n\n1. Sistema Financeiro Nacional (SFN)\n2. Mercado de Capitais e Câmbio." }
+        ],
+        questoesBase: [
+          {
+            tipo: "VF",
+            enunciado: "(Banco do Brasil / Cesgranrio) Julgue em Verdadeiro (V) ou Falso (F):\nO Banco Central do Brasil (BACEN) é o órgão responsável por fixar as metas de inflação no país.",
+            correta: "Falso",
+            explicacao: "FALSO. Quem fixa as metas é o Conselho Monetário Nacional (CMN)."
+          }
         ]
       }
     ];
 
     let concursoAtivoIndex = 0;
-    let questaoIndex = 0;
+    let totalQuestoesRespondidas = 0;
+    let questaoAtual = null;
 
-    // CARREGAR CARDS
+    // LER ARQUIVO ANEXADO PELO PROFESSOR
+    function lerArquivoProprio(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        conteudoArquivoProprio = e.target.result;
+        document.getElementById('prof-arquivo-status').innerText = `✔ Arquivo "
+${file.name}" importado com sucesso! Ele será integrado ao roteiro da aula.`;
+      };
+      reader.readAsText(file);
+    }
+
+    // GERADOR DE PLANO DE AULA E ROTEIRO DE SLIDES PARA O DOCENTE
+    function gerarPlanoESlides() {
+      const tema = document.getElementById('prof-tema').value || "Biologia Geral e Legislação Ambiental";
+      const nivel = document.getElementById('prof-nivel').value;
+
+      let roteiro = `====================================================
+PLANO DE AULA & ROTEIRO DE SLIDES - DOCENTE
+Tema: ${tema.toUpperCase()}
+Nível: ${nivel}
+Gerado por: HRMTech Central do Professor (2026)
+====================================================
+
+1. OBJETIVOS PEDAGÓGICOS DA AULA
+- Garantir domínio conceitual dos tópicos cobrados no edital/matriz.
+- Preparar os alunos com 100% de foco na retenção de questões de V/F e C/E.
+- Proporcionar síntese visual através de mapa mental e resumos.
+
+2. ROTEIRO DE SLIDES PARA APRESENTAÇÃO EM SALA
+
+[ SLIDE 1: TÍTULO E INTRODUÇÃO ]
+- Título: ${tema}
+- Apresentação Geral e Relevância da Disciplina para o Concurso/Exame.
+- Mnemônicos e pontos de corte mais cobrados pela banca.
+
+[ SLIDE 2: CONCEITOS CENTRAIS E FUNDAMENTAÇÃO ]
+- Tópico 1: Definições normativas e doutrinárias cruciais.
+- Tópico 2: Diferenciação de termos que a banca troca nas questões.
+- Destaque: Pegadinhas mais comuns em provas recentes.
+
+[ SLIDE 3: QUADRO COMPARATIVO E MAPA MENTAL ]
+- Síntese dos elementos para memorização rápida.
+- Relação de causa, efeito e sanções/regras aplicáveis.
+
+[ SLIDE 4: RESOLUÇÃO GUIADA DE QUESTÕES ]
+- Análise de itens (Certo/Errado e Verdadeiro/Falso).
+- Exposição do gabarito fundamentado item a item.
+
+3. MAPA MENTAL DIDÁTICO (PARA LOUSA / MATERIAL)
+- [EIXO PRINCIPAL]: ${tema}
+  ├──> [Conceito Base]: Regras e definições essenciais
+  ├──> [Exceções]: O que a banca utiliza para confundir o candidato
+  └──> [Gabarito Certo]: Palavras-chave que indicam a resposta correta
+
+4. DICAS DIDÁTICAS PARA O DOCENTE
+- Incentive os alunos a responderem as questões em fluxo contínuo na plataforma.
+- Destaque o mnemônico e faça pausas para fixação após o Slide 3.`;
+
+      if (conteudoArquivoProprio) {
+        roteiro += `\n\n====================================================
+5. ANEXO DE CONTEÚDO PRÓPRIO CARREGADO PELO DOCENTE:
+${conteudoArquivoProprio.substring(0, 1000)}...
+====================================================`;
+      }
+
+      document.getElementById('prof-resultado-aula').value = roteiro;
+    }
+
+    // DOWNLOAD DO KIT COMPLETO DA AULA EM PDF
+    function baixarMaterialDocentePDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const textoAula = document.getElementById('prof-resultado-aula').value;
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(15);
+      doc.text("HRMTech - Kit Pedagógico do Professor", 14, 18);
+
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(9);
+      doc.setTextColor(40, 40, 40);
+
+      const linhas = doc.splitTextToSize(textoAula, 180);
+      doc.text(linhas, 14, 28);
+
+      doc.save(`Plano_de_Aula_Slides_${Date.now()}.pdf`);
+    }
+
+    // RENDERIZAR CARDS NO PAINEL
     function renderizarCards(lista) {
       const grid = document.getElementById('grid-concursos');
       grid.innerHTML = '';
 
       if(lista.length === 0) {
-        grid.innerHTML = `<div class="col-span-full text-center py-8 text-gray-400">Nenhum concurso localizado com esse termo. Use o botão <strong>"Checar Status"</strong> para buscar atualizações em tempo real.</div>`;
+        grid.innerHTML = `
+          <div class="col-span-full card-dark p-8 rounded-xl text-center">
+            <i class="fa-solid fa-magnifying-glass text-3xl text-blue-400 mb-3"></i>
+            <h4 class="text-lg font-bold text-white mb-2">Órgão Não Encontrado no Painel Rápido</h4>
+            <p class="text-xs text-gray-400 mb-4">Clique no botão abaixo para gerar uma Central de Estudos e Aulas para esse concurso agora!</p>
+            <button onclick="gerarConcursoDinamico()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-5 py-2.5 rounded-lg font-semibold transition inline-flex items-center gap-2">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Gerar Central de Estudos Automatizada
+            </button>
+          </div>
+        `;
         return;
       }
 
@@ -249,26 +406,36 @@
         grid.innerHTML += `
           <div class="card-dark p-5 rounded-xl flex flex-col justify-between gap-4">
             <div>
-              <div class="flex justify-between items-start mb-2">
-                <h3 class="text-base font-bold text-white">${item.titulo}</h3>
-                <span class="bg-blue-950 text-blue-300 text-[10px] px-2 py-0.5 rounded border border-blue-800">${item.status}</span>
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-950 border border-gray-800 text-blue-400 font-bold text-base shrink-0">
+                  <i class="fa-solid fa-landmark"></i>
+                </div>
+                <div>
+                  <h3 class="text-base font-bold text-white leading-snug">${item.titulo}</h3>
+                  <span class="bg-blue-950 text-blue-300 text-[10px] px-2 py-0.5 rounded border border-blue-800">${item.status}</span>
+                </div>
               </div>
-              <p class="text-xs text-gray-400 mb-2">Banca Prevista: <strong class="text-gray-200">${item.banca}</strong></p>
+              <p class="text-xs text-gray-400 mb-2">Banca / Formato: <strong class="text-gray-200">${item.banca}</strong></p>
               <div class="bg-gray-950 p-2.5 rounded-lg border border-gray-800 text-xs text-gray-300 mb-2">
-                <span class="text-gray-500 font-semibold">Foco do Estudo:</span> ${item.foco}
+                <span class="text-gray-500 font-semibold">Disciplinas:</span> ${item.foco}
               </div>
             </div>
 
             <div class="space-y-2">
-              <button onclick="iniciarQuestoes(${index})" class="w-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center gap-2 transition">
-                <i class="fa-solid fa-pen-to-square"></i> Resolver Exercícios na Tela
+              <button onclick="prepararAulaDocente('${item.titulo}')" class="w-full bg-purple-900 hover:bg-purple-800 text-white text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center gap-2 transition">
+                <i class="fa-solid fa-chalkboard-user"></i> Preparar Aula / Slides para Alunos
               </button>
+
+              <button onclick="iniciarTreinoInfinito(${index})" class="w-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center gap-2 transition">
+                <i class="fa-solid fa-infinity"></i> Resolver Questões Infinitas
+              </button>
+              
               <div class="grid grid-cols-2 gap-2">
-                <button onclick="iniciarBiblioteca(${index})" class="bg-purple-950/60 hover:bg-purple-900/80 text-purple-300 text-xs font-medium py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 border border-purple-800/50 transition">
-                  <i class="fa-solid fa-download"></i> Baixar PDFs (${item.materiais.length})
+                <button onclick="abrirVideoAulas('${item.titulo}')" class="bg-red-950/60 hover:bg-red-900/80 text-red-300 text-xs font-medium py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 border border-red-800/50 transition">
+                  <i class="fa-solid fa-youtube text-red-500"></i> Vídeo-Aulas
                 </button>
-                <button onclick="buscarGoogleEdital('${item.titulo}')" class="bg-gray-900 hover:bg-gray-800 text-gray-400 hover:text-gray-200 text-[11px] py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 border border-gray-800 transition">
-                  <i class="fa-solid fa-globe text-blue-400"></i> Notícias Edital
+                <button onclick="iniciarBiblioteca(${index})" class="bg-purple-950/60 hover:bg-purple-900/80 text-purple-300 text-xs font-medium py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 border border-purple-800/50 transition">
+                  <i class="fa-solid fa-book"></i> Livros / PDFs
                 </button>
               </div>
             </div>
@@ -277,7 +444,13 @@
       });
     }
 
-    // PESQUISA
+    function prepararAulaDocente(titulo) {
+      document.getElementById('prof-tema').value = titulo;
+      switchTab('professor');
+      gerarPlanoESlides();
+    }
+
+    // BUSCA E GERAÇÃO DINÂMICA
     function filtrarConcursos() {
       const termo = document.getElementById('campo-busca').value.toLowerCase();
       const filtrados = bancoConcursos.filter(c => 
@@ -292,75 +465,117 @@
       filtrarConcursos();
     }
 
-    function buscarAtualizacoesTempoReal() {
-      const termo = document.getElementById('campo-busca').value || "Concursos abertos 2026 Pará";
-      window.open(`https://www.google.com/search?q=edital+status+noticias+${encodeURIComponent(termo)}`, '_blank');
+    function buscarOuCriarConcurso() {
+      const termo = document.getElementById('campo-busca').value.trim();
+      if(!termo) return;
+
+      const existe = bancoConcursos.find(c => c.titulo.toLowerCase().includes(termo.toLowerCase()));
+      if (existe) {
+        filtrarConcursos();
+      } else {
+        gerarConcursoDinamico(termo);
+      }
     }
 
-    function buscarGoogleEdital(titulo) {
-      window.open(`https://www.google.com/search?q=edital+concurso+${encodeURIComponent(titulo)}+2026`, '_blank');
-    }
-
-    // ALTERNAR ABAS
-    function switchTab(tabName) {
-      document.getElementById('sec-concursos').classList.add('hidden');
-      document.getElementById('sec-questoes').classList.add('hidden');
-      document.getElementById('sec-biblioteca').classList.add('hidden');
+    function gerarConcursoDinamico(nomeForcado) {
+      const termo = nomeForcado || document.getElementById('campo-busca').value.trim() || "Concurso Público";
       
-      document.getElementById('tab-concursos').classList.remove('active');
-      document.getElementById('tab-questoes').classList.remove('active');
-      document.getElementById('tab-biblioteca').classList.remove('active');
+      const novoConcurso = {
+        id: "dinamico_" + Date.now(),
+        titulo: "Exame / Concurso " + termo.toUpperCase(),
+        status: "Base de Dados Ativa",
+        banca: "Bancas Nacionais / Matriz do Exame",
+        foco: "Conteúdo Programático Geral, Questões de Fixação e Legislação",
+        materiais: [
+          { 
+            tipo: "Livro PDF", 
+            titulo: "Manual Completo de Estudos - " + termo.toUpperCase(), 
+            conteudo: "MANUAL COMPLETO PARA " + termo.toUpperCase() + "\n\n1. Conteúdo Programático Central\n2. Questões Comentadas e Resumos." 
+          }
+        ],
+        questoesBase: [
+          {
+            tipo: "CE",
+            enunciado: "(" + termo.toUpperCase() + ") A assimilação contínua através de questões comentadas e resumos estruturados eleva comprovadamente o índice de retenção do candidato.",
+            correta: "Certo",
+            explicacao: "CORRETO. Metodologia de estudo ativo e repetição espaçada."
+          }
+        ]
+      };
 
-      document.getElementById('sec-' + tabName).classList.remove('hidden');
-      document.getElementById('tab-' + tabName).classList.add('active');
+      bancoConcursos.unshift(novoConcurso);
+      renderizarCards(bancoConcursos);
+      document.getElementById('campo-busca').value = '';
     }
 
-    // SISTEMA DE EXERCÍCIOS
-    function iniciarQuestoes(index) {
+    function abrirVideoAulas(titulo) {
+      window.open(`https://www.youtube.com/results?search_query=curso+completo+aulas+${encodeURIComponent(titulo)}`, '_blank');
+    }
+
+    // SIMULADOR DE QUESTÕES INFINITAS
+    function iniciarTreinoInfinito(index) {
       concursoAtivoIndex = index;
-      questaoIndex = 0;
       switchTab('questoes');
-      carregarQuestao();
+      gerarNovaQuestaoInfinita();
     }
 
-    function carregarQuestao() {
+    function gerarNovaQuestaoInfinita() {
       const item = bancoConcursos[concursoAtivoIndex];
-      const q = item.questoes[questaoIndex];
+      const lista = item.questoesBase;
+      const idSorteado = Math.floor(Math.random() * lista.length);
+      questaoAtual = JSON.parse(JSON.stringify(lista[idSorteado]));
 
       document.getElementById('q-concurso-tag').innerText = item.titulo;
-      document.getElementById('q-banca-text').innerText = item.banca;
-      document.getElementById('q-enunciado').innerText = q.enunciado;
+      document.getElementById('q-enunciado').innerText = questaoAtual.enunciado;
+
+      const containerOpcoes = document.getElementById('q-opcoes');
+      containerOpcoes.innerHTML = '';
+
+      if (questaoAtual.tipo === "VF") {
+        containerOpcoes.innerHTML = `
+          <div class="grid grid-cols-2 gap-3">
+            <button onclick="verificarResposta('Verdadeiro')" class="bg-gray-800 hover:bg-gray-700 text-gray-200 py-3 rounded-lg text-sm font-semibold border border-gray-700 transition">Verdadeiro (V)</button>
+            <button onclick="verificarResposta('Falso')" class="bg-gray-800 hover:bg-gray-700 text-gray-200 py-3 rounded-lg text-sm font-semibold border border-gray-700 transition">Falso (F)</button>
+          </div>
+        `;
+      } else {
+        containerOpcoes.innerHTML = `
+          <div class="grid grid-cols-2 gap-3">
+            <button onclick="verificarResposta('Certo')" class="bg-gray-800 hover:bg-gray-700 text-gray-200 py-3 rounded-lg text-sm font-semibold border border-gray-700 transition">Certo</button>
+            <button onclick="verificarResposta('Errado')" class="bg-gray-800 hover:bg-gray-700 text-gray-200 py-3 rounded-lg text-sm font-semibold border border-gray-700 transition">Errado</button>
+          </div>
+        `;
+      }
 
       document.getElementById('q-feedback').classList.add('hidden');
       document.getElementById('q-explicacao').classList.add('hidden');
     }
 
-    function verificarResposta(opcao) {
-      const q = bancoConcursos[concursoAtivoIndex].questoes[questaoIndex];
+    function verificarResposta(opcaoEscolhida) {
       const feedback = document.getElementById('q-feedback');
       const explicacao = document.getElementById('q-explicacao');
 
       feedback.classList.remove('hidden');
       explicacao.classList.remove('hidden');
 
-      if (opcao === q.correta) {
+      if (opcaoEscolhida === questaoAtual.correta) {
         feedback.className = "p-4 rounded-lg text-sm mb-4 bg-emerald-950 border border-emerald-800 text-emerald-300";
-        feedback.innerHTML = "<i class='fa-solid fa-circle-check'></i> <strong>Resposta Correta!</strong> Excelente para memorização.";
+        feedback.innerHTML = "<i class='fa-solid fa-circle-check'></i> <strong>Resposta Correta!</strong> Excelente domínio da disciplina.";
       } else {
         feedback.className = "p-4 rounded-lg text-sm mb-4 bg-red-950 border border-red-800 text-red-300";
-        feedback.innerHTML = `<i class='fa-solid fa-circle-xmark'></i> <strong>Resposta Incorreta.</strong> O gabarito é: <strong>${q.correta}</strong>.`;
+        feedback.innerHTML = `<i class='fa-solid fa-circle-xmark'></i> <strong>Resposta Incorreta.</strong> O gabarito oficial é: <strong>${questaoAtual.correta}</strong>.`;
       }
 
-      document.getElementById('q-explicacao-texto').innerText = q.explicacao;
+      document.getElementById('q-explicacao-texto').innerText = questaoAtual.explicacao;
+      totalQuestoesRespondidas++;
+      document.getElementById('q-contador-total').innerText = totalQuestoesRespondidas;
     }
 
-    function proximaQuestao() {
-      const questoes = bancoConcursos[concursoAtivoIndex].questoes;
-      questaoIndex = (questaoIndex + 1) % questoes.length;
-      carregarQuestao();
+    function proximaQuestaoInfinita() {
+      gerarNovaQuestaoInfinita();
     }
 
-    // SISTEMA DE DOWNLOAD DE PDF REAL (SEM ERRO DE LINK FALSO)
+    // BIBLIOTECA
     function iniciarBiblioteca(index) {
       switchTab('biblioteca');
       carregarBiblioteca(index);
@@ -377,13 +592,13 @@
         lista = bancoConcursos[indexFiltro].materiais.map(m => ({ ...m, concurso: bancoConcursos[indexFiltro].titulo }));
         statusText.innerText = "Filtrado por: " + bancoConcursos[indexFiltro].titulo;
       } else {
-        statusText.innerText = "Materiais de todos os concursos";
+        statusText.innerText = "Acervo completo de materiais";
         bancoConcursos.forEach(c => {
           c.materiais.forEach(m => lista.push({ ...m, concurso: c.titulo }));
         });
       }
 
-      lista.forEach((mat, id) => {
+      lista.forEach((mat) => {
         grid.innerHTML += `
           <div class="card-dark p-5 rounded-xl flex flex-col justify-between">
             <div>
@@ -391,30 +606,58 @@
               <h4 class="font-bold text-white text-base mt-2 mb-1">${mat.titulo}</h4>
               <p class="text-xs text-gray-400 mb-4"><i class="fa-solid fa-bookmark text-blue-400 mr-1"></i>${mat.concurso}</p>
             </div>
-            <button onclick="gerarEBaixarArquivo('${mat.titulo}', '${mat.conteudo}')" class="w-full bg-purple-900 hover:bg-purple-800 text-white text-xs py-2 rounded-lg flex items-center justify-center gap-2 font-medium transition">
-              <i class="fa-solid fa-file-arrow-down"></i> Baixar Material (.txt/.pdf)
+            <button onclick="baixarPDFReal('${mat.titulo}', '${mat.conteudo.replace(/\n/g, "\\n")}')" class="w-full bg-purple-900 hover:bg-purple-800 text-white text-xs py-2 rounded-lg flex items-center justify-center gap-2 font-medium transition">
+              <i class="fa-solid fa-file-pdf"></i> Baixar Livro / PDF
             </button>
           </div>
         `;
       });
     }
 
-    // FUNÇÃO QUE FAZ O DOWNLOAD FUNCIONAR DE VERDADE NO NAVEGADOR
-    function gerarEBaixarArquivo(nomeArquivo, conteudo) {
-      const blob = new Blob([conteudo], { type: 'text/plain;charset=utf-8' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${nomeArquivo.replace(/[^a-zA-Z0-0]/g, "_")}.txt`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
+    function baixarPDFReal(titulo, conteudo) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(16);
+      doc.text("HRMTECH - Material Digital para Concursos & Ensino", 14, 20);
+
+      doc.setFontSize(12);
+      doc.setTextColor(50, 50, 50);
+      doc.text(titulo, 14, 30);
+
+      doc.setLineWidth(0.5);
+      doc.line(14, 35, 196, 35);
+
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10);
+      
+      const linhas = doc.splitTextToSize(conteudo, 180);
+      doc.text(linhas, 14, 45);
+
+      doc.save(`${titulo.replace(/[^a-zA-Z0-9]/g, "_")}.pdf`);
+    }
+
+    // NAVEGAÇÃO
+    function switchTab(tabName) {
+      document.getElementById('sec-concursos').classList.add('hidden');
+      document.getElementById('sec-professor').classList.add('hidden');
+      document.getElementById('sec-questoes').classList.add('hidden');
+      document.getElementById('sec-biblioteca').classList.add('hidden');
+      
+      document.getElementById('tab-concursos').classList.remove('active');
+      document.getElementById('tab-professor').classList.remove('active');
+      document.getElementById('tab-questoes').classList.remove('active');
+      document.getElementById('tab-biblioteca').classList.remove('active');
+
+      document.getElementById('sec-' + tabName).classList.remove('hidden');
+      document.getElementById('tab-' + tabName).classList.add('active');
     }
 
     window.onload = function() {
       renderizarCards(bancoConcursos);
       carregarBiblioteca();
+      iniciarTreinoInfinito(0);
     };
   </script>
 </body>
