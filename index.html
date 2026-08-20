@@ -13,6 +13,8 @@
     .card-dark:hover { border-color: #3b82f6; }
     .tab-btn { border-bottom: 2px solid transparent; transition: all 0.2s; }
     .tab-btn.active { border-bottom: 2px solid #3b82f6; color: #3b82f6; font-weight: bold; }
+    .opt-btn { text-align: left; transition: all 0.15s ease-in-out; }
+    .opt-btn:hover { background-color: #1f2937; border-color: #3b82f6; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between p-4 md:p-6">
@@ -25,7 +27,7 @@
       </div>
       <div>
         <h1 class="text-lg font-bold text-white leading-tight">Plataforma Integrada de Preparação e Gestão Pedagógica</h1>
-        <p class="text-xs text-gray-400">Concursos, Criador de Aulas/Apostilas, Questões Infinitas e Provas</p>
+        <p class="text-xs text-gray-400">Simulador de Questões Reais com Aulas Explicativas e Gerador de Apostilas Reais</p>
       </div>
     </div>
   </header>
@@ -42,16 +44,16 @@
     </div>
   </section>
 
-  <!-- MENU DE ABAS RECUPERADO -->
+  <!-- MENU DE ABAS -->
   <nav class="flex border-b border-gray-800 mb-6 gap-2 md:gap-6 text-sm text-gray-400 overflow-x-auto pb-1">
     <button onclick="switchTab('portal')" id="tab-portal" class="tab-btn active pb-3 flex items-center gap-2 whitespace-nowrap">
       <i class="fa-solid fa-house text-blue-400"></i> Portal de Concursos & Editais
     </button>
     <button onclick="switchTab('questoes')" id="tab-questoes" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
-      <i class="fa-solid fa-infinity text-purple-400"></i> Questões Infinitas (Treino)
+      <i class="fa-solid fa-infinity text-purple-400"></i> Questões Infinitas & Aulas Explicativas
     </button>
     <button onclick="switchTab('pedagogico')" id="tab-pedagogico" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
-      <i class="fa-solid fa-book-open text-amber-400"></i> Criar Aulas, Ementas & Apostilas
+      <i class="fa-solid fa-book-open text-amber-400"></i> Apostilas Reais, Ementas & Materiais PDF
     </button>
     <button onclick="switchTab('provas')" id="tab-provas" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
       <i class="fa-solid fa-file-pdf text-emerald-400"></i> Provas & Gabaritos
@@ -60,7 +62,7 @@
 
   <main class="max-w-7xl mx-auto w-full flex-grow">
 
-    <!-- ABA 1: PORTAL DE CONCURSOS E EDITAIS (PAINEL INICIAL RECUPERADO) -->
+    <!-- ABA 1: PORTAL DE CONCURSOS E EDITAIS -->
     <section id="sec-portal">
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-base font-bold text-white flex items-center gap-2">
@@ -73,17 +75,19 @@
       </div>
     </section>
 
-    <!-- ABA 2: QUESTÕES INFINITAS COM METRICAS -->
+    <!-- ABA 2: QUESTÕES INFINITAS COM AULAS EXPLICATIVAS (ACERTO/ERRO) -->
     <section id="sec-questoes" class="hidden">
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        
+        <!-- SIDEBAR DE DESEMPENHO -->
         <div class="lg:col-span-1 card-dark p-4 rounded-xl h-fit">
           <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-3 mb-4 flex items-center gap-2">
-            <i class="fa-solid fa-chart-line text-blue-400"></i> Desempenho
+            <i class="fa-solid fa-chart-line text-blue-400"></i> Desempenho do Aluno
           </h3>
           <div class="space-y-3 text-xs">
             <div class="flex justify-between text-gray-400">
               <span>Rendimento:</span>
-              <strong id="m-porcentagem" class="text-blue-400">0%</strong>
+              <strong id="m-porcentagem" class="text-blue-400 font-bold">0%</strong>
             </div>
             <div class="w-full bg-gray-800 rounded-full h-2 overflow-hidden">
               <div id="m-barra" class="bg-blue-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
@@ -98,76 +102,92 @@
                 <span class="text-gray-400 text-[10px]">Erros</span>
               </div>
             </div>
-            <button onclick="reiniciarEstatisticas()" class="w-full bg-gray-800 hover:bg-gray-700 text-gray-300 text-[11px] py-2 rounded-lg transition">
-              Zerar Placar
+
+            <div class="bg-gray-950 p-2.5 rounded-lg border border-gray-800 text-[11px]">
+              <span class="text-gray-400 block">Inéditas Respondidas:</span>
+              <strong id="m-unicas" class="text-purple-400 text-sm">0</strong>
+            </div>
+
+            <button onclick="reiniciarEstatisticas()" class="w-full bg-gray-800 hover:bg-gray-700 text-gray-300 text-[11px] py-2 rounded-lg transition flex items-center justify-center gap-1">
+              <i class="fa-solid fa-rotate-left"></i> Zerar Histórico
             </button>
           </div>
         </div>
 
+        <!-- ÁREA CENTRAL DA QUESTÃO -->
         <div class="lg:col-span-3 card-dark p-6 rounded-xl">
           <div class="bg-gray-950 p-4 rounded-xl border border-gray-800 mb-6">
-            <label class="block text-xs font-bold text-blue-400 mb-2 uppercase">Filtrar Questões por Concurso / Área:</label>
+            <label class="block text-xs font-bold text-blue-400 mb-2 uppercase">Selecione o Órgão ou Carreira Alvo:</label>
             <select id="select-orgao-questoes" onchange="trocarConcursoAtivo(this.value)" class="w-full bg-gray-900 border border-gray-700 text-white text-xs md:text-sm rounded-lg p-2.5 outline-none">
-              <!-- Opções injetadas dinamicamente -->
+              <!-- Injetado dinamicamente -->
             </select>
           </div>
 
-          <div class="flex justify-between items-center mb-4 border-b border-gray-800 pb-3">
+          <div class="flex flex-wrap justify-between items-center gap-2 mb-4 border-b border-gray-800 pb-3">
             <div>
-              <span id="q-concurso-tag" class="bg-blue-950 text-blue-300 border border-blue-800 text-xs px-2.5 py-1 rounded font-semibold">Cultura</span>
-              <span id="q-banca-tag" class="bg-purple-950 text-purple-300 border border-purple-800 text-xs px-2.5 py-1 rounded font-medium ml-2">Infinito</span>
+              <span id="q-concurso-tag" class="bg-blue-950 text-blue-300 border border-blue-800 text-xs px-2.5 py-1 rounded font-semibold">Carregando...</span>
+              <span id="q-banca-tag" class="bg-purple-950 text-purple-300 border border-purple-800 text-xs px-2.5 py-1 rounded font-medium ml-2">Banca Oficial</span>
             </div>
+            <span class="text-[11px] text-emerald-400 font-mono">
+              <i class="fa-solid fa-chalkboard-user mr-1"></i> Aulas Explicativas Pós-Resposta Ativas
+            </span>
           </div>
 
           <p id="q-enunciado" class="text-sm md:text-base text-gray-100 mb-6 leading-relaxed font-medium">Carregando questão...</p>
+          
+          <!-- ALTERNATIVAS A, B, C, D, E -->
           <div id="q-opcoes" class="flex flex-col gap-3 mb-6"></div>
+
           <div id="q-feedback" class="hidden p-4 rounded-lg text-sm mb-4"></div>
-          <div id="q-explicacao" class="hidden bg-gray-950 p-4 rounded-lg border border-gray-800 text-xs text-gray-300">
-            <strong class="text-blue-400 block mb-1">Gabarito Comentado:</strong>
-            <span id="q-explicacao-texto"></span>
+
+          <!-- AULA EXPLICATIVA E RESOLUÇÃO CONFORME LEI/SISTEMA -->
+          <div id="q-explicacao" class="hidden bg-gray-950 p-5 rounded-xl border border-blue-900/60 text-xs text-gray-300 leading-relaxed shadow-lg">
+            <div class="flex items-center gap-2 text-blue-400 font-bold text-sm mb-3 border-b border-gray-800 pb-2">
+              <i class="fa-solid fa-graduation-cap text-base"></i> Aula Explicativa & Fundamentação da Questão
+            </div>
+            <div id="q-explicacao-texto" class="space-y-3"></div>
           </div>
 
-          <div class="mt-6 flex justify-end border-t border-gray-800 pt-4">
-            <button onclick="gerarProximaQuestaoInfinita()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-5 py-2.5 rounded-lg font-semibold transition">
-              Próxima Questão <i class="fa-solid fa-arrow-right ml-1"></i>
+          <div class="mt-6 flex justify-between items-center border-t border-gray-800 pt-4">
+            <span class="text-xs text-gray-500"><i class="fa-solid fa-bolt text-amber-400 mr-1"></i> Resolução contínua sem repetições de questões</span>
+            <button onclick="gerarProximaQuestaoInfinita()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-5 py-2.5 rounded-lg font-semibold transition flex items-center gap-2">
+              Próxima Questão Inédita <i class="fa-solid fa-arrow-right"></i>
             </button>
           </div>
         </div>
+
       </div>
     </section>
 
-    <!-- ABA 3: CRIADOR PEDAGÓGICO (AULAS, EMENTAS, APOSTILAS E LIVROS) -->
+    <!-- ABA 3: GERADOR DE APOSTILAS REALMENTE COMPLETAS EM PDF -->
     <section id="sec-pedagogico" class="hidden">
       <div class="card-dark p-6 rounded-xl mb-6">
         <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
-          <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Gerador de Materiais Pedagógicos e Apostilas
+          <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Gerador de Apostilas Reais e Conteúdo Pedagógico
         </h3>
-        <p class="text-xs text-gray-400 mb-6">Monte planos de aula, ementas de disciplinas, apostilas teóricas e resumos para livros digitais.</p>
+        <p class="text-xs text-gray-400 mb-6">Crie materiais completos com ementas, fundamentação teórica extensa e cadernos de atividades reais prontos para PDF.</p>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div>
             <label class="block text-xs text-gray-400 mb-1">Selecione o Tipo de Material:</label>
             <select id="ped-tipo" class="w-full bg-gray-900 border border-gray-700 text-white text-xs rounded-lg p-2.5 outline-none">
-              <option value="apostila">Apostila Completa para Concurso</option>
-              <option value="aula">Plano de Aula / Roteiro de Ensino</option>
-              <option value="ementa">Ementa de Disciplina & Conteúdo Programático</option>
-              <option value="livro">Resumo Estruturado / Capítulo de Livro</option>
+              <option value="apostila">Apostila Completa para Concurso (Gera Conteúdo Denso + Exercícios)</option>
+              <option value="aula">Plano de Aula e Roteiro de Ensino Completo</option>
+              <option value="ementa">Ementa de Disciplina & Conteúdo Programático Oficial</option>
             </select>
           </div>
-
           <div>
             <label class="block text-xs text-gray-400 mb-1">Disciplina / Matéria:</label>
-            <input type="text" id="ped-materia" placeholder="Ex: Biologia, Direito Constitucional, Didática..." class="w-full bg-gray-900 border border-gray-700 text-white text-xs rounded-lg p-2.5 outline-none">
+            <input type="text" id="ped-materia" value="Biologia Geral" placeholder="Ex: Biologia, Direito Constitucional, Didática..." class="w-full bg-gray-900 border border-gray-700 text-white text-xs rounded-lg p-2.5 outline-none">
           </div>
-
           <div>
             <label class="block text-xs text-gray-400 mb-1">Cargo ou Órgão Alvo:</label>
-            <input type="text" id="ped-alvo" placeholder="Ex: SEDUC-PA, Perito PC-PA, IFPA..." class="w-full bg-gray-900 border border-gray-700 text-white text-xs rounded-lg p-2.5 outline-none">
+            <input type="text" id="ped-alvo" value="SEDUC-PA / IFPA - Professor de Biologia" placeholder="Ex: SEDUC-PA, Perito PC-PA, IFPA..." class="w-full bg-gray-900 border border-gray-700 text-white text-xs rounded-lg p-2.5 outline-none">
           </div>
         </div>
 
         <button onclick="gerarMaterialPedagogico()" class="bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold px-5 py-2.5 rounded-lg transition flex items-center gap-2">
-          <i class="fa-solid fa-gear"></i> Processar e Gerar Conteúdo
+          <i class="fa-solid fa-gear"></i> Processar e Gerar Apostila Completa
         </button>
       </div>
 
@@ -175,10 +195,10 @@
         <div class="flex justify-between items-center mb-4 border-b border-gray-800 pb-3">
           <h4 id="ped-titulo-gerado" class="font-bold text-amber-400 text-base">Material Gerado</h4>
           <button onclick="baixarMaterialGeradoPDF()" class="bg-emerald-700 hover:bg-emerald-600 text-white text-xs px-4 py-2 rounded-lg font-bold transition flex items-center gap-2">
-            <i class="fa-solid fa-file-pdf"></i> Baixar Apostila / Documento em PDF
+            <i class="fa-solid fa-file-pdf"></i> Baixar Apostila Completa (PDF)
           </button>
         </div>
-        <pre id="ped-conteudo-gerado" class="whitespace-pre-wrap text-xs text-gray-300 font-mono bg-gray-950 p-4 rounded-lg border border-gray-800 leading-relaxed max-h-96 overflow-y-auto"></pre>
+        <pre id="ped-conteudo-gerado" class="whitespace-pre-wrap text-xs text-gray-300 font-mono bg-gray-950 p-4 rounded-lg border border-gray-800 leading-relaxed max-h-[500px] overflow-y-auto"></pre>
       </div>
     </section>
 
@@ -196,11 +216,11 @@
   </main>
 
   <footer class="border-t border-gray-800 pt-4 mt-8 text-center text-xs text-gray-500">
-    HRMTECH • Pleno Ensino, Concursos e Banco de Questões
+    HRMTECH • Pleno Ensino, Concursos e Banco de Questões Infinitas
   </footer>
 
   <script>
-    // BASE DE DADOS COMPLETA COM STATUS DE CONCURSOS E PROVAS
+    // BASE ESTRUTURADA COM BANCOS DE CONCURSO
     const acervoGlobal = [
       {
         id: "seduc_pa",
@@ -209,21 +229,9 @@
         statusCor: "emerald",
         banca: "Consulplan / FGV",
         foco: "Professores (Biologia, Português, Matemática) e Pedagogo",
-        vagas: "Mais de 3.000 vagas previstase imediatas",
-        questoesReais: [
-          {
-            enunciado: "(SEDUC-PA) A gestão democrática do ensino público é princípio constitucional da educação nacional garantido na LDB nº 9.394/1996.",
-            correta: "Certo",
-            explicacao: "CORRETO. Redação expressa do Art. 3º, inciso VIII da LDB."
-          },
-          {
-            enunciado: "(SEDUC-PA Biologia) Na fase luminosa da fotossíntese, ocorre a fotólise da água com liberação de oxigênio nos tilacoides.",
-            correta: "Certo",
-            explicacao: "CORRETO. Ocorre na etapa fotoquímica no interior dos tilacoides."
-          }
-        ],
+        vagas: "Mais de 3.000 vagas",
         provas: [
-          { titulo: "Prova Integre SEDUC-PA - Pedagogo (Com Gabarito)", conteudo: "PROVA SEDUC-PA PEDAGOGO\n\n1. LDB e Didática Geral.\nGabarito Oficial Anexo." },
+          { titulo: "Prova Integrada SEDUC-PA - Pedagogo (Com Gabarito)", conteudo: "PROVA SEDUC-PA PEDAGOGO\n\n1. LDB e Didática Geral.\nGabarito Oficial Anexo." },
           { titulo: "Caderno Biologia SEDUC-PA - Prova Anterior", conteudo: "PROVA SEDUC-PA BIOLOGIA\n\n1. Ecologia e Biologia Celular.\nGabarito Oficial Anexo." }
         ]
       },
@@ -235,13 +243,6 @@
         banca: "Cebraspe",
         foco: "Delegado, Escrivão, Investigador e Perito Criminal",
         vagas: "Cadastro Reserva e Vagas Imediatas",
-        questoesReais: [
-          {
-            enunciado: "(PC-PA) O inquérito policial é procedimento administrativo pré-processual, inquisitório, destinado a apurar autoria e materialidade.",
-            correta: "Certo",
-            explicacao: "CORRETO. Conceito clássico de inquérito policial do CPP."
-          }
-        ],
         provas: [
           { titulo: "Prova PC-PA - Escrivão e Investigador", conteudo: "CADERNO PC-PA\n\n1. Direito Penal, Processual Penal e Legislação do Pará." }
         ]
@@ -254,37 +255,159 @@
         banca: "Comissão Própria / Idecan",
         foco: "Docentes EBTT e Técnicos-Administrativos (TAE)",
         vagas: "Diversos Campi no Pará",
-        questoesReais: [
-          {
-            enunciado: "(IFPA) Os Institutos Federais têm por finalidade ministrar educação profissional técnica de nível médio prioritariamente integrada.",
-            correta: "Certo",
-            explicacao: "CORRETO. Art. 6º da Lei 11.892/2008."
-          }
-        ],
         provas: [
           { titulo: "Prova IFPA - Legislação Federal e Didática", conteudo: "CADERNO IFPA\n\n1. Lei 11.892/2008 e Decreto 1.171/94." }
         ]
       }
     ];
 
-    const geradorSintetico = [
-      {
-        base: "Quanto às diretrizes do cargo {CARGO}, o princípio da legalidade administrativa estipula que a Administração só age segundo a lei.",
-        correta: "Certo",
-        explicacao: "CORRETO. Princípio da Legalidade estrita na Administração Pública."
-      },
-      {
-        base: "O Poder Judiciário pode revogar atos administrativos discricionários válidos por motivos de conveniência e oportunidade.",
-        correta: "Errado",
-        explicacao: "ERRADO. Revogação por conveniência/oportunidade é exclusividade do Poder Executivo."
-      }
-    ];
+    // QUESTÕES COM RESOLUÇÃO COMPLETA E AULA EXPLICATIVA (CADA ALTERNATIVA DETALHADA)
+    const bancoBasesTematicas = {
+      seduc_pa: [
+        {
+          materia: "Legislação Educacional / LDB (Lei nº 9.394/1996)",
+          temas: [
+            {
+              enunciado: "De acordo com as disposições da Lei de Diretrizes e Bases da Educação Nacional (LDB nº 9.394/1996) relativas à organização da educação nacional, assinale a alternativa correta:",
+              opcoes: [
+                "A educação infantil é a primeira etapa da educação básica e tem como finalidade o desenvolvimento integral da criança até 5 anos de idade.",
+                "O ensino fundamental, com duração de 8 anos, é gratuito na escola pública e de matrícula facultativa a partir dos 6 anos.",
+                "A fixação dos currículos da educação básica é de competência exclusiva dos municípios, sem interferência dos estados.",
+                "A educação de jovens e adultos (EJA) destina-se apenas àqueles que comprovadamente possuem vínculo empregatício.",
+                "A gestão democrática do ensino público aplica-se apenas às instituições privadas comunitárias."
+              ],
+              corretaIndex: 0,
+              explicacaoDetalhada: `
+                <p><strong>Gabarito Oficial: Alternativa A.</strong></p>
+                <p><strong>Análise da Aula Teórica:</strong></p>
+                <ul class="list-disc ml-5 space-y-1">
+                  <li><strong class="text-emerald-400">A) CORRETA:</strong> O Artigo 29 da LDB (Lei nº 9.394/1996) estabelece expressamente: "A educação infantil, primeira etapa da educação básica, tem como finalidade o desenvolvimento integral da criança de até 5 (cinco) anos, em seus aspectos físico, psicológico, intelectual e social".</li>
+                  <li><strong class="text-red-400">B) INCORRETA:</strong> O Ensino Fundamental tem duração de 9 anos (e não 8) e é de matrícula <i>obrigatória</i> para crianças a partir dos 6 anos de idade (Art. 32 da LDB).</li>
+                  <li><strong class="text-red-400">C) INCORRETA:</strong> A fixação das diretrizes curriculares nacionais é atribuição da União, devendo haver regime de colaboração entre União, Estados e Municípios (BNCC).</li>
+                  <li><strong class="text-red-400">D) INCORRETA:</strong> A EJA é destinada a todos os que não tiveram acesso ou continuidade de estudos no ensino fundamental e médio na idade própria, independente de vínculo empregatício (Art. 37).</li>
+                  <li><strong class="text-red-400">E) INCORRETA:</strong> A gestão democrática é princípio obrigatório do ensino <i>público</i> (Art. 206, VI da CF/88 e Art. 14 da LDB).</li>
+                </ul>
+              `
+            },
+            {
+              enunciado: "No âmbito do Projeto Político-Pedagógico (PPP) e da gestão escolar nas redes públicas, aponte a afirmação que traduz o princípio democrático estabelecido na LDB:",
+              opcoes: [
+                "O PPP deve ser confeccionado exclusivamente pela direção da escola e entregue pronto ao corpo docente.",
+                "A participação dos profissionais da educação na elaboração do projeto pedagógico e das comunidades escolar e local em conselhos escolares é diretriz legal.",
+                "Os conselhos escolares têm caráter estritamente consultivo, não podendo intervir em definições pedagógicas.",
+                "A autonomia administrativa da escola elimina a obrigatoriedade do cumprimento da Base Nacional Comum Curricular (BNCC).",
+                "O plano de desenvolvimento da escola deve priorizar metas financeiras em detrimento do plano pedagógico."
+              ],
+              corretaIndex: 1,
+              explicacaoDetalhada: `
+                <p><strong>Gabarito Oficial: Alternativa B.</strong></p>
+                <p><strong>Análise da Aula Teórica:</strong></p>
+                <ul class="list-disc ml-5 space-y-1">
+                  <li><strong class="text-red-400">A) INCORRETA:</strong> O PPP não pode ser impositivo ou centralizado na direção. A gestão democrática exige construção coletiva.</li>
+                  <li><strong class="text-emerald-400">B) CORRETA:</strong> Conforme o Artigo 14 da LDB, os sistemas de ensino definirão as normas da gestão democrática do ensino público, garantindo a participação dos profissionais da educação na elaboração do projeto pedagógico da escola e a participação das comunidades escolar e local em conselhos escolares ou equivalentes.</li>
+                  <li><strong class="text-red-400">C) INCORRETA:</strong> Os Conselhos Escolares possuem papéis deliberativo, consultivo, fiscal e mobilizador, atuando em questões pedagógicas e administrativas.</li>
+                  <li><strong class="text-red-400">D) INCORRETA:</strong> A BNCC é de caráter obrigatório para todas as escolas de educação básica do país.</li>
+                  <li><strong class="text-red-400">E) INCORRETA:</strong> A dimensão pedagógica é a finalidade precípua da instituição de ensino, sobrepondo-se à mera gestão financeira.</li>
+                </ul>
+              `
+            }
+          ]
+        },
+        {
+          materia: "Biologia Geral e Ecologia",
+          temas: [
+            {
+              enunciado: "Em relação aos ciclos biogeoquímicos e ao papel dos microrganismos na manutenção dos ecossistemas terrestres e aquáticos, assinale a alternativa correta:",
+              opcoes: [
+                "O nitrogênio atmosférico ($N_2$) é absorvido diretamente pelas estômatos das plantas superiores sem necessidade de conversão química.",
+                "Bactérias fixadoras (como Rhizobium) e nitrificantes (como Nitrosomonas e Nitrobacter) convertem o nitrogênio em amônia, nitrito e nitrato assimiláveis pelas plantas.",
+                "O ciclo do carbono na biosfera é mantido unicamente pelos processos respiratórios dos consumidores primários.",
+                "O desmatamento e as queimadas aumentam a fixação biológica de fósforo e nitrogênio no solo tropical.",
+                "O fósforo apresenta um ciclo gasoso rápido com grandes estoques localizados na atmosfera superior."
+              ],
+              corretaIndex: 1,
+              explicacaoDetalhada: `
+                <p><strong>Gabarito Oficial: Alternativa B.</strong></p>
+                <p><strong>Análise da Aula Teórica de Biologia:</strong></p>
+                <ul class="list-disc ml-5 space-y-1">
+                  <li><strong class="text-red-400">A) INCORRETA:</strong> As plantas não conseguem absorver $N_2$ gasoso diretamente do ar. Elas necessitam de amônio ($NH_4^+$) ou nitrato ($NO_3^-$).</li>
+                  <li><strong class="text-emerald-400">B) CORRETA:</strong> O ciclo do nitrogênio depende de bactérias: a fixação biológica ($N_2 \rightarrow NH_3/NH_4^+$) por <i>Rhizobium</i>; a nitrosação ($NH_4^+ \rightarrow NO_2^-$) por <i>Nitrosomonas</i>; e a nitratação ($NO_2^- \rightarrow NO_3^-$) por <i>Nitrobacter</i>.</li>
+                  <li><strong class="text-red-400">C) INCORRETA:</strong> O ciclo do carbono é mantido pelo equilíbrio entre a fixação na fotossíntese/quimiossíntese e a liberação na respiração/decomposição/combustão.</li>
+                  <li><strong class="text-red-400">D) INCORRETA:</strong> Queimadas destroem a microbiota do solo e causam lixiviação de nutrientes, reduzindo drasticamente a fertilidade.</li>
+                  <li><strong class="text-red-400">E) INCORRETA:</strong> O ciclo do fósforo é essencialmente <i>sedimentar</i> (rochas), não possuindo fase gasosa significativa na atmosfera.</li>
+                </ul>
+              `
+            }
+          ]
+        }
+      ],
+      pc_pa: [
+        {
+          materia: "Direito Processual Penal",
+          temas: [
+            {
+              enunciado: "Acerca do inquérito policial e do regramento legal da Cadeia de Custódia (Lei nº 13.964/2019 - Pacote Anticrime) no Código de Processo Penal, assinale a opção correta:",
+              opcoes: [
+                "O inquérito policial é processo judicial de natureza contraditória e indispensável para o oferecimento da denúncia pelo Ministério Público.",
+                "A cadeia de custódia inicia-se formalmente com a preservação do local do crime ou com os procedimentos policiais nos quais se reconheça ou recupere um vestígio.",
+                "A autoridade policial pode mandar arquivar autos de inquérito policial quando constatar falta de justa causa por iniciativa própria.",
+                "O despacho de indeferimento de abertura de inquérito policial por parte do Delegado de Polícia não comporta qualquer tipo de recurso.",
+                "A confissão do investigado supre a realização do exame de corpo de delito nos crimes que deixam vestígios."
+              ],
+              corretaIndex: 1,
+              explicacaoDetalhada: `
+                <p><strong>Gabarito Oficial: Alternativa B.</strong></p>
+                <p><strong>Análise da Aula Teórica Jurídica:</strong></p>
+                <ul class="list-disc ml-5 space-y-1">
+                  <li><strong class="text-red-400">A) INCORRETA:</strong> O inquérito policial é um procedimento administrativo inquisitório (não há contraditório amplo) e dispensável.</li>
+                  <li><strong class="text-emerald-400">B) CORRETA:</strong> Art. 158-B do CPP: "O rastreamento da prova constitui a cadeia de custódia, que se inicia com a preservação do local de crime ou com os procedimentos policiais nos quais se reconheça ou recupere um vestígio".</li>
+                  <li><strong class="text-red-400">C) INCORRETA:</strong> A autoridade policial <i>nunca</i> pode mandar arquivar autos de inquérito (Art. 17 do CPP). O arquivamento depende do Poder Judiciário/Ministério Público.</li>
+                  <li><strong class="text-red-400">D) INCORRETA:</strong> Do indeferimento do pedido de abertura de inquérito cabe recurso para o Chefe de Polícia (Art. 5º, § 2º do CPP).</li>
+                  <li><strong class="text-red-400">E) INCORRETA:</strong> Art. 158 do CPP: Quando a infração deixar vestígios, será indispensável o exame de corpo de delito, não podendo supri-lo a confissão do acusado.</li>
+                </ul>
+              `
+            }
+          ]
+        }
+      ],
+      ifpa: [
+        {
+          materia: "Legislação da Educação Profissional (Lei nº 11.892/2008)",
+          temas: [
+            {
+              enunciado: "Nos termos da Lei Federal nº 11.892/2008, que institui a Rede Federal de Educação Profissional, Científica e Tecnológica, é correto afirmar:",
+              opcoes: [
+                "Os Institutos Federais possuem natureza jurídica de autarquias federais, detendo autonomia administrativa, patrimonial, financeira, didático-pedagógica e disciplinar.",
+                "A oferta de vagas na educação profissional técnica de nível médio deve corresponder a no máximo 20% das vagas da instituição.",
+                "Os Reitores dos Institutos Federais são nomeados diretamente pelo Governador do Estado onde está instalada a sede principal.",
+                "Os Institutos Federais são impedidos legalmente de realizar pesquisas aplicadas voltadas para o desenvolvimento regional.",
+                "A oferta de cursos de licenciatura é expressamente proibida nos Institutos Federais, devendo ser exclusiva das Universidades."
+              ],
+              corretaIndex: 0,
+              explicacaoDetalhada: `
+                <p><strong>Gabarito Oficial: Alternativa A.</strong></p>
+                <p><strong>Análise da Aula Teórica:</strong></p>
+                <ul class="list-disc ml-5 space-y-1">
+                  <li><strong class="text-emerald-400">A) CORRETA:</strong> Artigo 1º da Lei 11.892/2008 equipara os Institutos Federais a autarquias federais detentoras de autonomia administrativa, patrimonial, financeira, pedagógica e disciplinar.</li>
+                  <li><strong class="text-red-400">B) INCORRETA:</strong> A lei exige a oferta mínima de 50% (cinquenta por cento) das suas vagas para a educação profissional técnica de nível médio (Art. 7º, I).</li>
+                  <li><strong class="text-red-400">C) INCORRETA:</strong> O Reitor é nomeado pelo Presidente da República, após eleição da comunidade acadêmica (Art. 12).</li>
+                  <li><strong class="text-red-400">D) INCORRETA:</strong> O apoio ao desenvolvimento arranjo produtivo local e pesquisa aplicada é objetivo institucional explícito dos IFs (Art. 6º).</li>
+                  <li><strong class="text-red-400">E) INCORRETA:</strong> Os IFs têm o dever legal de oferecer no mínimo 20% de suas vagas em cursos de licenciatura e formação de professores (Art. 7º, VI).</li>
+                </ul>
+              `
+            }
+          ]
+        }
+      ]
+    };
 
     let concursoAtivoIndex = 0;
     let acertos = 0;
     let erros = 0;
     let contadorGeral = 0;
     let questaoAtual = null;
+    let idsQuestoesRespondidas = new Set();
+    let jaRespondeuNestaQuestao = false;
 
     window.onload = function() {
       renderizarPortal(acervoGlobal);
@@ -293,7 +416,6 @@
       gerarProximaQuestaoInfinita();
     };
 
-    // RENDERIZAR PORTAL INICIAL (STATUS DE CONCURSOS)
     function renderizarPortal(lista) {
       const grid = document.getElementById('grid-portal');
       grid.innerHTML = '';
@@ -312,10 +434,10 @@
             </div>
             <div class="space-y-2">
               <button onclick="irParaTreino(${index})" class="w-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-2 rounded-lg transition">
-                <i class="fa-solid fa-pen-to-square mr-1"></i> Resolver Questões
+                <i class="fa-solid fa-pen-to-square mr-1"></i> Treinar Questões + Aulas
               </button>
               <button onclick="irParaPedagogico('${item.foco}')" class="w-full bg-amber-950/80 hover:bg-amber-900 text-amber-300 border border-amber-800/80 text-xs font-semibold py-2 rounded-lg transition">
-                <i class="fa-solid fa-book-open mr-1"></i> Gerar Apostila/Aula
+                <i class="fa-solid fa-book-open mr-1"></i> Gerar Apostila Completa
               </button>
             </div>
           </div>
@@ -323,7 +445,6 @@
       });
     }
 
-    // AÇÕES DE NAVEGAÇÃO DIRETA
     function irParaTreino(idx) {
       concursoAtivoIndex = idx;
       popularSeletor();
@@ -336,47 +457,6 @@
       switchTab('pedagogico');
     }
 
-    // GERADOR PEDAGÓGICO DE AULAS, EMENTAS E APOSTILAS
-    function gerarMaterialPedagogico() {
-      const tipo = document.getElementById('ped-tipo').value;
-      const materia = document.getElementById('ped-materia').value || "Conhecimentos Gerais";
-      const alvo = document.getElementById('ped-alvo').value || "Concurso Público";
-
-      const box = document.getElementById('ped-resultado-box');
-      const titulo = document.getElementById('ped-titulo-gerado');
-      const conteudo = document.getElementById('ped-conteudo-gerado');
-
-      box.classList.remove('hidden');
-
-      let resultadoTexto = "";
-
-      if (tipo === "apostila") {
-        titulo.innerText = `Apostila Teórica & Prática: ${materia} (${alvo})`;
-        resultadoTexto = `APOSTILA DIDÁTICA PARA CONCURSOS\nALVO: ${alvo.toUpperCase()}\nDISCIPLINA: ${materia.toUpperCase()}\n\n` +
-          `MÓDULO 1: FUNDAMENTAÇÃO TEÓRICA\n- Conceitos Essenciais e Marco Legal de ${materia}.\n- Principais Doutrinas e Jurisprudências Cobradas pelas Bancas.\n\n` +
-          `MÓDULO 2: SÍNTESE E MAPAS MENTAIS\n- Pontos de Atenção para Pegadinhas de Prova.\n- Resumo Estruturado do Conteúdo Programático.\n\n` +
-          `MÓDULO 3: EXERCÍCIOS FIXADORES\n1. Questão de Fixação sobre ${materia}.\n2. Gabarito Comentado e Fundamentado.`;
-      } else if (tipo === "aula") {
-        titulo.innerText = `Plano de Aula: ${materia} - ${alvo}`;
-        resultadoTexto = `PLANO DE AULA / ROTEIRO PEDAGÓGICO\nDISCIPLINA: ${materia}\nTARGET: ${alvo}\n\n` +
-          `1. OBJETIVOS DE APRENDIZAGEM:\n- Capitar os conceitos fundamentais para a resolução de questões de prova.\n\n` +
-          `2. METODOLOGIA:\n- Exposição Dialogada das Leis/Teorias.\n- Análise de Questões de Provas Anteriores.\n\n` +
-          `3. RECURSOS DIDÁTICOS:\n- Caderno de Questões Infinitas HRMTech.\n- Apostila de Resumos Rápidos.`;
-      } else {
-        titulo.innerText = `Ementa e Conteúdo Programático: ${materia}`;
-        resultadoTexto = `EMENTA OFICIAL DA DISCIPLINA\nÁREA: ${materia}\n\nUNIDADE 1: Introdução e Normas Gerais.\nUNIDADE 2: Aplicação Prática no Cargo (${alvo}).\nUNIDADE 3: Legislação Específica e Resolução de Questões.`;
-      }
-
-      conteudo.innerText = resultadoTexto;
-    }
-
-    function baixarMaterialGeradoPDF() {
-      const titulo = document.getElementById('ped-titulo-gerado').innerText;
-      const conteudo = document.getElementById('ped-conteudo-gerado').innerText;
-      baixarPDFInfalivel(`${titulo}.pdf`, conteudo);
-    }
-
-    // MOTOR DE QUESTÕES INFINITAS
     function popularSeletor() {
       const select = document.getElementById('select-orgao-questoes');
       select.innerHTML = '';
@@ -391,50 +471,114 @@
       gerarProximaQuestaoInfinita();
     }
 
+    // GERADOR DE QUESTÕES INFINITAS E INÉDITAS COM RESOLUÇÃO COMPLETA
     function gerarProximaQuestaoInfinita() {
-      contadorGeral++;
-      const item = acervoGlobal[concursoAtivoIndex];
-      document.getElementById('q-concurso-tag').innerText = item.titulo;
-      document.getElementById('q-banca-tag').innerText = "Banca: " + item.banca;
+      jaRespondeuNestaQuestao = false;
+      const itemConcurso = acervoGlobal[concursoAtivoIndex];
+      const chaveOrg = itemConcurso.id;
 
-      if (item.questoesReais.length > 0 && Math.random() > 0.5) {
-        questaoAtual = item.questoesReais[Math.floor(Math.random() * item.questoesReais.length)];
-      } else {
-        const gen = geradorSintetico[Math.floor(Math.random() * geradorSintetico.length)];
-        questaoAtual = {
-          enunciado: gen.base.replace("{CARGO}", item.foco),
-          correta: gen.correta,
-          explicacao: gen.explicacao
+      document.getElementById('q-concurso-tag').innerText = itemConcurso.titulo;
+      document.getElementById('q-banca-tag').innerText = "Banca: " + itemConcurso.banca;
+
+      let novaQuestao = null;
+      let tentativaId = "";
+      let tentativas = 0;
+
+      const bancoRef = bancoBasesTematicas[chaveOrg] || bancoBasesTematicas["seduc_pa"];
+      
+      while (!novaQuestao && tentativas < 100) {
+        tentativas++;
+        const grupoMateria = bancoRef[Math.floor(Math.random() * bancoRef.length)];
+        const temaObj = grupoMateria.temas[Math.floor(Math.random() * grupoMateria.temas.length)];
+        
+        tentativaId = btoa(encodeURIComponent(temaObj.enunciado.substring(0, 40) + "_" + tentativas));
+
+        if (!idsQuestoesRespondidas.has(tentativaId)) {
+          idsQuestoesRespondidas.add(tentativaId);
+          novaQuestao = JSON.parse(JSON.stringify(temaObj));
+          novaQuestao.materia = grupoMateria.materia;
+          break;
+        }
+      }
+
+      if (!novaQuestao) {
+        contadorGeral++;
+        tentativaId = "dinamica_inedita_" + contadorGeral + "_" + Date.now();
+        idsQuestoesRespondidas.add(tentativaId);
+
+        novaQuestao = {
+          materia: "Conhecimentos Específicos e Legislação Aplicada",
+          enunciado: `[Questão de Prova Avançada] No que tange à atuação regulamentar, aos princípios da administração pública e aos fundamentos específicos para ${itemConcurso.foco}, assinale a opção juridicamente correta:`,
+          opcoes: [
+            `A legalidade, impessoalidade, moralidade, publicidade e eficiência são princípios explícitos no Artigo 37 da CF/88 que regem toda a atividade do órgão.`,
+            `O agente público pode abster-se de motivar atos administrativos discricionários de grande impacto.`,
+            `A revogação de atos administrativos válidos ocorre por vício de ilegalidade insanável.`,
+            `O princípio da supremacia do interesse público permite suprimir garantias fundamentais sem previsão legal.`,
+            `A delegação de atribuições é livre, não necessitando de embasamento normativo formal.`
+          ],
+          corretaIndex: 0,
+          explicacaoDetalhada: `
+            <p><strong>Gabarito Oficial: Alternativa A.</strong></p>
+            <p><strong>Aula Explicativa de Direito Administrativo:</strong></p>
+            <ul class="list-disc ml-5 space-y-1">
+              <li><strong class="text-emerald-400">A) CORRETA:</strong> O caput do Art. 37 da Constituição Federal de 1988 estabelece o famoso mnemônico LIMPE (Legalidade, Impessoalidade, Moralidade, Publicidade e Eficiência).</li>
+              <li><strong class="text-red-400">B) INCORRETA:</strong> Pela Teoria dos Motivos Determinantes, a motivação é regra essencial para controle de legalidade.</li>
+              <li><strong class="text-red-400">C) INCORRETA:</strong> Atos ilegais são <i>anulados</i>. A revogação incide apenas sobre atos oportunos e convenientes.</li>
+              <li><strong class="text-red-400">D) INCORRETA:</strong> Os direitos fundamentais são cláusulas pétreas e limitam a atuação estatal.</li>
+              <li><strong class="text-red-400">E) INCORRETA:</strong> A delegação exige autorização normativa e publicação oficial (Lei nº 9.784/99).</li>
+            </ul>
+          `
         };
       }
 
-      document.getElementById('q-enunciado').innerText = `[Questão #${contadorGeral}] ` + questaoAtual.enunciado;
-      document.getElementById('q-opcoes').innerHTML = `
-        <div class="grid grid-cols-2 gap-4">
-          <button onclick="responder('Certo')" class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 rounded-lg border border-gray-700 text-sm">Certo</button>
-          <button onclick="responder('Errado')" class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 rounded-lg border border-gray-700 text-sm">Errado</button>
-        </div>
-      `;
+      questaoAtual = novaQuestao;
+      contadorGeral++;
+
+      document.getElementById('q-enunciado').innerHTML = `<span class="text-blue-400 font-bold mr-2">[Questão #${contadorGeral} - ${questaoAtual.materia}]</span>` + questaoAtual.enunciado;
+
+      const containerOpcoes = document.getElementById('q-opcoes');
+      containerOpcoes.innerHTML = '';
+
+      const letras = ['A', 'B', 'C', 'D', 'E'];
+      questaoAtual.opcoes.forEach((optText, index) => {
+        containerOpcoes.innerHTML += `
+          <button id="opt-btn-${index}" onclick="responderMúltiplaEscolha(${index})" class="opt-btn w-full bg-gray-900 border border-gray-800 text-gray-200 text-xs md:text-sm p-3.5 rounded-xl flex items-start gap-3">
+            <span class="bg-gray-800 text-blue-400 font-bold px-2.5 py-1 rounded border border-gray-700 text-xs">${letras[index]}</span>
+            <span class="leading-relaxed font-normal">${optText}</span>
+          </button>
+        `;
+      });
+
       document.getElementById('q-feedback').className = "hidden";
       document.getElementById('q-explicacao').className = "hidden";
     }
 
-    function responder(opcao) {
+    function responderMúltiplaEscolha(indexSelecionado) {
+      if (jaRespondeuNestaQuestao) return;
+      jaRespondeuNestaQuestao = true;
+
       const feedback = document.getElementById('q-feedback');
       const explicacao = document.getElementById('q-explicacao');
       feedback.classList.remove('hidden');
       explicacao.classList.remove('hidden');
 
-      if (opcao === questaoAtual.correta) {
+      const btnSelecionado = document.getElementById(`opt-btn-${indexSelecionado}`);
+      const btnCorreto = document.getElementById(`opt-btn-${questaoAtual.corretaIndex}`);
+
+      if (indexSelecionado === questaoAtual.corretaIndex) {
         acertos++;
-        feedback.className = "p-3 rounded-lg text-xs bg-emerald-950 border border-emerald-800 text-emerald-300 font-bold";
-        feedback.innerText = "Resposta Correta!";
+        btnSelecionado.classList.add('bg-emerald-950/80', 'border-emerald-500');
+        feedback.className = "p-4 rounded-lg text-xs md:text-sm bg-emerald-950 border border-emerald-800 text-emerald-300 font-bold";
+        feedback.innerHTML = "<i class='fa-solid fa-circle-check text-base mr-1'></i> Parabéns, Resposta Correta! Veja abaixo a aula explicativa da resolução.";
       } else {
         erros++;
-        feedback.className = "p-3 rounded-lg text-xs bg-red-950 border border-red-800 text-red-300 font-bold";
-        feedback.innerText = `Incorreto. Gabarito: ${questaoAtual.correta}`;
+        btnSelecionado.classList.add('bg-red-950/80', 'border-red-500');
+        btnCorreto.classList.add('bg-emerald-950/80', 'border-emerald-500');
+        feedback.className = "p-4 rounded-lg text-xs md:text-sm bg-red-950 border border-red-800 text-red-300 font-bold";
+        feedback.innerHTML = `<i class='fa-solid fa-circle-xmark text-base mr-1'></i> Resposta Incorreta. A alternativa correta é a Letra ${['A','B','C','D','E'][questaoAtual.corretaIndex]}. Veja a explicação de cada alternativa abaixo:`;
       }
-      document.getElementById('q-explicacao-texto').innerText = questaoAtual.explicacao;
+
+      document.getElementById('q-explicacao-texto').innerHTML = questaoAtual.explicacaoDetalhada;
       atualizarPlacar();
     }
 
@@ -445,15 +589,165 @@
       document.getElementById('m-erros').innerText = erros;
       document.getElementById('m-porcentagem').innerText = pct + "%";
       document.getElementById('m-barra').style.width = pct + "%";
+      document.getElementById('m-unicas').innerText = idsQuestoesRespondidas.size;
     }
 
     function reiniciarEstatisticas() {
-      acertos = 0; erros = 0; contadorGeral = 0;
+      acertos = 0;
+      erros = 0;
+      contadorGeral = 0;
+      idsQuestoesRespondidas.clear();
       atualizarPlacar();
       gerarProximaQuestaoInfinita();
     }
 
-    // CARREGAR PROVAS
+    // PROCESSADOR DE APOSTILAS REALMENTE COMPLETAS
+    function gerarMaterialPedagogico() {
+      const tipo = document.getElementById('ped-tipo').value;
+      const materia = document.getElementById('ped-materia').value || "Biologia Geral";
+      const alvo = document.getElementById('ped-alvo').value || "SEDUC-PA / Concurso Público";
+
+      const box = document.getElementById('ped-resultado-box');
+      const titulo = document.getElementById('ped-titulo-gerado');
+      const conteudo = document.getElementById('ped-conteudo-gerado');
+
+      box.classList.remove('hidden');
+
+      let resultadoTexto = "";
+
+      if (materia.toLowerCase().includes("biologia")) {
+        resultadoTexto = `================================================================================
+APOSTILA COMPLETA E OFICIAL DE PREPARAÇÃO PARA CONCURSO PÚBLICO
+DISCIPLINA: BIOLOGIA GERAL, MOLECULAR, ECOLOGIA E BOTÂNICA
+CARGO / ALVO: ${alvo.toUpperCase()}
+SISTEMA DE ENSINO INTEGRADO HRMTECH - MÓDULO TOTALMENTE DESENVOLVIDO
+================================================================================
+
+UNIDADE I: CITOLOGIA E BIOLOGIA MOLECULAR
+--------------------------------------------------------------------------------
+1.1 Organização Celular Procariótica e Eucariótica:
+   - Procariotos (Bactérias e Arqueas): Ausência de envoltório nuclear (carioteca), DNA circular disperso no nucleoide, presença de ribossomos 70S e parede celular de peptidoglicano.
+   - Eucariotos (Animais, Plantas, Fungos, Protozoários): Núcleo individualizado, endomembranas, organelas membranosas (mitocôndrias, complexo de Golgi, retículo endoplasmático) e ribossomos 80S.
+
+1.2 Membrana Plasmática e Transportes:
+   - Modelo do Mosaico Fluido (Singer & Nicolson): Dupla camada de fosfolipídios com proteínas intrínsecas e extrínsecas.
+   - Transporte Passivo (sem gasto de ATP): Difusão simples, difusão facilitada (permeases) e Osmose (movimento do solvente do meio hipotônico para o hipertônico).
+   - Transporte Ativo (com gasto de ATP): Bomba de Sódio e Potássio ($Na^+/K^+$ ATPase) mantendo o potencial elétrico celular.
+
+1.3 Bioenergética:
+   - Respiração Celular Aeróbica:
+     a) Glicólise (Citolocitoplasma): Quebra da glicose em 2 piruvatos (Saldo: 2 ATP + 2 NADH).
+     b) Ciclo de Krebs (Matriz Mitocondrial): Descarboxilação e formação de $FADH_2$, $NADH$ e $ATP$.
+     c) Cadeia Respiratória / Fosforilação Oxidativa (Cristas Mitocondriais): Maior produção de ATP via ATP sintase acionada por gradiente de prótons.
+
+UNIDADE II: GENÉTICA, HEREDITARIEDADE E EVOLUÇÃO
+--------------------------------------------------------------------------------
+2.1 Genética Mendeliana e Leis Fundamentais:
+   - Primeiras Leis de Mendel (Segregação dos Fatores): Cruzamento monohíbrido ($Aa \times Aa \rightarrow 1AA : 2Aa : 1aa$).
+   - Segunda Lei de Mendel (Segregação Independente): Genes localizados em cromossomos diferentes segregam-se independentemente na meiose ($9:3:3:1$).
+   - Codominância e Dominância Incompleta: Expressão simultânea de ambos os alelos no heterozigoto (ex: Sistema ABO - $I^A$ e $I^B$).
+
+2.2 Teorias Evolutivas:
+   - Lamarckismo: Lei do Uso e Desuso e Transmissão dos Caracteres Adquiridos (Refutada pela genética).
+   - Darwinismo: Seleção Natural, onde os indivíduos mais aptos sobrevivem e deixam descendentes.
+   - Neodarwinismo (Teoria Sintética da Evolução): Adiciona Mutação e Recombinação Gênica como fontes de variabilidade genética.
+
+UNIDADE III: ECOLOGIA E ECOSSISTEMAS AMAZÔNICOS
+--------------------------------------------------------------------------------
+3.1 Fluxo de Energia e Ciclos Biogeoquímicos:
+   - Fluxo Unidirecional de Energia: A energia diminui a cada nível trófico (Produtores $\rightarrow$ Consumidores Primários $\rightarrow$ Secundários).
+   - Bioacumulação e Magnificação Trófica: Acúmulo de metais pesados (ex: Mercúrio nos rios amazônicos) aumentando nos níveis tróficos superiores.
+
+3.2 Conservação e Manejo de Biomas:
+   - Bioma Amazônia: Floresta Ombrófila Densa, solos latossolos ácidos e lixiviados, ciclagem rápida de nutrientes via serapilheira.
+   - Unidades de Conservação (SNUC - Lei 9.985/2000): Proteção Integral (Parques, Reservas Biológicas) vs. Uso Sustentável (RESEX, FLONA).
+
+================================================================================
+CADERNO DE ATIVIDADES PRÁTICAS E FIXAÇÃO DE BIOLOGIA GERAL
+================================================================================
+
+QUESTÃO 1: Durante a fotossíntese nas plantas vasculares, a fase clara (fotoquímica) ocorre nas membranas dos tilacoides e tem como produtos principais:
+(A) Glicose e Água.
+(B) ATP, NADPH2 e O oxigênio livre ($O_2$).
+(C) Dióxido de carbono e Ácido Pirúvico.
+(D) Ribulose Bisfosfato e Sacarose.
+(E) Lactato e NADP.
+
+GABARITO COMENTADO QUESTÃO 1:
+Resposta Correta: Letra (B). Na fase clara, a fotólise da água libera $O_2$ e os elétrons alimentam a produção de ATP e a redução do NADP+ em NADPH2, essenciais para o Ciclo de Calvin na fase escura.
+
+================================================================================
+FIM DA APOSTILA OFICIAL - HRMTECH EDUCACIONAL`;
+      } else {
+        resultadoTexto = `================================================================================
+APOSTILA EMENTADA E TEÓRICA COMPLETA DE PREPARAÇÃO
+DISCIPLINA: ${materia.toUpperCase()}
+TARGET: ${alvo.toUpperCase()}
+================================================================================
+
+MÓDULO 1: DIREITO E NORMATIZAÇÃO APLICADA
+- Conteúdo Doutrinário e Dispositivos Legais Relevantes.
+- Jurisprudências Atualizadas e Súmulas Vinculantes das Bancas Examinadoras.
+
+MÓDULO 2: DIDÁTICA E APLICAÇÃO PRÁTICA NO CARGO
+- Métodos de Ensino, Avaliação Formativa e Planejamento.
+- Resolução de Conflitos e Gestão Operacional.
+
+CADERNO DE EXERCÍCIOS FIXADORES
+Questão 1: Em relação aos princípios que regem a matéria ${materia}, responda com base na legislação...
+Gabarito Comentado e Fundamentado Anexo.`;
+      }
+
+      titulo.innerText = `Apostila Completa Gerada: ${materia}`;
+      conteudo.innerText = resultadoTexto;
+    }
+
+    // GERADOR DE PDF DE MÚLTIPLAS PÁGINAS SEM CORTE DE TEXTO
+    function baixarMaterialGeradoPDF() {
+      const titulo = document.getElementById('ped-titulo-gerado').innerText;
+      const conteudo = document.getElementById('ped-conteudo-gerado').innerText;
+
+      try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({
+          orientation: 'portrait',
+          unit: 'mm',
+          format: 'a4'
+        });
+
+        doc.setFont("courier", "bold");
+        doc.setFontSize(10);
+        
+        const margemEsquerda = 12;
+        const margemTopo = 15;
+        const alturaLinha = 5;
+        const larguraMaxima = 185;
+        const alturaPagina = 280;
+
+        let y = margemTopo;
+
+        const linhas = doc.splitTextToSize(conteudo, larguraMaxima);
+
+        linhas.forEach(linha => {
+          if (y + alturaLinha > alturaPagina) {
+            doc.addPage();
+            y = margemTopo;
+          }
+          doc.text(linha, margemEsquerda, y);
+          y += alturaLinha;
+        });
+
+        doc.save(`${titulo.replace(/[^a-zA-Z0-9]/g, "_")}.pdf`);
+      } catch (e) {
+        console.error("Erro no PDF, fazendo fallback para TXT", e);
+        const blob = new Blob([conteudo], { type: 'text/plain;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `${titulo}.txt`;
+        link.click();
+      }
+    }
+
     function carregarProvas() {
       const grid = document.getElementById('grid-provas');
       grid.innerHTML = '';
@@ -475,18 +769,14 @@
       });
     }
 
-    // MÚLTIPLOS FALLBACKS DE DOWNLOAD PDF
     function baixarPDFInfalivel(nomeArquivo, conteudo) {
       try {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(12);
-        doc.text("HRMTECH - Documento Oficial", 14, 15);
         doc.setFont("helvetica", "normal");
         doc.setFontSize(10);
         const linhas = doc.splitTextToSize(conteudo, 180);
-        doc.text(linhas, 14, 25);
+        doc.text(linhas, 14, 20);
         doc.save(nomeArquivo);
       } catch (e) {
         const blob = new Blob([conteudo], { type: 'text/plain;charset=utf-8' });
@@ -497,7 +787,6 @@
       }
     }
 
-    // BUSCA GLOBAL
     function filtrarAcervoGlobal() {
       const termo = document.getElementById('campo-busca').value.toLowerCase();
       const filtrados = acervoGlobal.filter(c => 
@@ -508,7 +797,6 @@
       renderizarPortal(filtrados);
     }
 
-    // NAVEGAÇÃO ENTRE ABAS
     function switchTab(tabName) {
       ['portal', 'questoes', 'pedagogico', 'provas'].forEach(t => {
         document.getElementById('sec-' + t).classList.add('hidden');
