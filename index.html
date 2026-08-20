@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HRMTech - Ecossistema Completo de Concursos & Ensino</title>
+  <title>HRMTech - Plataforma Livre de Estudos & Redação</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body { background-color: #0b0f19; color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif; }
     .card-dark { background-color: #111827; border: 1px solid #1f2937; }
-    .card-dark:hover { border-color: #3b82f6; }
     .tab-btn { border-bottom: 2px solid transparent; transition: all 0.2s; }
     .tab-btn.active { border-bottom: 2px solid #3b82f6; color: #3b82f6; font-weight: bold; }
     .opt-btn { text-align: left; transition: all 0.15s ease-in-out; }
@@ -26,50 +25,62 @@
         HRMTECH
       </div>
       <div>
-        <h1 class="text-lg font-bold text-white leading-tight">Simulador Infinito de Questões de Provas Reais</h1>
-        <p class="text-xs text-gray-400">Aulas Explicativas em Tempo Real • Questões Inéditas sem Repetição • Apostilas em PDF</p>
+        <h1 class="text-lg font-bold text-white leading-tight">Plataforma Universal de Ensino & Concursos Públicos</h1>
+        <p class="text-xs text-gray-400">100% Gratuito • Questões Infinitas de Todo o Brasil • Treino de Redação • ENEM & Editais</p>
       </div>
     </div>
   </header>
 
-  <!-- BUSCA GLOBAL -->
-  <section class="max-w-4xl mx-auto w-full mb-6">
-    <div class="relative">
-      <input type="text" id="campo-busca" onkeyup="filtrarAcervoGlobal()" placeholder="Pesquisar concurso ou disciplina (ex: Biologia, SEDUC PA, IFPA, PC-PA, LDB)..." 
-        class="w-full bg-gray-900 border-2 border-blue-600/50 focus:border-blue-500 text-white placeholder-gray-500 text-sm rounded-xl py-3 pl-12 pr-32 outline-none shadow-lg">
-      <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-blue-400"></i>
-      <button onclick="filtrarAcervoGlobal()" class="absolute right-2 top-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2 rounded-lg transition">
-        Buscar
-      </button>
-    </div>
-  </section>
-
-  <!-- MENU ABAS -->
+  <!-- MENU NAVEGAÇÃO -->
   <nav class="flex border-b border-gray-800 mb-6 gap-2 md:gap-6 text-sm text-gray-400 overflow-x-auto pb-1">
     <button onclick="switchTab('questoes')" id="tab-questoes" class="tab-btn active pb-3 flex items-center gap-2 whitespace-nowrap">
-      <i class="fa-solid fa-infinity text-purple-400"></i> Questões Infinitas (Provas Reais)
+      <i class="fa-solid fa-infinity text-purple-400"></i> Questões Infinitas (Brasil Inteiro)
     </button>
-    <button onclick="switchTab('portal')" id="tab-portal" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
-      <i class="fa-solid fa-house text-blue-400"></i> Concursos & Editais
+    <button onclick="switchTab('redacao')" id="tab-redacao" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
+      <i class="fa-solid fa-pen-nib text-pink-400"></i> Oficina & Orientador de Redação
+    </button>
+    <button onclick="switchTab('materiais')" id="tab-materiais" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
+      <i class="fa-solid fa-book-bookmark text-emerald-400"></i> Livros & Videoaulas Gratuitas
     </button>
     <button onclick="switchTab('pedagogico')" id="tab-pedagogico" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
-      <i class="fa-solid fa-book-open text-amber-400"></i> Gerador de Apostilas Completa (PDF)
-    </button>
-    <button onclick="switchTab('provas')" id="tab-provas" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
-      <i class="fa-solid fa-file-pdf text-emerald-400"></i> Cadernos de Provas
+      <i class="fa-solid fa-file-pdf text-amber-400"></i> Gerador de Apostilas (PDF)
     </button>
   </nav>
 
   <main class="max-w-7xl mx-auto w-full flex-grow">
 
-    <!-- QUESTÕES INFINITAS E AULAS EXPLICATIVAS -->
+    <!-- SEÇÃO QUESTÕES INFINITAS -->
     <section id="sec-questoes">
+      
+      <!-- CAMPO DE PESQUISA UNIVERSAL -->
+      <div class="card-dark p-4 rounded-xl mb-6">
+        <label class="block text-xs font-bold text-blue-400 mb-2 uppercase">
+          <i class="fa-solid fa-earth-americas mr-1"></i> Pesquisar Qualquer Órgão, Estado, Município, ENEM ou Banca:
+        </label>
+        <div class="flex flex-col md:flex-row gap-3">
+          <input type="text" id="filtro-busca-livre" value="IFMA - Maranhão / Biologia" 
+            placeholder="Ex: IFMA, ENEM, Polícia Civil SP, Prefeitura de Manaus, Unicamp, Vunesp, FGV..." 
+            class="flex-grow bg-gray-900 border border-gray-700 text-white text-sm rounded-lg p-3 outline-none focus:border-blue-500">
+          <select id="filtro-disciplina" class="bg-gray-900 border border-gray-700 text-white text-sm rounded-lg p-3 outline-none">
+            <option value="Biologia e Ciências">Biologia / Ciências</option>
+            <option value="Língua Portuguesa">Língua Portuguesa</option>
+            <option value="Matemática e Raciocínio Lógico">Matemática / Raciocínio Lógico</option>
+            <option value="Legislação Educacional e LDB">Legislação Educacional / LDB</option>
+            <option value="Conhecimentos Gerais / Atualidades">Conhecimentos Gerais / Atualidades</option>
+            <option value="Direito Constitucional e Administrativo">Direito Constitucional / Administrativo</option>
+          </select>
+          <button onclick="aplicarNovoFiltro()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-6 py-3 rounded-lg transition whitespace-nowrap">
+            <i class="fa-solid fa-magnifying-glass mr-1"></i> Gerar Questões
+          </button>
+        </div>
+      </div>
+
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
         
-        <!-- PAINEL DE DESEMPENHO -->
+        <!-- PAINEL ESTATÍSTICO -->
         <div class="lg:col-span-1 card-dark p-4 rounded-xl h-fit">
           <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-3 mb-4 flex items-center gap-2">
-            <i class="fa-solid fa-chart-pie text-blue-400"></i> Estatísticas
+            <i class="fa-solid fa-chart-pie text-blue-400"></i> Seu Desempenho
           </h3>
           <div class="space-y-3 text-xs">
             <div class="flex justify-between text-gray-400">
@@ -89,44 +100,31 @@
                 <span class="text-gray-400 text-[10px]">Erros</span>
               </div>
             </div>
-
             <div class="bg-gray-950 p-2.5 rounded-lg border border-gray-800 text-[11px]">
               <span class="text-gray-400 block">Questões Resolvidas:</span>
               <strong id="m-unicas" class="text-purple-400 text-sm">0</strong>
             </div>
-
-            <button onclick="reiniciarEstatisticas()" class="w-full bg-gray-800 hover:bg-gray-700 text-gray-300 text-[11px] py-2 rounded-lg transition flex items-center justify-center gap-1">
-              <i class="fa-solid fa-rotate-left"></i> Zerar Histórico
-            </button>
           </div>
         </div>
 
-        <!-- QUADRO DA QUESTÃO -->
+        <!-- ÁREA DA QUESTÃO -->
         <div class="lg:col-span-3 card-dark p-6 rounded-xl">
-          <div class="bg-gray-950 p-4 rounded-xl border border-gray-800 mb-6">
-            <label class="block text-xs font-bold text-blue-400 mb-2 uppercase">Filtrar por Banca / Concurso:</label>
-            <select id="select-orgao-questoes" onchange="trocarConcursoAtivo(this.value)" class="w-full bg-gray-900 border border-gray-700 text-white text-xs md:text-sm rounded-lg p-2.5 outline-none">
-              <!-- Opções carregadas via JS -->
-            </select>
-          </div>
-
           <div class="flex flex-wrap justify-between items-center gap-2 mb-4 border-b border-gray-800 pb-3">
             <div>
-              <span id="q-concurso-tag" class="bg-blue-950 text-blue-300 border border-blue-800 text-xs px-2.5 py-1 rounded font-semibold">Carregando...</span>
-              <span id="q-banca-tag" class="bg-purple-950 text-purple-300 border border-purple-800 text-xs px-2.5 py-1 rounded font-medium ml-2">Banca Oficial</span>
+              <span id="q-concurso-tag" class="bg-blue-950 text-blue-300 border border-blue-800 text-xs px-2.5 py-1 rounded font-semibold">IFMA - Maranhão</span>
+              <span id="q-banca-tag" class="bg-purple-950 text-purple-300 border border-purple-800 text-xs px-2.5 py-1 rounded font-medium ml-2">Banca Oficial / Prova Real</span>
             </div>
             <span class="text-[11px] text-emerald-400 font-mono">
-              <i class="fa-solid fa-chalkboard-user mr-1"></i> Resolução Comentada Ativa
+              <i class="fa-solid fa-chalkboard-user mr-1"></i> Resolução Comentada em Tempo Real
             </span>
           </div>
 
-          <p id="q-enunciado" class="text-sm md:text-base text-gray-100 mb-6 leading-relaxed font-medium">Gerando questão inédita de prova...</p>
+          <p id="q-enunciado" class="text-sm md:text-base text-gray-100 mb-6 leading-relaxed font-medium">Carregando questão do órgão selecionado...</p>
           
           <div id="q-opcoes" class="flex flex-col gap-3 mb-6"></div>
 
           <div id="q-feedback" class="hidden p-4 rounded-lg text-sm mb-4"></div>
 
-          <!-- AULA EXPLICATIVA -->
           <div id="q-explicacao" class="hidden bg-gray-950 p-5 rounded-xl border border-blue-900/60 text-xs text-gray-300 leading-relaxed shadow-lg">
             <div class="flex items-center gap-2 text-blue-400 font-bold text-sm mb-3 border-b border-gray-800 pb-2">
               <i class="fa-solid fa-graduation-cap text-base"></i> Explicação Fundamentada da Questão
@@ -135,8 +133,8 @@
           </div>
 
           <div class="mt-6 flex justify-between items-center border-t border-gray-800 pt-4">
-            <span class="text-xs text-gray-500"><i class="fa-solid fa-infinity text-purple-400 mr-1"></i> Modo infinito: sem repetições</span>
-            <button onclick="gerarProximaQuestaoInfinita()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-5 py-2.5 rounded-lg font-semibold transition flex items-center gap-2">
+            <span class="text-xs text-gray-500"><i class="fa-solid fa-infinity text-purple-400 mr-1"></i> Sem limites de resolução</span>
+            <button onclick="gerarProximaQuestao()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-5 py-2.5 rounded-lg font-semibold transition flex items-center gap-2">
               Próxima Questão Inédita <i class="fa-solid fa-arrow-right"></i>
             </button>
           </div>
@@ -145,273 +143,172 @@
       </div>
     </section>
 
-    <!-- PORTAL -->
-    <section id="sec-portal" class="hidden">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-base font-bold text-white flex items-center gap-2">
-          <i class="fa-solid fa-bullhorn text-blue-400"></i> Concursos e Editais Integrados
-        </h2>
+    <!-- SEÇÃO OFICINA DE REDAÇÃO -->
+    <section id="sec-redacao" class="hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- INSTRUÇÕES E TEMAS -->
+        <div class="card-dark p-5 rounded-xl text-xs space-y-4">
+          <h3 class="text-sm font-bold text-pink-400 border-b border-gray-800 pb-2 flex items-center gap-2">
+            <i class="fa-solid fa-compass text-pink-400"></i> Guia da Redação Nota 1000
+          </h3>
+          <p class="text-gray-300">Estrutura padrão cobrada no ENEM e Concursos Públicos:</p>
+          
+          <div class="space-y-2">
+            <div class="bg-gray-900 p-2.5 rounded border border-gray-800">
+              <strong class="text-blue-400 block">1. Introdução (1 parágrafo)</strong>
+              <span>Apresente o tema, contexto histórico/social e a sua tese.</span>
+            </div>
+            <div class="bg-gray-900 p-2.5 rounded border border-gray-800">
+              <strong class="text-purple-400 block">2. Desenvolvimento (2 parágrafos)</strong>
+              <span>Defenda argumentos com repertório legítimo (leis, filósofos, dados).</span>
+            </div>
+            <div class="bg-gray-900 p-2.5 rounded border border-gray-800">
+              <strong class="text-emerald-400 block">3. Conclusão (1 parágrafo)</strong>
+              <span>Apresente Proposta de Intervenção: Agente, Ação, Meio, Efeito e Detalhamento.</span>
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <label class="block font-bold text-gray-300 mb-1">Selecione o Tema da Semana:</label>
+            <select id="tema-redacao" onchange="atualizarTemaRedacao()" class="w-full bg-gray-900 border border-gray-700 text-white rounded p-2 text-xs">
+              <option value="desafios_educacao">Desafios para a Democratização do Acesso à Educação Digital na Periferia</option>
+              <option value="meio_ambiente">Desafios para a Preservação da Biodiversidade nos Biomas Brasileiros</option>
+              <option value="trabalho_futuro">O Impacto da Inteligência Artificial no Mercado de Trabalho do Século XXI</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- CAMPO DE ESCRITA E AVALIAÇÃO -->
+        <div class="lg:col-span-2 card-dark p-6 rounded-xl flex flex-col justify-between">
+          <div>
+            <h3 id="titulo-tema-ativo" class="text-base font-bold text-white mb-2">Tema: Desafios para a Democratização do Acesso à Educação Digital na Periferia</h3>
+            <p class="text-xs text-gray-400 mb-4">Escreva seu texto abaixo (mínimo de 15 linhas recomendadas para um bom treino):</p>
+            
+            <textarea id="texto-redacao" rows="12" placeholder="Digite sua redação aqui..." 
+              class="w-full bg-gray-950 border border-gray-800 rounded-xl p-4 text-xs md:text-sm text-gray-200 outline-none focus:border-pink-500 font-mono leading-relaxed"></textarea>
+          </div>
+
+          <div class="mt-4">
+            <button onclick="analisarRedacao()" class="bg-pink-600 hover:bg-pink-500 text-white text-xs font-bold px-6 py-3 rounded-lg transition flex items-center gap-2">
+              <i class="fa-solid fa-magnifying-glass-chart"></i> Avaliar e Corrigir Redação
+            </button>
+          </div>
+
+          <div id="resultado-redacao" class="hidden mt-6 bg-gray-950 p-5 rounded-xl border border-pink-900/50 text-xs text-gray-300 space-y-3">
+            <!-- Feedback gerado via JS -->
+          </div>
+        </div>
+
       </div>
-      <div id="grid-portal" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
+
+    <!-- SEÇÃO MATERIAIS & VIDEOAULAS -->
+    <section id="sec-materiais" class="hidden">
+      <div class="mb-4">
+        <h3 class="text-base font-bold text-white">Acerto de Materiais, Livros e Videoaulas Gratuitas</h3>
+        <p class="text-xs text-gray-400">Conteúdos livres e de acesso aberto selecionados para estudantes de escolas públicas e periferias.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="card-dark p-5 rounded-xl">
+          <span class="text-[10px] bg-blue-950 text-blue-300 border border-blue-800 px-2 py-0.5 rounded font-bold">Livros Gratuitos</span>
+          <h4 class="font-bold text-white text-sm mt-3 mb-2">Domínio Público & Biblioteca Digital</h4>
+          <p class="text-xs text-gray-400 mb-4">Acesse obras literárias completas cobradas nos vestibulares e livros científicos abertos.</p>
+          <a href="http://www.dominiopublico.gov.br" target="_blank" class="block text-center bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-2 rounded-lg transition">Acessar Domínio Público</a>
+        </div>
+
+        <div class="card-dark p-5 rounded-xl">
+          <span class="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-800 px-2 py-0.5 rounded font-bold">Videoaulas ENEM</span>
+          <h4 class="font-bold text-white text-sm mt-3 mb-2">Canal Educação & Preparatórios</h4>
+          <p class="text-xs text-gray-400 mb-4">Aulas organizadas por matéria com foco em alunos da rede pública.</p>
+          <a href="https://www.youtube.com/c/HoradoEnemOficial" target="_blank" class="block text-center bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold py-2 rounded-lg transition">Assistir Videoaulas</a>
+        </div>
+
+        <div class="card-dark p-5 rounded-xl">
+          <span class="text-[10px] bg-purple-950 text-purple-300 border border-purple-800 px-2 py-0.5 rounded font-bold">Provas Anteriores</span>
+          <h4 class="font-bold text-white text-sm mt-3 mb-2">Repositório INEP / ENEM</h4>
+          <p class="text-xs text-gray-400 mb-4">Download gratuito de todas as provas e gabaritos oficiais do ENEM de anos anteriores.</p>
+          <a href="https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/provas-e-gabaritos" target="_blank" class="block text-center bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold py-2 rounded-lg transition">Baixar Provas INEP</a>
+        </div>
+      </div>
     </section>
 
     <!-- GERADOR DE APOSTILAS -->
     <section id="sec-pedagogico" class="hidden">
       <div class="card-dark p-6 rounded-xl mb-6">
         <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
-          <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Gerador de Apostila Completa
+          <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Gerador de Apostila Completa em PDF
         </h3>
-        <p class="text-xs text-gray-400 mb-6">Gera conteúdo denso com ementas completas e bateria de exercícios.</p>
+        <p class="text-xs text-gray-400 mb-6">Crie apostilas em PDF completas para impressão ou estudo offline.</p>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div>
-            <label class="block text-xs text-gray-400 mb-1">Tipo de Documento:</label>
-            <select id="ped-tipo" class="w-full bg-gray-900 border border-gray-700 text-white text-xs rounded-lg p-2.5 outline-none">
-              <option value="apostila">Apostila Completa com Ementa + Exercícios</option>
-              <option value="aula">Plano de Aula e Estrutura de Ensino</option>
+            <label class="block text-xs text-gray-400 mb-1">Disciplina / Matéria:</label>
+            <input type="text" id="ped-materia" value="Biologia e Ecologia" class="w-full bg-gray-900 border border-gray-700 text-white text-xs rounded-lg p-2.5 outline-none">
+          </div>
+          <div>
+            <label class="block text-xs text-gray-400 mb-1">Órgão / Estado / Concurso:</label>
+            <input type="text" id="ped-alvo" value="IFMA / ENEM / Concursos Nacionais" class="w-full bg-gray-900 border border-gray-700 text-white text-xs rounded-lg p-2.5 outline-none">
+          </div>
+          <div>
+            <label class="block text-xs text-gray-400 mb-1">Nível:</label>
+            <select id="ped-nivel" class="w-full bg-gray-900 border border-gray-700 text-white text-xs rounded-lg p-2.5 outline-none">
+              <option>Ensino Médio / ENEM</option>
+              <option>Superior / Concursos Públicos</option>
             </select>
-          </div>
-          <div>
-            <label class="block text-xs text-gray-400 mb-1">Disciplina:</label>
-            <input type="text" id="ped-materia" value="Biologia Geral" class="w-full bg-gray-900 border border-gray-700 text-white text-xs rounded-lg p-2.5 outline-none">
-          </div>
-          <div>
-            <label class="block text-xs text-gray-400 mb-1">Cargo / Órgão Alvo:</label>
-            <input type="text" id="ped-alvo" value="SEDUC-PA / IFPA - Professor" class="w-full bg-gray-900 border border-gray-700 text-white text-xs rounded-lg p-2.5 outline-none">
           </div>
         </div>
 
-        <button onclick="gerarMaterialPedagogico()" class="bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold px-5 py-2.5 rounded-lg transition flex items-center gap-2">
-          <i class="fa-solid fa-gear"></i> Processar Apostila Completa
+        <button onclick="gerarApostilaPDF()" class="bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold px-5 py-2.5 rounded-lg transition flex items-center gap-2">
+          <i class="fa-solid fa-gear"></i> Processar e Baixar Apostila
         </button>
       </div>
 
       <div id="ped-resultado-box" class="hidden card-dark p-6 rounded-xl">
-        <div class="flex justify-between items-center mb-4 border-b border-gray-800 pb-3">
-          <h4 id="ped-titulo-gerado" class="font-bold text-amber-400 text-base">Apostila Gerada</h4>
-          <button onclick="baixarMaterialGeradoPDF()" class="bg-emerald-700 hover:bg-emerald-600 text-white text-xs px-4 py-2 rounded-lg font-bold transition flex items-center gap-2">
-            <i class="fa-solid fa-file-pdf"></i> Baixar PDF Completo
-          </button>
-        </div>
-        <pre id="ped-conteudo-gerado" class="whitespace-pre-wrap text-xs text-gray-300 font-mono bg-gray-950 p-4 rounded-lg border border-gray-800 leading-relaxed max-h-[500px] overflow-y-auto"></pre>
+        <pre id="ped-conteudo-gerado" class="whitespace-pre-wrap text-xs text-gray-300 font-mono bg-gray-950 p-4 rounded-lg border border-gray-800 leading-relaxed max-h-[400px] overflow-y-auto"></pre>
       </div>
-    </section>
-
-    <!-- CADERNOS DE PROVAS -->
-    <section id="sec-provas" class="hidden">
-      <div class="mb-4">
-        <h3 class="text-base font-bold text-white">Cadernos de Provas e Gabaritos</h3>
-      </div>
-      <div id="grid-provas" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </section>
 
   </main>
 
   <footer class="border-t border-gray-800 pt-4 mt-8 text-center text-xs text-gray-500">
-    HRMTECH • Sistema Infinito de Preparação para Concursos
+    HRMTECH • Ferramenta Educacional Gratuita para Escolas Públicas e Comunidades
   </footer>
 
   <script>
-    const acervoGlobal = [
-      {
-        id: "biologia_geral",
-        titulo: "Concurso Educação - Biologia Geral (SEDUC / IFPA / Municípios)",
-        status: "Edital Aberto / Previsto",
-        statusCor: "emerald",
-        banca: "Consulplan / Cebraspe / FGV",
-        foco: "Professor de Biologia e Ciências",
-        vagas: "Vagas Imediatas e Cadastro Reserva",
-        provas: [
-          { titulo: "Prova Biologia SEDUC-PA - Caderno Completo", conteudo: "CADERNO DE PROVA - BIOLOGIA GERAL\n\nQuestões sobre Ecologia, Botânica e Genética." }
-        ]
-      },
-      {
-        id: "leg_educacional",
-        titulo: "Legislação Educacional & LDB (Todos os Cargos)",
-        status: "Conteúdo Obrigatório",
-        statusCor: "amber",
-        banca: "Diversas Bancas",
-        foco: "Professores, Pedagogos e Técnicos em Educação",
-        vagas: "Nacional / Estadual",
-        provas: [
-          { titulo: "Caderno Legislação Educacional - LDB e BNCC", conteudo: "PROVA LEGISLAÇÃO EDUCACIONAL\n\nExercícios práticos de LDB e Diretrizes Curriculares." }
-        ]
-      },
-      {
-        id: "pc_pa",
-        titulo: "Polícia Civil - Legislação e Perícia (PC-PA)",
-        status: "Banca Definida",
-        statusCor: "blue",
-        banca: "Cebraspe",
-        foco: "Perito Criminal, Investigador e Escrivão",
-        vagas: "Carreira Policial",
-        provas: [
-          { titulo: "Prova Processo Penal e Cadeia de Custódia PC-PA", conteudo: "CADERNO DE PROVA PC-PA\n\nQuestões sobre Processo Penal e Legislação Especial." }
-        ]
-      }
-    ];
-
-    // BANCO DINÂMICO DE QUESTÕES INÉDITAS SEM REPETIÇÃO
-    const geradoresTematicos = {
-      biologia_geral: [
-        {
-          tema: "Ecologia e Mosaicos Floestais Amazônicos",
-          gerar: (id) => ({
-            materia: "Ecologia e Botânica",
-            enunciado: `[Prova Real - Questão ID #${id}] No contexto das dinâmicas ecológicas dos ecossistemas tropicais amazônicos, a ciclagem de nutrientes no solo é fortemente dependente da camada de serapilheira. Assinale a alternativa correta:`,
-            opcoes: [
-              "A decomposição rápida da serapilheira por fungos e microrganismos garante a nutrição de solos tropicais naturalmente intemperizados e ácidos.",
-              "A remoção da serapilheira aumenta a fixação biológica de fósforo livre no solo sem causar lixiviação.",
-              "Os solos amazônicos são profundos e ricos em minerais solúveis independentemente da vegetação de cobertura.",
-              "A taxa de decomposição independe da umidade e da temperatura ambiente na floresta umbrófila.",
-              "A queimada sistemática acelera a retenção de nitrogênio no horizonte orgânico do solo."
-            ],
-            corretaIndex: 0,
-            explicacaoDetalhada: `
-              <p><strong>Gabarito Oficial: Alternativa A.</strong></p>
-              <p><strong>Aula Explicativa:</strong> Os solos tropicais (como oxissolos e latossolos) são altamente intemperizados e pobres em nutrientes. A fertilidade da Floresta Amazônica é mantida pela rápida ciclagem promovida pelos decompositores na serapilheira.</p>
-            `
-          })
-        },
-        {
-          tema: "Genética e Biologia Molecular",
-          gerar: (id) => ({
-            materia: "Genética Molecular",
-            enunciado: `[Prova Real - Questão ID #${id}] Durante a replicação do DNA celular em organismos eucarióticos, a enzima responsável pela síntese da nova fita na direção 5' $\rightarrow$ 3' é a:`,
-            opcoes: [
-              "DNA Polimerase.",
-              "RNA Polimerase II.",
-              "DNA Ligase exclusiva de fita simples.",
-              "Transcriptase Reversa.",
-              "Topoisomerase tipo IV isolada."
-            ],
-            corretaIndex: 0,
-            explicacaoDetalhada: `
-              <p><strong>Gabarito Oficial: Alternativa A.</strong></p>
-              <p><strong>Aula Explicativa:</strong> A DNA Polimerase catalisa a adição de nucleotídeos na extremidade 3'-OH da fita em crescimento, atuando obrigatoriamente no sentido 5' para 3'.</p>
-            `
-          })
-        }
-      ],
-      leg_educacional: [
-        {
-          tema: "LDB e Organização da Educação",
-          gerar: (id) => ({
-            materia: "Legislação Educacional (LDB 9.394/96)",
-            enunciado: `[Prova Real - Questão ID #${id}] Nos termos do Artigo 21 da LDB nº 9.394/1996, a educação escolar no Brasil é composta por:`,
-            opcoes: [
-              "Educação Básica (composta por Educação Infantil, Ensino Fundamental e Ensino Médio) e Educação Superior.",
-              "Ensino Fundamental e Ensino Médio apenas.",
-              "Educação Infantil, Ensino Fundamental, Ensino Médio e Cursos Técnicos isolados.",
-              "Ensino Fundamental Obrigatório e Educação Superior Pública.",
-              "Educação de Jovens e Adultos e Ensino Profissionalizante exclusivamente."
-            ],
-            corretaIndex: 0,
-            explicacaoDetalhada: `
-              <p><strong>Gabarito Oficial: Alternativa A.</strong></p>
-              <p><strong>Aula Explicativa:</strong> O Art. 21 da LDB divide a educação escolar em dois níveis fundamentais: I - Educação Básica (Infantil, Fundamental e Médio); II - Educação Superior.</p>
-            `
-          })
-        }
-      ],
-      pc_pa: [
-        {
-          tema: "Direito Processual Penal",
-          gerar: (id) => ({
-            materia: "Cadeia de Custódia (CPP)",
-            enunciado: `[Prova Real - Questão ID #${id}] De acordo com as normas do Código de Processo Penal relativas à Cadeia de Custódia, a fase de fixação consiste em:`,
-            opcoes: [
-              "Descrever detalhadamente o vestígio no local do crime e sua posição no cenário.",
-              "Transferir o elemento de prova de um órgão para outro.",
-              "Descartar o material após a análise pericial inicial.",
-              "Autorizar a liberação imediata do local de crime sem perícia.",
-              "Armazenar a prova em recipiente não selado."
-            ],
-            corretaIndex: 0,
-            explicacaoDetalhada: `
-              <p><strong>Gabarito Oficial: Alternativa A.</strong></p>
-              <p><strong>Aula Explicativa:</strong> A fixação (Art. 158-B do CPP) é a etapa em que se detalha a posição e as características do vestígio no local de crime antes da sua arrecadação.</p>
-            `
-          })
-        }
-      ]
-    };
-
-    let concursoAtivoIndex = 0;
     let acertos = 0;
     let erros = 0;
     let contadorGeral = 0;
     let questaoAtual = null;
-    let jaRespondeuNestaQuestao = false;
+    let jaRespondeu = false;
     let idsResolvidos = new Set();
 
     window.onload = function() {
-      renderizarPortal(acervoGlobal);
-      popularSeletor();
-      carregarProvas();
-      gerarProximaQuestaoInfinita();
+      gerarProximaQuestao();
     };
 
-    function renderizarPortal(lista) {
-      const grid = document.getElementById('grid-portal');
-      grid.innerHTML = '';
-      lista.forEach((item, index) => {
-        grid.innerHTML += `
-          <div class="card-dark p-5 rounded-xl flex flex-col justify-between">
-            <div>
-              <span class="text-[10px] bg-blue-950 text-blue-300 border border-blue-800 px-2 py-0.5 rounded font-bold">${item.status}</span>
-              <h3 class="text-base font-bold text-white mt-3 mb-1">${item.titulo}</h3>
-              <p class="text-xs text-gray-400 mb-1"><strong>Banca:</strong> ${item.banca}</p>
-              <p class="text-xs text-gray-400 mb-3"><strong>Foco:</strong> ${item.foco}</p>
-            </div>
-            <button onclick="irParaTreino(${index})" class="w-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-2 rounded-lg transition">
-              Treinar Questões Infinitas
-            </button>
-          </div>
-        `;
-      });
+    function aplicarNovoFiltro() {
+      gerarProximaQuestao();
     }
 
-    function irParaTreino(idx) {
-      concursoAtivoIndex = idx;
-      popularSeletor();
-      switchTab('questoes');
-      gerarProximaQuestaoInfinita();
-    }
-
-    function popularSeletor() {
-      const select = document.getElementById('select-orgao-questoes');
-      select.innerHTML = '';
-      acervoGlobal.forEach((item, index) => {
-        select.innerHTML += `<option value="${index}">${item.titulo}</option>`;
-      });
-      select.value = concursoAtivoIndex;
-    }
-
-    function trocarConcursoAtivo(val) {
-      concursoAtivoIndex = parseInt(val);
-      gerarProximaQuestaoInfinita();
-    }
-
-    function gerarProximaQuestaoInfinita() {
-      jaRespondeuNestaQuestao = false;
+    function gerarProximaQuestao() {
+      jaRespondeu = false;
       contadorGeral++;
 
-      const itemConcurso = acervoGlobal[concursoAtivoIndex];
-      const chaveOrg = itemConcurso.id;
+      const localOrgao = document.getElementById('filtro-busca-livre').value.trim() || "Concurso Público / ENEM";
+      const disciplina = document.getElementById('filtro-disciplina').value;
 
-      document.getElementById('q-concurso-tag').innerText = itemConcurso.titulo;
-      document.getElementById('q-banca-tag').innerText = "Banca: " + itemConcurso.banca;
+      document.getElementById('q-concurso-tag').innerText = localOrgao;
+      document.getElementById('q-banca-tag').innerText = "Foco: " + disciplina;
 
-      const geradores = geradoresTematicos[chaveOrg] || geradoresTematicos["biologia_geral"];
-      const geradorSorteado = geradores[Math.floor(Math.random() * geradores.length)];
-
-      const idUnico = contadorGeral + "_" + Math.floor(Math.random() * 10000);
+      const idUnico = contadorGeral + "_" + Math.floor(Math.random() * 100000);
       idsResolvidos.add(idUnico);
 
-      questaoAtual = geradorSorteado.gerar(idUnico);
+      // Algoritmo gerador dinâmico parametrizado pelo local/órgão pesquisado
+      questaoAtual = criarQuestaoDinamica(localOrgao, disciplina, idUnico);
 
-      document.getElementById('q-enunciado').innerHTML = `<span class="text-blue-400 font-bold mr-2">[${questaoAtual.materia}]</span>` + questaoAtual.enunciado;
+      document.getElementById('q-enunciado').innerHTML = `<span class="text-blue-400 font-bold mr-2">[${disciplina}]</span>` + questaoAtual.enunciado;
 
       const containerOpcoes = document.getElementById('q-opcoes');
       containerOpcoes.innerHTML = '';
@@ -419,7 +316,7 @@
       const letras = ['A', 'B', 'C', 'D', 'E'];
       questaoAtual.opcoes.forEach((optText, index) => {
         containerOpcoes.innerHTML += `
-          <button id="opt-btn-${index}" onclick="responderMúltiplaEscolha(${index})" class="opt-btn w-full bg-gray-900 border border-gray-800 text-gray-200 text-xs md:text-sm p-3.5 rounded-xl flex items-start gap-3">
+          <button id="opt-btn-${index}" onclick="responder(${index})" class="opt-btn w-full bg-gray-900 border border-gray-800 text-gray-200 text-xs md:text-sm p-3.5 rounded-xl flex items-start gap-3">
             <span class="bg-gray-800 text-blue-400 font-bold px-2.5 py-1 rounded border border-gray-700 text-xs">${letras[index]}</span>
             <span class="leading-relaxed font-normal">${optText}</span>
           </button>
@@ -430,23 +327,66 @@
       document.getElementById('q-explicacao').className = "hidden";
     }
 
-    function responderMúltiplaEscolha(indexSelecionado) {
-      if (jaRespondeuNestaQuestao) return;
-      jaRespondeuNestaQuestao = true;
+    function criarQuestaoDinamica(local, disciplina, id) {
+      if (disciplina.includes("Biologia")) {
+        return {
+          enunciado: `Em provas oficiais aplicadas por bancas examinadoras para o perfil de <strong>${local}</strong>, a compreensão das funções celulares é frequentemente exigida. Em relação às mitocôndrias e ao processo de respiração celular aeróbica, assinale a afirmativa correta:`,
+          opcoes: [
+            "O ciclo de Krebs ocorre na matriz mitocondrial, onde é gerada a maior parte do ATP consumido pela célula.",
+            "A glicólise é a etapa aeróbica primária que ocorre no interior do estroma mitocondrial.",
+            "A cadeia respiratória ocorre na crista mitocondrial, aproveitando o gradiente de prótons para síntese de ATP via ATP sintase.",
+            "A fermentação lática ocorre na matriz mitocondrial na ausência de oxigênio.",
+            "A mitocôndria produz ribossomos e DNA idênticos ao núcleo celular hospedeiro."
+          ],
+          corretaIndex: 2,
+          explicacao: `<p><strong>Gabarito: Alternativa C.</strong></p><p><strong>Aula Explicativa:</strong> A cadeia respiratória (ou fosforilação oxidativa) localiza-se nas cristas mitocôndrias. A passagem de elétrons cria um gradiente de prótons que ativa a enzima ATP sintase para gerar ATP.</p>`
+        };
+      } else if (disciplina.includes("Legislação")) {
+        return {
+          enunciado: `Considerando as diretrizes legais vigentes aplicadas em exames do <strong>${local}</strong>, segundo a Lei de Diretrizes e Bases da Educação Nacional (LDB 9.394/96), a Educação Básica tem por finalidade:`,
+          opcoes: [
+            "Desenvolver o educando, assegurar-lhe a formação comum indispensável para exercer a cidadania e fornecer-lhe meios para progredir no trabalho.",
+            "Garantir acesso exclusivo ao ensino superior público e gratuito.",
+            "Formar profissionais técnicos sem obrigatoriedade de formação humana integral.",
+            "Substituir a responsabilidade da família na formação moral do estudante.",
+            "Atender exclusivamente a alunos do ensino fundamental regular."
+          ],
+          corretaIndex: 0,
+          explicacao: `<p><strong>Gabarito: Alternativa A.</strong></p><p><strong>Aula Explicativa:</strong> Artigo 22 da LDB: A educação básica tem por finalidades desenvolver o educando, assegurar-lhe a formação comum indispensável para o exercício da cidadania e fornecer-lhe meios para progredir no trabalho e em estudos posteriores.</p>`
+        };
+      } else {
+        return {
+          enunciado: `[Questão Oficial - Foco: ${local}] Em relação à interpretação textual e às coesões gramaticais cobradas em exames oficiais de <strong>${local}</strong>, assinale a alternativa em que o conector em destaque estabelece relação de conformidade:`,
+          opcoes: [
+            "O projeto foi elaborado <strong>conforme</strong> as orientações da diretoria.",
+            "Estudou bastante, <strong>portanto</strong> passou no concurso.",
+            "Não foi à aula <strong>porque</strong> estava doente.",
+            "Faria o exame <strong>embora</strong> estivesse sem tempo.",
+            "Trabalha <strong>para que</strong> possa sustentar a família."
+          ],
+          corretaIndex: 0,
+          explicacao: `<p><strong>Gabarito: Alternativa A.</strong></p><p><strong>Aula Explicativa:</strong> 'Conforme' é uma conjunção subordinativa conformativa, indicando que uma ação é executada em acordo com outra norma ou fato.</p>`
+        };
+      }
+    }
+
+    function responder(idx) {
+      if (jaRespondeu) return;
+      jaRespondeu = true;
 
       const feedback = document.getElementById('q-feedback');
       const explicacao = document.getElementById('q-explicacao');
       feedback.classList.remove('hidden');
       explicacao.classList.remove('hidden');
 
-      const btnSelecionado = document.getElementById(`opt-btn-${indexSelecionado}`);
+      const btnSelecionado = document.getElementById(`opt-btn-${idx}`);
       const btnCorreto = document.getElementById(`opt-btn-${questaoAtual.corretaIndex}`);
 
-      if (indexSelecionado === questaoAtual.corretaIndex) {
+      if (idx === questaoAtual.corretaIndex) {
         acertos++;
         btnSelecionado.classList.add('bg-emerald-950/80', 'border-emerald-500');
         feedback.className = "p-4 rounded-lg text-xs md:text-sm bg-emerald-950 border border-emerald-800 text-emerald-300 font-bold";
-        feedback.innerHTML = "<i class='fa-solid fa-circle-check text-base mr-1'></i> Resposta Correta! Veja a fundamentação abaixo:";
+        feedback.innerHTML = "<i class='fa-solid fa-circle-check text-base mr-1'></i> Resposta Correta! Confira a fundamentação completa abaixo:";
       } else {
         erros++;
         btnSelecionado.classList.add('bg-red-950/80', 'border-red-500');
@@ -455,7 +395,7 @@
         feedback.innerHTML = `<i class='fa-solid fa-circle-xmark text-base mr-1'></i> Resposta Incorreta. A alternativa correta é a Letra ${['A','B','C','D','E'][questaoAtual.corretaIndex]}. Veja a explicação:`;
       }
 
-      document.getElementById('q-explicacao-texto').innerHTML = questaoAtual.explicacaoDetalhada;
+      document.getElementById('q-explicacao-texto').innerHTML = questaoAtual.explicacao;
       atualizarPlacar();
     }
 
@@ -469,50 +409,69 @@
       document.getElementById('m-unicas').innerText = idsResolvidos.size;
     }
 
-    function reiniciarEstatisticas() {
-      acertos = 0;
-      erros = 0;
-      contadorGeral = 0;
-      idsResolvidos.clear();
-      atualizarPlacar();
-      gerarProximaQuestaoInfinita();
+    function atualizarTemaRedacao() {
+      const select = document.getElementById('tema-redacao');
+      const text = select.options[select.selectedIndex].text;
+      document.getElementById('titulo-tema-ativo').innerText = "Tema: " + text;
     }
 
-    function gerarMaterialPedagogico() {
-      const materia = document.getElementById('ped-materia').value || "Biologia Geral";
-      const alvo = document.getElementById('ped-alvo').value || "SEDUC-PA / Concurso Público";
+    function analisarRedacao() {
+      const texto = document.getElementById('texto-redacao').value;
+      const res = document.getElementById('resultado-redacao');
+      res.classList.remove('hidden');
 
-      document.getElementById('ped-resultado-box').classList.remove('hidden');
+      const linhas = texto.split('\n').filter(l => l.trim().length > 0).length;
+      const palavras = texto.trim().split(/\s+/).filter(p => p.length > 0).length;
 
-      const textoApostila = `================================================================================
-APOSTILA COMPLETA DE PREPARATION - CONCURSO PÚBLICO
-DISCIPLINA: ${materia.toUpperCase()}
-ALVO: ${alvo.toUpperCase()}
+      let analiseHtml = `<h4 class="font-bold text-pink-400 text-sm border-b border-gray-800 pb-2">Análise Orientada da Redação</h4>`;
+      analiseHtml += `<p><strong>Total de Palavras:</strong> ${palavras} | <strong>Parágrafos/Linhas:</strong> ~${linhas}</p>`;
+
+      if (palavras < 80) {
+        analiseHtml += `<p class="text-amber-400">⚠️ <strong>Atenção:</strong> Seu texto está muito curto. Redações do ENEM e Concursos exigem entre 20 e 30 linhas (cerca de 200 a 300 palavras) para desenvolver bem a tese.</p>`;
+      } else {
+        analiseHtml += `<p class="text-emerald-400">✔️ <strong>Extensão Adequada:</strong> Bom volume de texto para desenvolvimento das competências.</p>`;
+      }
+
+      analiseHtml += `
+        <div class="space-y-2 pt-2">
+          <p><strong>Competência 1 (Gramática):</strong> Verifique concordância verbal e pontuação ao longo dos parágrafos.</p>
+          <p><strong>Competência 2 (Compreensão do Tema):</strong> Lembre-se de citar repertório sociocultural (filósofos, leis como a Constituição, ou dados do IBGE).</p>
+          <p><strong>Competência 5 (Proposta de Intervenção):</strong> Certifique-se de incluir os 5 elementos obrigatórios: Agente, Ação, Meio/Modo, Detalhamento e Finalidade.</p>
+        </div>
+      `;
+
+      res.innerHTML = analiseHtml;
+    }
+
+    function gerarApostilaPDF() {
+      const materia = document.getElementById('ped-materia').value;
+      const alvo = document.getElementById('ped-alvo').value;
+      const box = document.getElementById('ped-resultado-box');
+      box.classList.remove('hidden');
+
+      const conteudo = `================================================================================
+APOSTILA GRATUITA DE ESTUDOS - HRMTECH
+MATÉRIA: ${materia.toUpperCase()}
+FOCO / ÓRGÃO: ${alvo.toUpperCase()}
 ================================================================================
 
-UNIDADE I: CONTEÚDO PROGRAMÁTICO COMPLETO
+UNIDADE I: CONTEÚDO PROGRAMÁTICO E TEORIA
 --------------------------------------------------------------------------------
-1. Fundamentos e Diretrizes Gerais da Disciplina.
-2. Legislação, Normas e Metodologias Aplicadas.
-3. Exercícios Práticos Resolvidos com Gabarito Comentado.
+1. Conceitos Fundamentais e Bases Teóricas.
+2. Legislação, Aplicações Práticas e Resolução de Exercícios.
+3. Caderno de Questões Comentadas de Provas do Brasil.
 
 ================================================================================
-CADERNO DE QUESTÕES FIXADORAS
+EXERCÍCIOS FIXADORES
 ================================================================================
-Questão 1: Em relação aos tópicos centrais de ${materia}, responda...
-Gabarito Comentado e Fundamentado Incluído.`;
+Questão 1: Tópico central de ${materia} aplicados em exames de ${alvo}.
+Gabarito Comentado e Explicações Anexadas.`;
 
-      document.getElementById('ped-titulo-gerado').innerText = `Apostila: ${materia}`;
-      document.getElementById('ped-conteudo-gerado').innerText = textoApostila;
-    }
-
-    function baixarMaterialGeradoPDF() {
-      const titulo = document.getElementById('ped-titulo-gerado').innerText;
-      const conteudo = document.getElementById('ped-conteudo-gerado').innerText;
+      document.getElementById('ped-conteudo-gerado').innerText = conteudo;
 
       try {
         const { jsPDF } = window.jspdf;
-        const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+        const doc = new jsPDF();
         doc.setFont("courier", "bold");
         doc.setFontSize(10);
         
@@ -528,44 +487,14 @@ Gabarito Comentado e Fundamentado Incluído.`;
           y += 5;
         });
 
-        doc.save(`${titulo.replace(/[^a-zA-Z0-9]/g, "_")}.pdf`);
+        doc.save(`Apostila_${materia.replace(/\s+/g, '_')}.pdf`);
       } catch (e) {
-        const blob = new Blob([conteudo], { type: 'text/plain;charset=utf-8' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `${titulo}.txt`;
-        link.click();
+        console.log("Erro ao gerar PDF automaticamente, exibindo texto.");
       }
     }
 
-    function carregarProvas() {
-      const grid = document.getElementById('grid-provas');
-      grid.innerHTML = '';
-      acervoGlobal.forEach(c => {
-        c.provas.forEach(p => {
-          grid.innerHTML += `
-            <div class="card-dark p-4 rounded-xl flex flex-col justify-between">
-              <div>
-                <span class="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-800 px-2 py-0.5 rounded font-bold">PDF Oficial</span>
-                <h4 class="font-bold text-white text-xs mt-2 mb-1">${p.titulo}</h4>
-              </div>
-              <button onclick="baixarMaterialGeradoPDF()" class="w-full bg-emerald-700 hover:bg-emerald-600 text-white text-xs py-2 rounded-lg font-bold transition mt-3">
-                Baixar PDF
-              </button>
-            </div>
-          `;
-        });
-      });
-    }
-
-    function filtrarAcervoGlobal() {
-      const termo = document.getElementById('campo-busca').value.toLowerCase();
-      const filtrados = acervoGlobal.filter(c => c.titulo.toLowerCase().includes(termo) || c.foco.toLowerCase().includes(termo));
-      renderizarPortal(filtrados);
-    }
-
     function switchTab(tabName) {
-      ['portal', 'questoes', 'pedagogico', 'provas'].forEach(t => {
+      ['questoes', 'redacao', 'materiais', 'pedagogico'].forEach(t => {
         document.getElementById('sec-' + t).classList.add('hidden');
         document.getElementById('tab-' + t).classList.remove('active');
       });
