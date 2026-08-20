@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HRMTech - Concursos & Provas</title>
+  <title>HRMTech - Plafatorma de Estudos</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body { background-color: #0b0f19; color: #f3f4f6; font-family: sans-serif; }
+    body { background-color: #0b0f19; color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif; }
     .card-dark { background-color: #111827; border: 1px solid #1f2937; }
-    .card-dark:hover { border-color: #3b82f6; }
+    .tab-btn.active { border-bottom: 2px solid #3b82f6; color: #3b82f6; font-weight: bold; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between p-4 md:p-8">
 
   <!-- HEADER -->
-  <header class="flex flex-wrap justify-between items-center gap-4 mb-8">
+  <header class="flex flex-wrap justify-between items-center gap-4 mb-6">
     <div class="flex items-center gap-3">
       <div class="bg-blue-600 text-white font-bold px-4 py-2 rounded-lg text-xl tracking-wide shadow-lg shadow-blue-500/30">
         HRMTECH
@@ -36,118 +36,180 @@
     </div>
   </header>
 
-  <!-- HERO SECTION -->
+  <!-- NAVEGAÇÃO POR ABAS -->
+  <nav class="flex border-b border-gray-800 mb-6 gap-6 text-sm text-gray-400">
+    <button onclick="switchTab('concursos')" id="tab-concursos" class="tab-btn active pb-3 flex items-center gap-2">
+      <i class="fa-solid fa-list-check"></i> Concursos & Provas
+    </button>
+    <button onclick="switchTab('questoes')" id="tab-questoes" class="tab-btn pb-3 flex items-center gap-2">
+      <i class="fa-solid fa-pen-to-square"></i> Resolver Questões
+    </button>
+    <button onclick="switchTab('biblioteca')" id="tab-biblioteca" class="tab-btn pb-3 flex items-center gap-2">
+      <i class="fa-solid fa-book-bookmark"></i> Livros, Apostilas & PDFs
+    </button>
+  </nav>
+
   <main class="max-w-7xl mx-auto w-full flex-grow">
-    <div class="mb-10 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-6 bg-gradient-to-r from-gray-900 to-gray-800 p-6 rounded-2xl border border-gray-800">
-      <div>
-        <h2 class="text-2xl md:text-4xl font-extrabold text-white mb-2">
-          Prepare-se para <span class="text-blue-500">Polícia Civil, PRF, Docas e Área Fiscal</span>
-        </h2>
-        <p class="text-gray-400 text-sm md:text-base">
-          Acesse provas, gabaritos, apostilas com imagens, mapas mentais e atualizações oficiais em tempo real.
+
+    <!-- ABA 1: CONCURSOS -->
+    <section id="sec-concursos">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- CARD POLÍCIA CIVIL -->
+        <div class="card-dark p-5 rounded-xl flex flex-col justify-between gap-4">
+          <div>
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-lg font-bold text-white">Polícia Civil - Delegado</h3>
+              <span class="bg-blue-950 text-blue-300 text-xs px-2 py-0.5 rounded border border-blue-800">2021</span>
+            </div>
+            <p class="text-xs text-gray-400 mb-3">Banca: <strong class="text-gray-200">Cebraspe</strong> | Área: <strong class="text-gray-200">Policial</strong></p>
+            <div class="bg-gray-950 p-2.5 rounded-lg border border-gray-800 text-xs text-gray-300 mb-4">
+              <span class="text-gray-500 font-semibold">Foco:</span> Direito Processual Penal & Constitucional
+            </div>
+          </div>
+          <div class="space-y-2">
+            <button onclick="switchTab('questoes')" class="w-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center gap-2 transition">
+              <i class="fa-solid fa-play"></i> Treinar Questões deste Concurso
+            </button>
+            <a href="https://www.cebraspe.org.br/concursos/" target="_blank" class="w-full bg-gray-900 hover:bg-gray-800 text-gray-400 hover:text-gray-200 text-[11px] py-1.5 px-3 rounded-lg flex items-center justify-center gap-2 border border-gray-800 transition">
+              <i class="fa-solid fa-globe text-blue-400"></i> Ver Editais no Site Oficial (Cebraspe)
+            </a>
+          </div>
+        </div>
+
+        <!-- CARD IBAMA -->
+        <div class="card-dark p-5 rounded-xl flex flex-col justify-between gap-4">
+          <div>
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-lg font-bold text-white">IBAMA - Analista Ambiental</h3>
+              <span class="bg-blue-950 text-blue-300 text-xs px-2 py-0.5 rounded border border-blue-800">2022</span>
+            </div>
+            <p class="text-xs text-gray-400 mb-3">Banca: <strong class="text-gray-200">Cebraspe</strong> | Área: <strong class="text-gray-200">Ambiental</strong></p>
+            <div class="bg-gray-950 p-2.5 rounded-lg border border-gray-800 text-xs text-gray-300 mb-4">
+              <span class="text-gray-500 font-semibold">Foco:</span> Licenciamento Ambiental & Botânica
+            </div>
+          </div>
+          <div class="space-y-2">
+            <button onclick="switchTab('questoes')" class="w-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center gap-2 transition">
+              <i class="fa-solid fa-play"></i> Treinar Questões deste Concurso
+            </button>
+            <a href="https://www.gov.br/ibama/pt-br" target="_blank" class="w-full bg-gray-900 hover:bg-gray-800 text-gray-400 hover:text-gray-200 text-[11px] py-1.5 px-3 rounded-lg flex items-center justify-center gap-2 border border-gray-800 transition">
+              <i class="fa-solid fa-globe text-blue-400"></i> Ver Editais no Site Oficial (IBAMA)
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ABA 2: MÓDULO DE QUESTÕES -->
+    <section id="sec-questoes" class="hidden">
+      <div class="card-dark p-6 rounded-xl max-w-3xl mx-auto">
+        <div class="flex justify-between items-center mb-4">
+          <span class="bg-blue-950 text-blue-400 border border-blue-800 text-xs px-2.5 py-1 rounded-md">Questão 1 de 10</span>
+          <span class="text-xs text-gray-400">Banca: Cebraspe • Direito Constitucional</span>
+        </div>
+        
+        <p class="text-sm md:text-base text-gray-200 mb-6 leading-relaxed">
+          A respeito dos direitos e garantias fundamentais previstos na Constituição Federal de 1988, julgue o item a seguir: É livre a manifestação do pensamento, sendo permitido o anonimato em situações de denúncia ambiental grave.
         </p>
+
+        <div class="flex flex-col sm:flex-row gap-3 mb-6">
+          <button onclick="responder(false)" class="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-200 py-3 rounded-lg text-sm font-semibold border border-gray-700 transition">
+            Certo
+          </button>
+          <button onclick="responder(true)" class="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-200 py-3 rounded-lg text-sm font-semibold border border-gray-700 transition">
+            Errado
+          </button>
+        </div>
+
+        <div id="resultado-questao" class="hidden p-4 rounded-lg text-sm mb-4"></div>
+
+        <div id="explicacao-ia" class="hidden bg-gray-950 p-4 rounded-lg border border-gray-800 text-xs text-gray-300">
+          <strong class="text-blue-400 flex items-center gap-1 mb-1"><i class="fa-solid fa-robot"></i> Explicação HRMTech AI:</strong>
+          A afirmação está <strong>ERRADA</strong>. O Artigo 5º, inciso IV da CF/88 estabelece que é livre a manifestação do pensamento, sendo <strong>vedado (proibido) o anonimato</strong> em qualquer hipótese.
+        </div>
       </div>
-      <div class="flex gap-3 shrink-0">
-        <div class="bg-gray-900/80 border border-gray-700 rounded-xl p-3 text-center min-w-[90px]">
-          <span class="block text-blue-400 font-bold text-lg">100%</span>
-          <span class="text-[10px] text-gray-400 uppercase">Gratuito</span>
-        </div>
-        <div class="bg-gray-900/80 border border-gray-700 rounded-xl p-3 text-center min-w-[90px]">
-          <span class="block text-emerald-400 font-bold text-lg">Gemini</span>
-          <span class="text-[10px] text-gray-400 uppercase">IA Integrada</span>
-        </div>
-        <div class="bg-gray-900/80 border border-gray-700 rounded-xl p-3 text-center min-w-[90px]">
-          <span class="block text-purple-400 font-bold text-lg">PDFs</span>
-          <span class="text-[10px] text-gray-400 uppercase">Download</span>
-        </div>
-      </div>
-    </div>
+    </section>
 
-    <!-- CARDS DE CONCURSOS -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-
-      <!-- CARD 1: Polícia Civil -->
-      <div class="card-dark p-5 rounded-xl flex flex-col justify-between gap-4">
-        <div>
-          <div class="flex justify-between items-start mb-2">
-            <h3 class="text-lg font-bold text-white">Polícia Civil - Delegado de Polícia</h3>
-            <span class="bg-blue-950 text-blue-300 text-xs px-2 py-0.5 rounded border border-blue-800">2021</span>
+    <!-- ABA 3: BIBLIOTECA DE DOWNLOADS -->
+    <section id="sec-biblioteca" class="hidden">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        
+        <!-- MATERIAIS DE DOWNLOAD -->
+        <div class="card-dark p-4 rounded-xl flex flex-col justify-between">
+          <div>
+            <span class="text-[10px] bg-purple-950 text-purple-300 border border-purple-800 px-2 py-0.5 rounded">Apostila Ilustrada</span>
+            <h4 class="font-bold text-white text-base mt-2 mb-1">Botânica e Licenciamento</h4>
+            <p class="text-xs text-gray-400 mb-3">Contém esquemas visuais, imagens de espécies e resumos para IBAMA.</p>
           </div>
-          <p class="text-xs text-gray-400 mb-3">Banca: <strong class="text-gray-200">Cebraspe</strong> | Área: <strong class="text-gray-200">Policial</strong></p>
-          <div class="bg-gray-950 p-2.5 rounded-lg border border-gray-800 text-xs text-gray-300 mb-4">
-            <span class="text-gray-500 font-semibold">Foco:</span> Direito Processual Penal & Constitucional
-          </div>
-        </div>
-
-        <!-- BOTÕES DE RECURSOS E MATERIAIS -->
-        <div class="space-y-2">
-          <div class="grid grid-cols-2 gap-2">
-            <a href="#" class="bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-medium py-2 px-3 rounded-lg flex items-center justify-center gap-2 border border-gray-700 transition">
-              <i class="fa-solid fa-file-pdf text-red-400"></i> Prova (PDF)
-            </a>
-            <a href="#" class="bg-gray-800 hover:bg-gray-700 text-emerald-400 text-xs font-medium py-2 px-3 rounded-lg flex items-center justify-center gap-2 border border-gray-700 transition">
-              <i class="fa-solid fa-check-circle"></i> Gabarito
-            </a>
-          </div>
-          <div class="grid grid-cols-2 gap-2">
-            <a href="#" class="bg-purple-950/60 hover:bg-purple-900/80 text-purple-300 text-xs font-medium py-2 px-3 rounded-lg flex items-center justify-center gap-2 border border-purple-800/50 transition">
-              <i class="fa-solid fa-book-open"></i> Apostila Ilustrada
-            </a>
-            <a href="#" class="bg-indigo-950/60 hover:bg-indigo-900/80 text-indigo-300 text-xs font-medium py-2 px-3 rounded-lg flex items-center justify-center gap-2 border border-indigo-800/50 transition">
-              <i class="fa-solid fa-sitemap"></i> Mapas Mentais
-            </a>
-          </div>
-          <a href="https://www.cebraspe.org.br/concursos/" target="_blank" class="w-full bg-gray-900 hover:bg-gray-800 text-gray-400 hover:text-gray-200 text-[11px] py-1.5 px-3 rounded-lg flex items-center justify-center gap-2 border border-gray-800 transition">
-            <i class="fa-solid fa-globe text-blue-400"></i> Site Oficial (Atualizações)
+          <a href="#" download class="w-full bg-purple-900 hover:bg-purple-800 text-white text-xs py-2 rounded-lg flex items-center justify-center gap-2 font-medium transition">
+            <i class="fa-solid fa-download"></i> Baixar PDF Grátis
           </a>
         </div>
-      </div>
 
-      <!-- CARD 2: IBAMA -->
-      <div class="card-dark p-5 rounded-xl flex flex-col justify-between gap-4">
-        <div>
-          <div class="flex justify-between items-start mb-2">
-            <h3 class="text-lg font-bold text-white">IBAMA - Analista / Técnico Ambiental</h3>
-            <span class="bg-blue-950 text-blue-300 text-xs px-2 py-0.5 rounded border border-blue-800">2022</span>
+        <div class="card-dark p-4 rounded-xl flex flex-col justify-between">
+          <div>
+            <span class="text-[10px] bg-indigo-950 text-indigo-300 border border-indigo-800 px-2 py-0.5 rounded">Mapa Mental</span>
+            <h4 class="font-bold text-white text-base mt-2 mb-1">Direito Processual Penal</h4>
+            <p class="text-xs text-gray-400 mb-3">Fluxogramas completos sobre inquérito policial e prisões.</p>
           </div>
-          <p class="text-xs text-gray-400 mb-3">Banca: <strong class="text-gray-200">Cebraspe</strong> | Área: <strong class="text-gray-200">Ambiental</strong></p>
-          <div class="bg-gray-950 p-2.5 rounded-lg border border-gray-800 text-xs text-gray-300 mb-4">
-            <span class="text-gray-500 font-semibold">Foco:</span> Licenciamento Ambiental & Botânica
-          </div>
-        </div>
-
-        <!-- BOTÕES DE RECURSOS E MATERIAIS -->
-        <div class="space-y-2">
-          <div class="grid grid-cols-2 gap-2">
-            <a href="#" class="bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-medium py-2 px-3 rounded-lg flex items-center justify-center gap-2 border border-gray-700 transition">
-              <i class="fa-solid fa-file-pdf text-red-400"></i> Prova (PDF)
-            </a>
-            <a href="#" class="bg-gray-800 hover:bg-gray-700 text-emerald-400 text-xs font-medium py-2 px-3 rounded-lg flex items-center justify-center gap-2 border border-gray-700 transition">
-              <i class="fa-solid fa-check-circle"></i> Gabarito
-            </a>
-          </div>
-          <div class="grid grid-cols-2 gap-2">
-            <a href="#" class="bg-purple-950/60 hover:bg-purple-900/80 text-purple-300 text-xs font-medium py-2 px-3 rounded-lg flex items-center justify-center gap-2 border border-purple-800/50 transition">
-              <i class="fa-solid fa-book-open"></i> Apostila Ilustrada
-            </a>
-            <a href="#" class="bg-indigo-950/60 hover:bg-indigo-900/80 text-indigo-300 text-xs font-medium py-2 px-3 rounded-lg flex items-center justify-center gap-2 border border-indigo-800/50 transition">
-              <i class="fa-solid fa-sitemap"></i> Mapas Mentais
-            </a>
-          </div>
-          <a href="https://www.gov.br/ibama/pt-br" target="_blank" class="w-full bg-gray-900 hover:bg-gray-800 text-gray-400 hover:text-gray-200 text-[11px] py-1.5 px-3 rounded-lg flex items-center justify-center gap-2 border border-gray-800 transition">
-            <i class="fa-solid fa-globe text-blue-400"></i> Site Oficial (Atualizações)
+          <a href="#" download class="w-full bg-indigo-900 hover:bg-indigo-800 text-white text-xs py-2 rounded-lg flex items-center justify-center gap-2 font-medium transition">
+            <i class="fa-solid fa-download"></i> Baixar Mapa Mental
           </a>
         </div>
-      </div>
 
-    </div>
+        <div class="card-dark p-4 rounded-xl flex flex-col justify-between">
+          <div>
+            <span class="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-800 px-2 py-0.5 rounded">Livro / Vade Mecum</span>
+            <h4 class="font-bold text-white text-base mt-2 mb-1">Compilado de Legislação Ambiental</h4>
+            <p class="text-xs text-gray-400 mb-3">Códigos e leis atualizadas para concursos federais e estaduais.</p>
+          </div>
+          <a href="#" download class="w-full bg-emerald-900 hover:bg-emerald-800 text-white text-xs py-2 rounded-lg flex items-center justify-center gap-2 font-medium transition">
+            <i class="fa-solid fa-download"></i> Baixar Livro PDF
+          </a>
+        </div>
+
+      </div>
+    </section>
+
   </main>
 
   <!-- FOOTER -->
-  <footer class="border-t border-gray-800 pt-4 mt-auto flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 gap-2">
+  <footer class="border-t border-gray-800 pt-4 mt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 gap-2">
     <div><strong class="text-gray-400">HRMTECH</strong> • Tecnologia Aplicada à Aprovação</div>
-    <div>Desenvolvido para ajudar alunos e concurseiros | Hospedado no GitHub Pages</div>
+    <div>Hospedado no GitHub Pages</div>
   </footer>
 
+  <!-- SCRIPT INTERATIVO -->
+  <script>
+    function switchTab(tabName) {
+      document.getElementById('sec-concursos').classList.add('hidden');
+      document.getElementById('sec-questoes').classList.add('hidden');
+      document.getElementById('sec-biblioteca').classList.add('hidden');
+      
+      document.getElementById('tab-concursos').classList.remove('active');
+      document.getElementById('tab-questoes').classList.remove('active');
+      document.getElementById('tab-biblioteca').classList.remove('active');
+
+      document.getElementById('sec-' + tabName).classList.remove('hidden');
+      document.getElementById('tab-' + tabName).classList.add('active');
+    }
+
+    function responder(correto) {
+      const res = document.getElementById('resultado-questao');
+      const exp = document.getElementById('explicacao-ia');
+      res.classList.remove('hidden');
+      exp.classList.remove('hidden');
+
+      if(correto) {
+        res.className = "p-4 rounded-lg text-sm mb-4 bg-emerald-950 border border-emerald-800 text-emerald-300";
+        res.innerHTML = "<i class='fa-solid fa-circle-check'></i> <strong>Resposta Correta!</strong> Você acertou o gabarito.";
+      } else {
+        res.className = "p-4 rounded-lg text-sm mb-4 bg-red-950 border border-red-800 text-red-300";
+        res.innerHTML = "<i class='fa-solid fa-circle-xmark'></i> <strong>Resposta Incorreta.</strong> O gabarito correto é Errado.";
+      }
+    }
+  </script>
 </body>
 </html>
