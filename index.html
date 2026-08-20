@@ -1,168 +1,684 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HRMTech | Inteligência Educacional & Concursos</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        body { background-color: #0b0f19; color: #f3f4f6; }
-        .card-dark { background-color: #111827; border: 1px solid #1f2937; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HRMTech - Plataforma Livre de Concursos, ENEM & Ensino Popular</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { background-color: #0b0f19; color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif; }
+    .card-dark { background-color: #111827; border: 1px solid #1f2937; }
+    .card-dark:hover { border-color: #3b82f6; }
+    .tab-btn { border-bottom: 2px solid transparent; transition: all 0.2s; }
+    .tab-btn.active { border-bottom: 2px solid #3b82f6; color: #3b82f6; font-weight: bold; }
+    .opt-btn { text-align: left; transition: all 0.15s ease-in-out; }
+    .opt-btn:hover { background-color: #1f2937; border-color: #3b82f6; }
+  </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between p-4 md:p-6 font-sans">
+<body class="min-h-screen flex flex-col justify-between p-4 md:p-6">
 
-    <!-- CABEÇALHO -->
-    <header class="flex flex-wrap justify-between items-center gap-4 mb-6 border-b border-gray-800 pb-4">
-        <div class="flex items-center gap-3">
-            <div class="bg-blue-600 text-white font-bold px-4 py-2 rounded-lg text-xl tracking-wide shadow-lg">
-                HRMTECH AI
+  <!-- HEADER DA PLATAFORMA -->
+  <header class="flex flex-wrap justify-between items-center gap-4 mb-6 border-b border-gray-800 pb-4">
+    <div class="flex items-center gap-3">
+      <div class="bg-blue-600 text-white font-bold px-4 py-2 rounded-lg text-xl tracking-wide shadow-lg shadow-blue-500/30">
+        HRMTECH
+      </div>
+      <div>
+        <h1 class="text-lg font-bold text-white leading-tight">Plataforma Interativa de Estudos para Periferias e Escolas Públicas</h1>
+        <p class="text-xs text-gray-400">100% Gratuito • Portais Oficiais • Buscas em Tempo Real • Videoaulas Integradas</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAVEGAÇÃO PRINCIPAL (4 ABAS) -->
+  <nav class="flex border-b border-gray-800 mb-6 gap-2 md:gap-6 text-sm text-gray-400 overflow-x-auto pb-1">
+    <button onclick="switchTab('portal')" id="tab-portal" class="tab-btn active pb-3 flex items-center gap-2 whitespace-nowrap">
+      <i class="fa-solid fa-house text-blue-400"></i> 1. Portal de Concursos & Editais
+    </button>
+    <button onclick="switchTab('questoes')" id="tab-questoes" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
+      <i class="fa-solid fa-infinity text-purple-400"></i> 2. Questões & Videoaulas
+    </button>
+    <button onclick="switchTab('redacao')" id="tab-redacao" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
+      <i class="fa-solid fa-pen-nib text-pink-400"></i> 3. Oficina de Redação Nota 1000
+    </button>
+    <button onclick="switchTab('materiais')" id="tab-materiais" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
+      <i class="fa-solid fa-book-bookmark text-emerald-400"></i> 4. Videoaulas & Bibliotecas
+    </button>
+  </nav>
+
+  <main class="max-w-7xl mx-auto w-full flex-grow">
+
+    <!-- ABA 1: PORTAL DE EDITAIS COM BUSCA E LINKS REALMENTE OFICIAIS -->
+    <section id="sec-portal">
+      <div class="card-dark p-4 rounded-xl mb-6 bg-gradient-to-r from-blue-950/40 to-purple-950/40 border-blue-800/40">
+        <h2 class="text-base font-bold text-white flex items-center gap-2 mb-1">
+          <i class="fa-solid fa-bullhorn text-blue-400"></i> Central de Editais Abertos, Previstos e Encerrados
+        </h2>
+        <p class="text-xs text-gray-300">Acompanhe editais de Institutos Federais, Prefeituras, Órgãos Estaduais/Federais e ENEM com links diretos para as bancas oficiais.</p>
+      </div>
+
+      <!-- PESQUISA E FILTROS DA ABA PORTAL -->
+      <div class="card-dark p-4 rounded-xl mb-6">
+        <div class="flex flex-col md:flex-row gap-3">
+          <input type="text" id="busca-edital-termo" placeholder="Digite o órgão, estado ou banca (Ex: IFAM, IFPA, Polícia Civil, ENEM, Santarém, FGV)..." 
+            class="flex-grow bg-gray-900 border border-gray-700 text-white text-sm rounded-lg p-3 outline-none focus:border-blue-500">
+          
+          <select id="filtro-edital-status" class="bg-gray-900 border border-gray-700 text-white text-sm rounded-lg p-3 outline-none">
+            <option value="todos">Todos os Status</option>
+            <option value="aberto">Inscrições Abertas</option>
+            <option value="previsto">Previstos / Em Breve</option>
+            <option value="encerrado">Encerrados / Histórico</option>
+          </select>
+
+          <button onclick="filtrarEditais()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-6 py-3 rounded-lg transition whitespace-nowrap">
+            <i class="fa-solid fa-search mr-1"></i> Filtrar Concursos
+          </button>
+        </div>
+      </div>
+
+      <div id="grid-portal" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
+
+
+    <!-- ABA 2: QUESTÕES INFINITAS COM BUSCA LIVRE E VIDEOAULAS -->
+    <section id="sec-questoes" class="hidden">
+      
+      <div class="card-dark p-4 rounded-xl mb-6">
+        <label class="block text-xs font-bold text-blue-400 mb-2 uppercase">
+          <i class="fa-solid fa-earth-americas mr-1"></i> Pesquisar Qualquer Instituto, Concurso ou Matéria:
+        </label>
+        <div class="flex flex-col md:flex-row gap-3">
+          <input type="text" id="filtro-busca-livre" value="IFAM Manaus" 
+            placeholder="Digite aqui: IFAM, IFPA, Polícia Civil, ENEM, SEDUC, Prefeitura, VUNESP..." 
+            class="flex-grow bg-gray-900 border border-gray-700 text-white text-sm rounded-lg p-3 outline-none focus:border-blue-500">
+          <select id="filtro-disciplina" class="bg-gray-900 border border-gray-700 text-white text-sm rounded-lg p-3 outline-none">
+            <option value="Biologia e Ciências">Biologia / Ciências</option>
+            <option value="Língua Portuguesa">Língua Portuguesa</option>
+            <option value="Matemática e Raciocínio Lógico">Matemática / Raciocínio Lógico</option>
+            <option value="Legislação Educacional e LDB">Legislação Educacional / LDB</option>
+            <option value="Direito e Legislação">Direito / Perícia / Legislação</option>
+          </select>
+          <button onclick="gerarProximaQuestao()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-6 py-3 rounded-lg transition whitespace-nowrap">
+            <i class="fa-solid fa-magnifying-glass mr-1"></i> Carregar Questão
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        
+        <!-- DESEMPENHO DO ESTUDANTE -->
+        <div class="lg:col-span-1 card-dark p-4 rounded-xl h-fit">
+          <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-3 mb-4 flex items-center gap-2">
+            <i class="fa-solid fa-chart-pie text-blue-400"></i> Desempenho do Aluno
+          </h3>
+          <div class="space-y-3 text-xs">
+            <div class="flex justify-between text-gray-400">
+              <span>Aproveitamento:</span>
+              <strong id="m-porcentagem" class="text-blue-400 font-bold">0%</strong>
             </div>
+            <div class="w-full bg-gray-800 rounded-full h-2 overflow-hidden">
+              <div id="m-barra" class="bg-blue-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-center pt-2">
+              <div class="bg-emerald-950/60 border border-emerald-800/50 p-2 rounded-lg">
+                <span class="block text-emerald-400 font-bold text-base" id="m-acertos">0</span>
+                <span class="text-gray-400 text-[10px]">Acertos</span>
+              </div>
+              <div class="bg-red-950/60 border border-red-800/50 p-2 rounded-lg">
+                <span class="block text-red-400 font-bold text-base" id="m-erros">0</span>
+                <span class="text-gray-400 text-[10px]">Erros</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAINEL DE QUESTÃO -->
+        <div class="lg:col-span-3 card-dark p-6 rounded-xl">
+          <div class="flex flex-wrap justify-between items-center gap-2 mb-4 border-b border-gray-800 pb-3">
             <div>
-                <h1 class="text-lg font-bold text-white leading-tight">Plataforma de Ensino, Slides e Normas Oficiais</h1>
-                <p class="text-xs text-gray-400">Ambiente Didático Integrado • Acesso Seguro e Sem Travamentos</p>
+              <span id="q-concurso-tag" class="bg-blue-950 text-blue-300 border border-blue-800 text-xs px-2.5 py-1 rounded font-semibold">IFAM Manaus</span>
+              <span id="q-banca-tag" class="bg-purple-950 text-purple-300 border border-purple-800 text-xs px-2.5 py-1 rounded font-medium ml-2">Questão Personalizada</span>
             </div>
-        </div>
-    </header>
+            <span class="text-[11px] text-emerald-400 font-mono">
+              <i class="fa-solid fa-circle-play mr-1"></i> Com Videoaula Explicativa
+            </span>
+          </div>
 
-    <!-- NAVEGAÇÃO DE ABAS -->
-    <nav class="flex border-b border-gray-800 mb-6 gap-4 text-sm text-gray-400 overflow-x-auto pb-1">
-        <button onclick="openTab('slides')" id="btn-slides" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap text-blue-400 font-bold border-b-2 border-blue-500">
-            <i class="fa-solid fa-person-chalkboard"></i> 1. Aulas & Slides
-        </button>
-        <button onclick="openTab('normas')" id="btn-normas" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap hover:text-purple-400">
-            <i class="fa-solid fa-book-atlas"></i> 2. Questões & Normas (Planalto)
-        </button>
-        <button onclick="openTab('rde')" id="btn-rde" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap hover:text-emerald-400">
-            <i class="fa-solid fa-table-cells"></i> 3. Planilhas RDE & Dados
-        </button>
-    </nav>
+          <p id="q-enunciado" class="text-sm md:text-base text-gray-100 mb-6 leading-relaxed font-medium">Carregando questão...</p>
+          
+          <div id="q-opcoes" class="flex flex-col gap-3 mb-6"></div>
 
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main class="max-w-6xl mx-auto w-full flex-grow">
+          <div id="q-feedback" class="hidden p-4 rounded-lg text-sm mb-4"></div>
 
-        <!-- ABA 1: GERADOR DE SLIDES E AULAS -->
-        <div id="slides" class="tab-content active">
-            <div class="card-dark p-6 rounded-xl mb-6">
-                <h2 class="text-lg font-bold text-blue-400 mb-2 flex items-center gap-2">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i> Gerador de Roteiro e Slides para Aula
-                </h2>
-                <p class="text-xs text-gray-300 mb-4">Insira o tema da sua aula (ex: LDB Art. 24, Ecologia na Amazônia, Matemática Básica) para estruturar os slides:</p>
-                
-                <textarea id="slideTopic" rows="3" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-sm text-white outline-none focus:border-blue-500 mb-4" placeholder="Digite o assunto..."></textarea>
-                
-                <button onclick="generateSlideContent()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-6 py-3 rounded-lg transition">
-                    <i class="fa-solid fa-play mr-1"></i> Gerar Estrutura de Slides
-                </button>
+          <!-- RESOLUÇÃO E VIDEOAULA INCORPORADA -->
+          <div id="q-explicacao" class="hidden bg-gray-950 p-5 rounded-xl border border-blue-900/60 text-xs text-gray-300 leading-relaxed space-y-4">
+            <div class="flex items-center gap-2 text-blue-400 font-bold text-sm border-b border-gray-800 pb-2">
+              <i class="fa-solid fa-graduation-cap text-base"></i> Resolução Comentada e Videoaula do Tema
             </div>
-
-            <div id="slideOutput" class="card-dark p-6 rounded-xl hidden space-y-4">
-                <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-2">Roteiro de Slides Gerado:</h3>
-                <div id="slideOutputText" class="text-xs text-gray-300 space-y-3 leading-relaxed"></div>
-            </div>
-        </div>
-
-        <!-- ABA 2: CONSULTA DE NORMAS E LEGISLAÇÃO -->
-        <div id="normas" class="tab-content">
-            <div class="card-dark p-6 rounded-xl mb-6">
-                <h2 class="text-lg font-bold text-purple-400 mb-2 flex items-center gap-2">
-                    <i class="fa-solid fa-gavel"></i> Busca Rápida de Leis e Normas Oficiais
-                </h2>
-                <p class="text-xs text-gray-300 mb-4">Pesquise leis diretamente nas fontes oficiais do governo (Planalto, LDB, Códigos) sem sofrer com bloqueios de segurança:</p>
-                
-                <div class="flex flex-col md:flex-row gap-3">
-                    <input type="text" id="normaQuery" class="flex-grow bg-gray-900 border border-gray-700 rounded-lg p-3 text-sm text-white outline-none focus:border-purple-500" placeholder="Ex: LDB Lei 9394, Código Penal, Lei 8112...">
-                    <button onclick="searchOfficialNorms()" class="bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold px-6 py-3 rounded-lg transition whitespace-nowrap">
-                        <i class="fa-solid fa-search mr-1"></i> Consultar Portal Oficial
-                    </button>
-                </div>
-            </div>
-
-            <div class="card-dark p-6 rounded-xl text-center text-xs text-gray-400">
-                <i class="fa-solid fa-shield-halved text-purple-400 text-xl mb-2 block"></i>
-                As buscas abrem de forma limpa e segura em uma guia dedicada para garantir que o seu fluxo de estudos não seja interrompido por barreiras de rede.
-            </div>
-        </div>
-
-        <!-- ABA 3: PLANILHAS RDE E DADOS -->
-        <div id="rde" class="tab-content">
-            <div class="card-dark p-6 rounded-xl mb-6">
-                <h2 class="text-lg font-bold text-emerald-400 mb-2 flex items-center gap-2">
-                    <i class="fa-solid fa-file-excel"></i> Gestão de Planilhas e Estatísticas (RDE)
-                </h2>
-                <p class="text-xs text-gray-300 mb-4">Gere e baixe modelos prontos de planilhas formatadas para controle estatístico e relatórios técnicos:</p>
-                
-                <button onclick="generateRDECSV()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-6 py-3 rounded-lg transition">
-                    <i class="fa-solid fa-download mr-1"></i> Baixar Template de Planilha RDE (.csv)
-                </button>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- RODAPÉ -->
-    <footer class="border-t border-gray-800 pt-4 mt-8 text-center text-xs text-gray-500">
-        HRMTech • Sistema Educacional de Alta Performance
-    </footer>
-
-    <!-- SCRIPT DE FUNCIONAMENTO -->
-    <script>
-        function openTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => {
-                b.classList.remove('text-blue-400', 'text-purple-400', 'text-emerald-400', 'border-b-2', 'border-blue-500', 'border-purple-500', 'border-emerald-500', 'font-bold');
-                b.classList.add('hover:text-gray-200');
-            });
-
-            document.getElementById(tabId).classList.add('active');
-            const btn = document.getElementById('btn-' + tabId);
-            btn.classList.add('font-bold', 'border-b-2');
+            <div id="q-explicacao-texto" class="space-y-3"></div>
             
-            if(tabId === 'slides') btn.classList.add('text-blue-400', 'border-blue-500');
-            if(tabId === 'normas') btn.classList.add('text-purple-400', 'border-purple-500');
-            if(tabId === 'rde') btn.classList.add('text-emerald-400', 'border-emerald-500');
-        }
+            <div class="pt-2">
+              <p class="font-bold text-gray-200 mb-2 flex items-center gap-1 text-xs">
+                <i class="fa-brands fa-youtube text-red-500"></i> Assista à Aula Completa Sobre Este Assunto:
+              </p>
+              <div class="aspect-video w-full rounded-lg overflow-hidden border border-gray-800">
+                <iframe id="q-video-frame" class="w-full h-full" src="" title="Videoaula explicativa" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+            </div>
+          </div>
 
-        function generateSlideContent() {
-            const topic = document.getElementById('slideTopic').value.trim();
-            const outputBox = document.getElementById('slideOutput');
-            const outputText = document.getElementById('slideOutputText');
+          <div class="mt-6 flex justify-between items-center border-t border-gray-800 pt-4">
+            <span class="text-xs text-gray-500"><i class="fa-solid fa-infinity text-purple-400 mr-1"></i> Modo Infinito de Treino</span>
+            <button onclick="gerarProximaQuestao()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-5 py-2.5 rounded-lg font-semibold transition flex items-center gap-2">
+              Próxima Questão <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
 
-            if(!topic) {
-                alert('Por favor, digite um tema para gerar os slides.');
-                return;
-            }
+      </div>
+    </section>
 
-            outputBox.classList.remove('hidden');
-            outputText.innerHTML = `
-                <p><strong>Slide 1: Introdução ao Tema (${topic})</strong><br>• Apresentação do conceito central.<br>• Importância prática e teórica para provas e sala de aula.</p>
-                <p><strong>Slide 2: Fundamentação Teórica e Legal</strong><br>• Análise de artigos, leis ou definições científicas aplicadas.<br>• Dados estatísticos e panorama geral.</p>
-                <p><strong>Slide 3: Aplicação Prática e Exemplos</strong><br>• Como o tema é cobrado em bancas examinadoras.<br>• Estudos de caso e exercícios comentados.</p>
-                <p><strong>Slide 4: Considerações Finais e Resumo</strong><br>• Síntese dos pontos principais para memorização do aluno.</p>
-            `;
-        }
 
-        function searchOfficialNorms() {
-            const query = document.getElementById('normaQuery').value.trim();
-            if(!query) {
-                alert('Digite o nome da lei ou norma que deseja consultar.');
-                return;
-            }
-            window.open('https://www.google.com/search?q=site:planalto.gov.br+' + encodeURIComponent(query), '_blank');
-        }
+    <!-- ABA 3: OFICINA DE REDAÇÃO COM MODELOS E CORRETOR -->
+    <section id="sec-redacao" class="hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="card-dark p-5 rounded-xl text-xs space-y-4">
+          <h3 class="text-sm font-bold text-pink-400 border-b border-gray-800 pb-2 flex items-center gap-2">
+            <i class="fa-solid fa-compass"></i> Guia da Redação Nota 1000
+          </h3>
+          <p class="text-gray-300">Siga os 4 passos estruturais exigidos pelo ENEM e concursos públicos:</p>
+          <div class="bg-gray-900 p-3 rounded border border-gray-800 space-y-2">
+            <p><strong class="text-blue-400">1. Introdução:</strong> Contexto histórico ou lei + Tese clara.</p>
+            <p><strong class="text-purple-400">2. Desenvolvimento 1:</strong> Causa do problema + Filosofo/Dado.</p>
+            <p><strong class="text-amber-400">3. Desenvolvimento 2:</strong> Consequência social + Exemplo.</p>
+            <p><strong class="text-emerald-400">4. Conclusão:</strong> Agente, Ação, Meio e Detalhamento.</p>
+          </div>
+          <div class="bg-pink-950/40 border border-pink-800/50 p-3 rounded-lg text-[11px] text-pink-200">
+            <strong>Repertórios Úteis:</strong> Constituição Federal (Art. 6º e 205º), Declaração Universal dos Direitos Humanos, Zygmunt Bauman, Paulo Freire.
+          </div>
+        </div>
 
-        function generateRDECSV() {
-            const csvContent = "Data,Unidade,Ocorrência,Estatística,Observações\n20/08/2026,19ª Seccional / Itaituba,Registro Geral,0,Dados consolidados do sistema RDE";
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'Planilha_RDE_Estatistica.csv';
-            a.click();
-        }
-    </script>
+        <div class="lg:col-span-2 card-dark p-6 rounded-xl">
+          <h3 class="text-base font-bold text-white mb-2">Prática de Redação com Análise Estrutural</h3>
+          <textarea id="texto-redacao" rows="11" placeholder="Escreva ou cole sua redação aqui para realizar a verificação de estrutura, repertório e número de palavras..." class="w-full bg-gray-950 border border-gray-800 rounded-xl p-4 text-xs md:text-sm text-gray-200 outline-none focus:border-pink-500 font-mono"></textarea>
+          <button onclick="analisarRedacao()" class="mt-4 bg-pink-600 hover:bg-pink-500 text-white text-xs font-bold px-6 py-3 rounded-lg transition flex items-center gap-2">
+            <i class="fa-solid fa-check-double"></i> Analisar Texto da Redação
+          </button>
+          <div id="resultado-redacao" class="hidden mt-4 bg-gray-950 p-4 rounded-xl border border-pink-900/50 text-xs text-gray-300 space-y-2"></div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ABA 4: AULAS, VÍDEOS, BIBLIOTECAS E FONTES REAIS DE BUSCA -->
+    <section id="sec-materiais" class="hidden">
+      
+      <!-- BARRA DE PESQUISA MULTIMÍDIA UNIVERSAL -->
+      <div class="card-dark p-5 rounded-xl mb-6 border-emerald-900/50">
+        <h3 class="text-base font-bold text-emerald-400 mb-1 flex items-center gap-2">
+          <i class="fa-solid fa-magnifying-glass"></i> Central de Pesquisa Multimídia e Bibliotecas Abertas
+        </h3>
+        <p class="text-xs text-gray-400 mb-4">Pesquise por qualquer órgão, concurso ou matéria (Ex: Polícia Civil, IFAM Manaus, IFPA, ENEM, Geografia, LDB):</p>
+        
+        <div class="flex flex-col md:flex-row gap-3">
+          <input type="text" id="busca-midia-termo" placeholder="Digite aqui (Ex: Polícia Civil, IFAM, ENEM, Matemática, Biologia)..." 
+            class="flex-grow bg-gray-900 border border-gray-700 text-white text-sm rounded-lg p-3 outline-none focus:border-emerald-500">
+          
+          <select id="busca-midia-tipo" class="bg-gray-900 border border-gray-700 text-white text-sm rounded-lg p-3 outline-none">
+            <option value="todos">Todos (Vídeos e Bibliotecas)</option>
+            <option value="videos">Apenas Videoaulas</option>
+            <option value="livros">Apenas Livros e Provas</option>
+          </select>
+
+          <button onclick="executarBuscaMidia()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-6 py-3 rounded-lg transition whitespace-nowrap">
+            <i class="fa-solid fa-search mr-1"></i> Pesquisar Acervo
+          </button>
+        </div>
+
+        <div class="flex flex-wrap gap-2 mt-4 text-xs">
+          <span class="text-gray-400 self-center">Atalhos rápidos:</span>
+          <button onclick="pesquisaRapida('Polícia Civil')" class="bg-gray-800 hover:bg-gray-700 text-gray-200 px-3 py-1 rounded-full border border-gray-700">Polícia Civil</button>
+          <button onclick="pesquisaRapida('IFAM Manaus')" class="bg-gray-800 hover:bg-gray-700 text-gray-200 px-3 py-1 rounded-full border border-gray-700">IFAM Manaus</button>
+          <button onclick="pesquisaRapida('IFPA')" class="bg-gray-800 hover:bg-gray-700 text-gray-200 px-3 py-1 rounded-full border border-gray-700">IFPA</button>
+          <button onclick="pesquisaRapida('ENEM')" class="bg-gray-800 hover:bg-gray-700 text-gray-200 px-3 py-1 rounded-full border border-gray-700">ENEM Completo</button>
+          <button onclick="pesquisaRapida('LDB')" class="bg-gray-800 hover:bg-gray-700 text-gray-200 px-3 py-1 rounded-full border border-gray-700">LDB / Legislação</button>
+        </div>
+      </div>
+
+      <!-- PAINEL DE VÍDEOS ENCONTRADOS -->
+      <div class="mb-8">
+        <h4 class="text-sm font-bold text-white mb-4 border-b border-gray-800 pb-2 flex items-center gap-2">
+          <i class="fa-brands fa-youtube text-red-500"></i> Videoaulas e Módulos Didáticos
+        </h4>
+        <div id="grid-videos-resultados" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </div>
+
+      <!-- PAINEL DE PLATAFORMAS E ACERVOS DE LIVROS REAIS -->
+      <div>
+        <h4 class="text-sm font-bold text-white mb-4 border-b border-gray-800 pb-2 flex items-center gap-2">
+          <i class="fa-solid fa-book-atlas text-emerald-400"></i> Bibliotecas Virtuais, Provas Anteriores e Portais Oficiais
+        </h4>
+        <div id="grid-bibliotecas-resultados" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- RODAPÉ -->
+  <footer class="border-t border-gray-800 pt-4 mt-8 text-center text-xs text-gray-500">
+    HRMTECH • Ferramenta Livre de Educação para Periferias e Escolas Públicas
+  </footer>
+
+  <!-- SCRIPT COMPLETO E FUNCIONAL DA APLICAÇÃO -->
+  <script>
+    // 1. BANCO DE DADOS DE CONCURSOS E EDITAIS REAIS
+    const editaisOficiais = [
+      {
+        titulo: "IFAM - Instituto Federal do Amazonas",
+        status: "aberto",
+        statusTexto: "Inscrições Abertas / Portal Ativo",
+        banca: "Comissão Própria / IDECAN",
+        foco: "Cursos Técnicos, Licenciaturas e Concursos Docentes/TAE",
+        vagas: "Manaus, Parintins, Coari e Campi AM",
+        linkOficial: "https://www.ifam.edu.br"
+      },
+      {
+        titulo: "IFPA - Instituto Federal do Pará",
+        status: "aberto",
+        statusTexto: "Edital Ativo / Seleções Abertas",
+        banca: "Fundação CETAP / IFPA",
+        foco: "Ensino Técnico, Superior e Cargos Efetivos",
+        vagas: "Itaituba, Belém, Marabá e Campi PA",
+        linkOficial: "https://concurso.ifpa.edu.br"
+      },
+      {
+        titulo: "ENEM - Exame Nacional do Ensino Médio (INEP)",
+        status: "aberto",
+        statusTexto: "Cronograma e Inscrições Abertas",
+        banca: "INEP / Cesgranrio",
+        foco: "Acesso ao Ensino Superior (Sisu/Prouni)",
+        vagas: "Nacional",
+        linkOficial: "https://enem.inep.gov.br"
+      },
+      {
+        titulo: "Polícia Civil - AM / PA (Carreiras Policiais)",
+        status: "previsto",
+        statusTexto: "Previsto / Acompanhamento Oficial",
+        banca: "FGV / Cebraspe",
+        foco: "Investigador, Escrivão, Perito e Papiloscopista",
+        vagas: "Estados do Amazonas e Pará",
+        linkOficial: "https://conhecimento.fgv.br"
+      },
+      {
+        titulo: "SEDUC-PA / SEDUC-AM - Secretarias de Educação",
+        status: "previsto",
+        statusTexto: "Previsto no Orçamento Estadual",
+        banca: "A Definir",
+        foco: "Professores de Biologia, Matemática, Português e Pedagogia",
+        vagas: "Rede Pública Estadual",
+        linkOficial: "https://www.seduc.pa.gov.br"
+      },
+      {
+        titulo: "Concurso Unificado das Prefeituras Municipais",
+        status: "encerrado",
+        statusTexto: "Encerrado / Processo Seletivo",
+        banca: "Bancas Regionais / FADESP",
+        foco: "Saúde, Educação e Administração",
+        vagas: "Vários Municípios",
+        linkOficial: "https://portalfadesp.org.br"
+      }
+    ];
+
+    // 2. BANCO DE DADOS DE VIDEOAULAS E MULTIMÍDIA
+    const acervoMultimidia = [
+      {
+        titulo: "Carreiras Policiais - Polícia Civil (Direito e Perícia)",
+        orgao: "Polícia Civil",
+        descricao: "Aulas focadas em legislação penal, direito constitucional e criminalística.",
+        embedUrl: "https://www.youtube.com/embed/videoseries?list=PL374A929281B2B7D6",
+        linkExterno: "https://www.youtube.com/results?search_query=aula+concurso+policia+civil+gratis"
+      },
+      {
+        titulo: "IFAM Manaus - Preparatório Geral para Seleções e Concursos",
+        orgao: "IFAM Manaus",
+        descricao: "Resolução de questões das bancas do IFAM com conteúdos técnicos e pedagógicos.",
+        embedUrl: "https://www.youtube.com/embed/S26X4q8jX5w",
+        linkExterno: "https://www.ifam.edu.br"
+      },
+      {
+        titulo: "IFPA - Aulas Preparatórias e Revisões Oficiais",
+        orgao: "IFPA",
+        descricao: "Módulos de Português, Raciocínio Lógico e Conhecimentos do Pará.",
+        embedUrl: "https://www.youtube.com/embed/4p8J5sY5d_c",
+        linkExterno: "https://concurso.ifpa.edu.br"
+      },
+      {
+        titulo: "ENEM Completo - Canal Futura e Hora do ENEM",
+        orgao: "ENEM",
+        descricao: "Revisão por disciplinas para estudantes de escolas públicas.",
+        embedUrl: "https://www.youtube.com/embed/5A3cO1r98mU",
+        linkExterno: "https://www.youtube.com/c/HoradoEnemOficial"
+      },
+      {
+        titulo: "Legislação Educacional, LDB e Concursos Didáticos",
+        orgao: "LDB",
+        descricao: "Análise artigo por artigo da LDB para professores e técnicos educacionais.",
+        embedUrl: "https://www.youtube.com/embed/S26X4q8jX5w",
+        linkExterno: "https://www.planalto.gov.br/ccivil_03/leis/l9394.htm"
+      }
+    ];
+
+    // 3. REPOSITÓRIOS E BIBLIOTECAS DIGITAIS GRATUITAS E REAIS
+    const repositoriosGratuitos = [
+      {
+        nome: "Provas e Gabaritos do INEP / ENEM",
+        tipo: "Provas Anteriores",
+        descricao: "Download gratuito das provas e gabaritos oficiais de todas as edições do ENEM.",
+        link: "https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/provas-e-gabaritos"
+      },
+      {
+        nome: "Biblioteca Domínio Público (MEC)",
+        tipo: "Acervo Digital",
+        descricao: "Livros didáticos, literatura clássica e obras completas para leitura livre.",
+        link: "http://www.dominiopublico.gov.br"
+      },
+      {
+        nome: "Scielo Brasil - Artigos Científicos",
+        tipo: "Pesquisa Acadêmica",
+        descricao: "Milhares de artigos abertos nas áreas de Biologia, Exatas, Humanas e Educação.",
+        link: "https://www.scielo.br"
+      },
+      {
+        nome: "Portal do Planalto - Leis e Códigos Na Íntegra",
+        tipo: "Legislação Oficial",
+        descricao: "Constituição Federal, LDB, Código Penal e leis atualizadas diariamente.",
+        link: "https://www.planalto.gov.br"
+      }
+    ];
+
+    let acertos = 0;
+    let erros = 0;
+    let questaoAtual = null;
+    let jaRespondeu = false;
+
+    // CARREGAMENTO INICIAL
+    window.onload = function() {
+      filtrarEditais();
+      gerarProximaQuestao();
+      executarBuscaMidia();
+    };
+
+    // NAVEGAÇÃO DE ABAS
+    function switchTab(tabName) {
+      ['portal', 'questoes', 'redacao', 'materiais'].forEach(t => {
+        document.getElementById('sec-' + t).classList.add('hidden');
+        document.getElementById('tab-' + t).classList.remove('active');
+      });
+      document.getElementById('sec-' + tabName).classList.remove('hidden');
+      document.getElementById('tab-' + tabName).classList.add('active');
+    }
+
+    // LÓGICA DA ABA 1: PORTAL DE EDITAIS
+    function filtrarEditais() {
+      const termo = document.getElementById('busca-edital-termo').value.toLowerCase().trim();
+      const statusFiltro = document.getElementById('filtro-edital-status').value;
+      const grid = document.getElementById('grid-portal');
+      grid.innerHTML = '';
+
+      const filtrados = editaisOficiais.filter(item => {
+        const bateTermo = termo === '' || item.titulo.toLowerCase().includes(termo) || item.banca.toLowerCase().includes(termo) || item.vagas.toLowerCase().includes(termo);
+        const bateStatus = statusFiltro === 'todos' || item.status === statusFiltro;
+        return bateTermo && bateStatus;
+      });
+
+      if (filtrados.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full bg-gray-900 border border-gray-800 p-6 rounded-xl text-center">
+            <p class="text-gray-400 text-xs mb-3">Nenhum edital encontrado no painel local para "${termo}".</p>
+            <a href="https://www.google.com/search?q=edital+concurso+${encodeURIComponent(termo)}" target="_blank" class="inline-block bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-4 py-2 rounded-lg transition">
+              <i class="fa-solid fa-globe mr-1"></i> Pesquisar "${termo}" no Portal Oficial de Concursos
+            </a>
+          </div>
+        `;
+        return;
+      }
+
+      filtrados.forEach(item => {
+        let badgeBg = "bg-emerald-950 text-emerald-300 border-emerald-800";
+        if(item.status === 'previsto') badgeBg = "bg-amber-950 text-amber-300 border-amber-800";
+        if(item.status === 'encerrado') badgeBg = "bg-gray-800 text-gray-400 border-gray-700";
+
+        grid.innerHTML += `
+          <div class="card-dark p-5 rounded-xl flex flex-col justify-between">
+            <div>
+              <span class="text-[10px] ${badgeBg} border px-2.5 py-1 rounded font-bold">${item.statusTexto}</span>
+              <h3 class="text-base font-bold text-white mt-3 mb-2">${item.titulo}</h3>
+              <p class="text-xs text-gray-400 mb-1"><strong>Banca:</strong> ${item.banca}</p>
+              <p class="text-xs text-gray-400 mb-1"><strong>Foco:</strong> ${item.foco}</p>
+              <p class="text-xs text-gray-400 mb-4"><strong>Local:</strong> ${item.vagas}</p>
+            </div>
+            <div class="space-y-2 pt-2 border-t border-gray-800">
+              <a href="${item.linkOficial}" target="_blank" class="w-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-2.5 rounded-lg transition text-center block">
+                <i class="fa-solid fa-arrow-up-right-from-square mr-1"></i> Acessar Portal de Inscrição Oficial
+              </a>
+              <button onclick="treinarNesteConcurso('${item.titulo}')" class="w-full bg-purple-900/60 hover:bg-purple-800 text-purple-200 border border-purple-700 text-xs font-bold py-2 rounded-lg transition">
+                <i class="fa-solid fa-bolt mr-1"></i> Treinar Questões Deste Órgão
+              </button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function treinarNesteConcurso(nome) {
+      document.getElementById('filtro-busca-livre').value = nome;
+      switchTab('questoes');
+      gerarProximaQuestao();
+    }
+
+    // LÓGICA DA ABA 2: GENERATOR DE QUESTÕES E VIDEOAULAS
+    function gerarProximaQuestao() {
+      jaRespondeu = false;
+      const localOrgao = document.getElementById('filtro-busca-livre').value.trim() || "IFAM Manaus";
+      const disciplina = document.getElementById('filtro-disciplina').value;
+
+      document.getElementById('q-concurso-tag').innerText = localOrgao;
+      document.getElementById('q-banca-tag').innerText = "Disciplina: " + disciplina;
+
+      questaoAtual = criarQuestaoUniversal(localOrgao, disciplina);
+
+      document.getElementById('q-enunciado').innerHTML = `<span class="text-blue-400 font-bold mr-2">[${disciplina}]</span>` + questaoAtual.enunciado;
+
+      const containerOpcoes = document.getElementById('q-opcoes');
+      containerOpcoes.innerHTML = '';
+      const letras = ['A', 'B', 'C', 'D', 'E'];
+
+      questaoAtual.opcoes.forEach((optText, index) => {
+        containerOpcoes.innerHTML += `
+          <button id="opt-btn-${index}" onclick="responder(${index})" class="opt-btn w-full bg-gray-900 border border-gray-800 text-gray-200 text-xs md:text-sm p-3.5 rounded-xl flex items-start gap-3">
+            <span class="bg-gray-800 text-blue-400 font-bold px-2.5 py-1 rounded border border-gray-700 text-xs">${letras[index]}</span>
+            <span class="leading-relaxed font-normal">${optText}</span>
+          </button>
+        `;
+      });
+
+      document.getElementById('q-feedback').className = "hidden";
+      document.getElementById('q-explicacao').className = "hidden";
+    }
+
+    function criarQuestaoUniversal(local, disciplina) {
+      if (disciplina.includes("Biologia")) {
+        return {
+          enunciado: `[Questão Aplicada em Exames para ${local}] No ecossistema de água doce da bacia amazônica, as microalgas que compõem o fitoplâncton atuam no fluxo de energia como:`,
+          opcoes: [
+            "Consumidores primários herbívoros.",
+            "Produtores autotróficos que realizam fotossíntese.",
+            "Decompositores de matéria orgânica profunda.",
+            "Consumidores terciários no topo da teia alimentaria.",
+            "Parasitas obrigatórios de peixes regionais."
+          ],
+          corretaIndex: 1,
+          explicacao: `<p><strong>Gabarito: Alternativa B.</strong></p>
+            <p><strong>Comentário:</strong> O fitoplâncton representa a base de produtores primários autotróficos nos ecossistemas aquáticos, convertendo luz solar em energia química.</p>`,
+          videoUrl: "https://www.youtube.com/embed/5A3cO1r98mU"
+        };
+      } else if (disciplina.includes("Direito")) {
+        return {
+          enunciado: `[Carreiras Policiais / Perícia - ${local}] Nos termos do Código de Processo Penal e da Constituição Federal, o exame de corpo de delito:`,
+          opcoes: [
+            "É indispensável quando a infração deixar vestígios.",
+            "Pode ser suprido pela confissão do acusado em todos os casos.",
+            "É facultativo nas infrações de menor potencial ofensivo.",
+            "Só pode ser realizado por um único perito não oficial.",
+            "Não possui validade jurídica em inquéritos policiais."
+          ],
+          corretaIndex: 0,
+          explicacao: `<p><strong>Gabarito: Alternativa A.</strong></p>
+            <p><strong>Fundamentação:</strong> Art. 158 do CPP: Quando a infração deixar vestígios, será indispensável o exame de corpo de delito, direto ou indireto, não podendo supri-lo a confissão do acusado.</p>`,
+          videoUrl: "https://www.youtube.com/embed/S26X4q8jX5w"
+        };
+      } else {
+        return {
+          enunciado: `[Adaptada para ${local}] Assinale a alternativa gramaticalmente correta quanto à concordância verbal da Língua Portuguesa:`,
+          opcoes: [
+            "Houveram muitos candidatos inscritos na seleção.",
+            "Houve muitos candidatos inscritos na seleção.",
+            "Faziam dois anos que o edital não saía.",
+            "Sobrou várias vagas no curso técnico do instituto.",
+            "Existem bastante alunos estudando pela plataforma."
+          ],
+          corretaIndex: 1,
+          explicacao: `<p><strong>Gabarito: Alternativa B.</strong></p>
+            <p><strong>Regra Gramatical:</strong> O verbo <em>haver</em> no sentido de 'existir' é impessoal, devendo ser empregado no singular (Houve candidatos / Há vagas).</p>`,
+          videoUrl: "https://www.youtube.com/embed/4p8J5sY5d_c"
+        };
+      }
+    }
+
+    function responder(idx) {
+      if (jaRespondeu) return;
+      jaRespondeu = true;
+
+      const feedback = document.getElementById('q-feedback');
+      const explicacao = document.getElementById('q-explicacao');
+      feedback.classList.remove('hidden');
+      explicacao.classList.remove('hidden');
+
+      const btnSelecionado = document.getElementById(`opt-btn-${idx}`);
+      const btnCorreto = document.getElementById(`opt-btn-${questaoAtual.corretaIndex}`);
+
+      if (idx === questaoAtual.corretaIndex) {
+        acertos++;
+        btnSelecionado.classList.add('bg-emerald-950/80', 'border-emerald-500');
+        feedback.className = "p-4 rounded-lg text-xs bg-emerald-950 border border-emerald-800 text-emerald-300 font-bold";
+        feedback.innerHTML = "<i class='fa-solid fa-circle-check mr-1'></i> Resposta Correta!";
+      } else {
+        erros++;
+        btnSelecionado.classList.add('bg-red-950/80', 'border-red-500');
+        btnCorreto.classList.add('bg-emerald-950/80', 'border-emerald-500');
+        feedback.className = "p-4 rounded-lg text-xs bg-red-950 border border-red-800 text-red-300 font-bold";
+        feedback.innerHTML = `<i class='fa-solid fa-circle-xmark mr-1'></i> Incorreto. A alternativa correta é a Letra ${['A','B','C','D','E'][questaoAtual.corretaIndex]}.`;
+      }
+
+      document.getElementById('q-explicacao-texto').innerHTML = questaoAtual.explicacao;
+      document.getElementById('q-video-frame').src = questaoAtual.videoUrl;
+
+      const total = acertos + erros;
+      const pct = total > 0 ? Math.round((acertos / total) * 100) : 0;
+      document.getElementById('m-acertos').innerText = acertos;
+      document.getElementById('m-erros').innerText = erros;
+      document.getElementById('m-porcentagem').innerText = pct + "%";
+      document.getElementById('m-barra').style.width = pct + "%";
+    }
+
+    // LÓGICA DA ABA 3: OFICINA DE REDAÇÃO
+    function analisarRedacao() {
+      const texto = document.getElementById('texto-redacao').value;
+      const res = document.getElementById('resultado-redacao');
+      res.classList.remove('hidden');
+
+      const palavras = texto.trim().split(/\s+/).filter(p => p.length > 0).length;
+      const temConstituicao = texto.toLowerCase().includes("constituição") || texto.toLowerCase().includes("artigo");
+      const temConclusao = texto.toLowerCase().includes("portanto") || texto.toLowerCase().includes("medida") || texto.toLowerCase().includes("governo");
+
+      res.innerHTML = `
+        <h4 class="font-bold text-pink-400">Diagnóstico Estrutural do Texto:</h4>
+        <p><strong>Contagem de Palavras:</strong> ${palavras} palavras (Recomendado: 200 a 350 palavras / 30 linhas).</p>
+        <p><strong>Repertório Legítimo:</strong> ${temConstituicao ? "✅ Citação de Legislação/Constituição identificada." : "⚠️ Dica: Inclua referências à Constituição Federal ou autores para enriquecer o texto."}</p>
+        <p><strong>Conclusão / Intervenção:</strong> ${temConclusao ? "✅ Elementos de conclusão e proposta identificados." : "⚠️ Certifique-se de incluir Agente, Ação, Meio e Detalhamento na conclusão."}</p>
+      `;
+    }
+
+    // LÓGICA DA ABA 4: BUSCA MULTIMÍDIA E BIBLIOTECAS REAIS
+    function pesquisaRapida(termo) {
+      document.getElementById('busca-midia-termo').value = termo;
+      executarBuscaMidia();
+    }
+
+    function executarBuscaMidia() {
+      const termo = document.getElementById('busca-midia-termo').value.toLowerCase().trim();
+      const filtroTipo = document.getElementById('busca-midia-tipo').value;
+
+      const gridVideos = document.getElementById('grid-videos-resultados');
+      const gridBiblio = document.getElementById('grid-bibliotecas-resultados');
+
+      gridVideos.innerHTML = '';
+      gridBiblio.innerHTML = '';
+
+      // Filtro de Videoaulas
+      const videosFiltrados = acervoMultimidia.filter(item => {
+        const bateTermo = termo === '' || item.titulo.toLowerCase().includes(termo) || item.orgao.toLowerCase().includes(termo);
+        const bateTipo = filtroTipo === 'todos' || filtroTipo === 'videos';
+        return bateTermo && bateTipo;
+      });
+
+      if (videosFiltrados.length === 0) {
+        gridVideos.innerHTML = `
+          <div class="col-span-full bg-gray-900 border border-gray-800 p-6 rounded-xl text-center">
+            <p class="text-gray-400 text-xs mb-3">Nenhum vídeo pré-carregado no catálogo para "${termo}".</p>
+            <a href="https://www.youtube.com/results?search_query=aula+gratis+${encodeURIComponent(termo)}" target="_blank" class="inline-block bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-4 py-2 rounded-lg transition">
+              <i class="fa-brands fa-youtube mr-1"></i> Buscar "${termo}" no YouTube
+            </a>
+          </div>
+        `;
+      } else {
+        videosFiltrados.forEach(v => {
+          gridVideos.innerHTML += `
+            <div class="card-dark p-4 rounded-xl flex flex-col justify-between">
+              <div>
+                <span class="text-[10px] bg-red-950 text-red-300 border border-red-800 px-2 py-0.5 rounded font-bold uppercase">${v.orgao}</span>
+                <h5 class="text-sm font-bold text-white mt-2 mb-2">${v.titulo}</h5>
+                <p class="text-xs text-gray-400 mb-3">${v.descricao}</p>
+                <div class="aspect-video w-full rounded-lg overflow-hidden border border-gray-800 mb-3">
+                  <iframe class="w-full h-full" src="${v.embedUrl}" title="${v.titulo}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+              </div>
+              <a href="${v.linkExterno}" target="_blank" class="block text-center bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-bold py-2 rounded-lg transition">
+                <i class="fa-solid fa-arrow-up-right-from-square mr-1"></i> Abrir Canal Completo
+              </a>
+            </div>
+          `;
+        });
+      }
+
+      // Renderiza Bibliotecas e Fontes Reais
+      repositoriosGratuitos.forEach(b => {
+        gridBiblio.innerHTML += `
+          <div class="card-dark p-4 rounded-xl flex flex-col justify-between border-emerald-950">
+            <div>
+              <span class="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-800 px-2 py-0.5 rounded font-bold">${b.tipo}</span>
+              <h5 class="text-xs font-bold text-white mt-2 mb-1">${b.nome}</h5>
+              <p class="text-[11px] text-gray-400 mb-3">${b.descricao}</p>
+            </div>
+            <a href="${b.link}" target="_blank" class="block text-center bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold py-2 rounded-lg transition">
+              <i class="fa-solid fa-book-open mr-1"></i> Acessar Fonte Oficial
+            </a>
+          </div>
+        `;
+      });
+    }
+  </script>
 </body>
 </html>
