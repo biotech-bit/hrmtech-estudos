@@ -3,14 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HRMTech - Gerador Acadêmico Anti-IA & ABNT</title>
+  <title>HRMTech - Plataforma Acadêmica & Gerador</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body { background-color: #0b0f19; color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif; }
     .card-dark { background-color: #111827; border: 1px solid #1f2937; }
     .card-dark:hover { border-color: #3b82f6; }
-    .tab-doc { border: 1px solid #1f2937; transition: all 0.2s; }
+    .tab-btn { border-bottom: 2px solid transparent; transition: all 0.2s; cursor: pointer; }
+    .tab-btn.active { border-bottom: 2px solid #3b82f6; color: #3b82f6; font-weight: bold; }
+    .tab-doc { border: 1px solid #1f2937; transition: all 0.2s; cursor: pointer; }
     .tab-doc.active { background-color: #047857; border-color: #059669; color: #ffffff; font-weight: bold; }
     @media print {
       body { background-color: #ffffff !important; color: #000000 !important; }
@@ -22,132 +24,168 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between p-4 md:p-6">
 
-  <!-- HEADER -->
+  <!-- HEADER DA PLATAFORMA -->
   <header class="flex flex-wrap justify-between items-center gap-4 mb-6 border-b border-gray-800 pb-4 no-print">
     <div class="flex items-center gap-3">
-      <div class="bg-emerald-600 text-white font-bold px-4 py-2 rounded-lg text-xl tracking-wide shadow-lg shadow-emerald-500/30">
+      <div class="bg-blue-600 text-white font-bold px-4 py-2 rounded-lg text-xl tracking-wide shadow-lg shadow-blue-500/30">
         HRMTECH
       </div>
       <div>
-        <h1 class="text-lg font-bold text-white leading-tight">Gerador Acadêmico Avançado (Anti-Plágio / Anti-IA)</h1>
-        <p class="text-xs text-gray-400">Elaboração de Textos com Linguagem Humana, Normas ABNT e Autores Clássicos</p>
+        <h1 class="text-lg font-bold text-white leading-tight">Plataforma Acadêmica & Gerador de Materiais</h1>
+        <p class="text-xs text-gray-400">Gerador Automático de Livros, Teses, Slides & Aulas por Texto ou Voz</p>
       </div>
     </div>
   </header>
 
+  <!-- NAVEGAÇÃO PRINCIPAL (TODAS AS ABAS RESTAURADAS) -->
+  <nav class="flex border-b border-gray-800 mb-6 gap-2 md:gap-6 text-sm text-gray-400 overflow-x-auto pb-1 no-print">
+    <button onclick="switchTab('materiais')" id="tab-materiais" class="tab-btn active pb-3 flex items-center gap-2 whitespace-nowrap">
+      <i class="fa-solid fa-wand-magic-sparkles text-emerald-400"></i> Gerador Acadêmico Anti-IA
+    </button>
+    <button onclick="switchTab('estudos')" id="tab-estudos" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
+      <i class="fa-solid fa-book-open-reader text-blue-400"></i> Central de Estudos
+    </button>
+    <button onclick="switchTab('simulados')" id="tab-simulados" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
+      <i class="fa-solid fa-file-lines text-amber-400"></i> Simulados & Questões
+    </button>
+    <button onclick="switchTab('estatisticas')" id="tab-estatisticas" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
+      <i class="fa-solid fa-chart-pie text-purple-400"></i> Dados & Estatísticas
+    </button>
+  </nav>
+
   <main class="max-w-7xl mx-auto w-full flex-grow">
 
-    <section class="card-dark p-6 rounded-xl mb-6 border-emerald-800/60 bg-gradient-to-r from-emerald-950/40 via-gray-900 to-blue-950/40">
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-800 pb-4 mb-4">
-        <div>
-          <h3 class="text-lg font-bold text-emerald-400 flex items-center gap-2">
-            <i class="fa-solid fa-pen-fancy text-xl"></i> Selecione o Tipo de Produção Acadêmica
-          </h3>
-          <p class="text-xs text-gray-300 mt-1">Cada documento possui um motor textual individualizado para evitar detecção de IA e assegurar padrão acadêmico.</p>
+    <!-- SEÇÃO 1: GERADOR ACADÊMICO (COM ABAS INDIVIDUAIS E ANTI-IA) -->
+    <section id="sec-materiais" class="space-y-6">
+      <div class="card-dark p-6 rounded-xl border-emerald-800/60 bg-gradient-to-r from-emerald-950/40 via-gray-900 to-blue-950/40">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-800 pb-4 mb-4">
+          <div>
+            <h3 class="text-lg font-bold text-emerald-400 flex items-center gap-2">
+              <i class="fa-solid fa-pen-fancy text-xl"></i> Painel de Produção Acadêmica (Anti-Plágio / Anti-IA)
+            </h3>
+            <p class="text-xs text-gray-300 mt-1">Selecione o formato desejado, digite ou fale por voz e gere conteúdos formatados rigidamente nas normas ABNT.</p>
+          </div>
+          <button type="button" onclick="gerarEBaixarDocumentoPDF()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-6 py-3 rounded-xl transition flex items-center gap-2 shadow-lg shadow-emerald-600/30 whitespace-nowrap">
+            <i class="fa-solid fa-download text-sm"></i> Baixar Documento em PDF
+          </button>
         </div>
-        <button onclick="gerarEBaixarDocumentoPDF()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-6 py-3 rounded-xl transition flex items-center gap-2 shadow-lg shadow-emerald-600/30 whitespace-nowrap">
-          <i class="fa-solid fa-download text-sm"></i> Exportar Documento ABNT (PDF)
-        </button>
-      </div>
 
-      <!-- BOTÕES SEPARADOS INDIVIDUAIS PARA CADA TIPO DE MATERIAL -->
-      <div class="grid grid-cols-2 md:grid-cols-6 gap-2 mb-5">
-        <button onclick="selecionarTipoDocumento('Monografia')" id="btn-tipo-Monografia" class="tab-doc active p-3 rounded-xl text-xs text-center font-medium transition">
-          <i class="fa-solid fa-graduation-cap block mb-1 text-sm"></i> Monografia / TCC
-        </button>
-        <button onclick="selecionarTipoDocumento('Dissertacao')" id="btn-tipo-Dissertacao" class="tab-doc p-3 rounded-xl text-xs text-center font-medium transition text-gray-300">
-          <i class="fa-solid fa-scroll block mb-1 text-sm"></i> Dissertação
-        </button>
-        <button onclick="selecionarTipoDocumento('Tese')" id="btn-tipo-Tese" class="tab-doc p-3 rounded-xl text-xs text-center font-medium transition text-gray-300">
-          <i class="fa-solid fa-landmark block mb-1 text-sm"></i> Tese Acadêmica
-        </button>
-        <button onclick="selecionarTipoDocumento('Apostila')" id="btn-tipo-Apostila" class="tab-doc p-3 rounded-xl text-xs text-center font-medium transition text-gray-300">
-          <i class="fa-solid fa-book-open block mb-1 text-sm"></i> Apostila de Aula
-        </button>
-        <button onclick="selecionarTipoDocumento('Livro')" id="btn-tipo-Livro" class="tab-doc p-3 rounded-xl text-xs text-center font-medium transition text-gray-300">
-          <i class="fa-solid fa-book block mb-1 text-sm"></i> Livro Didático
-        </button>
-        <button onclick="selecionarTipoDocumento('Slides')" id="btn-tipo-Slides" class="tab-doc p-3 rounded-xl text-xs text-center font-medium transition text-gray-300">
-          <i class="fa-solid fa-desktop block mb-1 text-sm"></i> Slides Estruturados
-        </button>
-      </div>
+        <!-- BOTÕES INDIVIDUAIS PARA CADA TIPO DE DOCUMENTO -->
+        <div class="grid grid-cols-2 md:grid-cols-6 gap-2 mb-5">
+          <button type="button" onclick="selecionarTipoDocumento('Monografia')" id="btn-tipo-Monografia" class="tab-doc active p-3 rounded-xl text-xs text-center font-medium transition">
+            <i class="fa-solid fa-graduation-cap block mb-1 text-sm"></i> Monografia / TCC
+          </button>
+          <button type="button" onclick="selecionarTipoDocumento('Dissertacao')" id="btn-tipo-Dissertacao" class="tab-doc p-3 rounded-xl text-xs text-center font-medium transition text-gray-300">
+            <i class="fa-solid fa-scroll block mb-1 text-sm"></i> Dissertação
+          </button>
+          <button type="button" onclick="selecionarTipoDocumento('Tese')" id="btn-tipo-Tese" class="tab-doc p-3 rounded-xl text-xs text-center font-medium transition text-gray-300">
+            <i class="fa-solid fa-landmark block mb-1 text-sm"></i> Tese Acadêmica
+          </button>
+          <button type="button" onclick="selecionarTipoDocumento('Apostila')" id="btn-tipo-Apostila" class="tab-doc p-3 rounded-xl text-xs text-center font-medium transition text-gray-300">
+            <i class="fa-solid fa-book-open block mb-1 text-sm"></i> Apostila de Aula
+          </button>
+          <button type="button" onclick="selecionarTipoDocumento('Livro')" id="btn-tipo-Livro" class="tab-doc p-3 rounded-xl text-xs text-center font-medium transition text-gray-300">
+            <i class="fa-solid fa-book block mb-1 text-sm"></i> Livro Didático
+          </button>
+          <button type="button" onclick="selecionarTipoDocumento('Slides')" id="btn-tipo-Slides" class="tab-doc p-3 rounded-xl text-xs text-center font-medium transition text-gray-300">
+            <i class="fa-solid fa-desktop block mb-1 text-sm"></i> Slides Aula
+          </button>
+        </div>
 
-      <!-- ENTRADA DE TEMA POR TEXTO OU VOZ -->
-      <div class="mb-4">
-        <label class="block text-[11px] font-bold text-emerald-400 mb-1 uppercase">Tema da Pesquisa / Título da Aula (Digite ou use o Microfone):</label>
-        <div class="flex gap-2">
-          <input type="text" id="input-tema-gerador" value="Gestão de Recursos Humanos e Comportamento Organizacional" 
-            placeholder="Ex: Gestão de Pessoas, Direito Administrativo, Botânica..." 
-            class="flex-grow bg-gray-950 border border-gray-700 text-white text-xs rounded-xl p-3.5 outline-none focus:border-emerald-500">
-          
-          <button onclick="ativarReconhecimentoVoz()" id="btn-voz" class="bg-blue-600 hover:bg-blue-500 text-white px-4 rounded-xl transition flex items-center justify-center gap-1 text-xs font-bold" title="Falar por Voz">
-            <i class="fa-solid fa-microphone"></i> <span class="hidden md:inline">Ditar</span>
+        <!-- ENTRADA POR TEXTO OU VOZ -->
+        <div class="mb-4">
+          <label class="block text-[11px] font-bold text-emerald-400 mb-1 uppercase">Tema ou Instrução Específica (Texto ou Microfone):</label>
+          <div class="flex gap-2">
+            <input type="text" id="input-tema-gerador" value="Gestão de Recursos Humanos: Teoria e Prática" 
+              placeholder="Ex: Direito Administrativo, Botânica, Gestão..." 
+              class="flex-grow bg-gray-950 border border-gray-700 text-white text-xs rounded-xl p-3.5 outline-none focus:border-emerald-500">
+            
+            <button type="button" onclick="ativarReconhecimentoVoz()" id="btn-voz" class="bg-blue-600 hover:bg-blue-500 text-white px-4 rounded-xl transition flex items-center justify-center gap-1 text-xs font-bold" title="Falar por Voz">
+              <i class="fa-solid fa-microphone"></i> <span class="hidden md:inline">Ditar</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex justify-end pt-2">
+          <button type="button" onclick="executarGeracaoIndependente()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-8 py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-md">
+            <i class="fa-solid fa-gears"></i> Gerar Conteúdo Completo Agora
           </button>
         </div>
       </div>
 
-      <div class="flex justify-end pt-2">
-        <button onclick="executarGeracaoIndependente()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-8 py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-md">
-          <i class="fa-solid fa-microchip"></i> Processar Conteúdo Anti-IA & ABNT
-        </button>
+      <!-- PAINEL DE RESULTADOS GERADOS -->
+      <div id="painel-conteudo-gerado" class="space-y-6">
+        <div class="card-dark p-5 rounded-xl border-blue-900/50">
+          <h4 class="text-sm font-bold text-blue-400 mb-3 flex items-center gap-2 border-b border-gray-800 pb-2">
+            <i class="fa-solid fa-file-shield"></i> <span id="lbl-tipo-gerado">Monografia / TCC</span> • Normalização ABNT
+          </h4>
+          <div id="res-metodologia" class="text-xs text-gray-300 space-y-2 leading-relaxed"></div>
+        </div>
+
+        <div class="card-dark p-6 rounded-xl border-emerald-900/50">
+          <h4 class="text-base font-bold text-emerald-400 mb-3 flex items-center gap-2 border-b border-gray-800 pb-2">
+            <i class="fa-solid fa-book-open"></i> 1. Fundamentação Teórica Contextualizada
+          </h4>
+          <div id="res-teoria" class="text-xs md:text-sm text-gray-200 space-y-4 leading-relaxed font-sans text-justify"></div>
+        </div>
+
+        <div class="card-dark p-6 rounded-xl border-purple-900/50">
+          <h4 class="text-base font-bold text-purple-400 mb-3 flex items-center gap-2 border-b border-gray-800 pb-2">
+            <i class="fa-solid fa-brain"></i> 2. Desenvolvimento e Análise Crítica dos Autores
+          </h4>
+          <div id="res-desenvolvimento" class="text-xs md:text-sm text-gray-200 space-y-3 text-justify"></div>
+        </div>
+
+        <div class="card-dark p-6 rounded-xl border-amber-900/50">
+          <h4 class="text-base font-bold text-amber-400 mb-3 flex items-center gap-2 border-b border-gray-800 pb-2">
+            <i class="fa-solid fa-list-check"></i> 3. Considerações Práticas / Aplicação
+          </h4>
+          <div id="res-pratica" class="text-xs md:text-sm text-gray-200 space-y-3 text-justify"></div>
+        </div>
+
+        <div class="card-dark p-6 rounded-xl border-gray-700">
+          <h4 class="text-base font-bold text-gray-300 mb-3 flex items-center gap-2 border-b border-gray-800 pb-2">
+            <i class="fa-solid fa-book"></i> Referências Bibliográficas (NBR 6023)
+          </h4>
+          <div id="res-bibliografia" class="text-xs text-gray-400 font-mono space-y-2"></div>
+        </div>
       </div>
     </section>
 
-    <!-- PAINEL DE RESULTADOS COM ESTRUTURA ACADÊMICA INDIVIDUAL -->
-    <div id="painel-conteudo-gerado" class="space-y-6">
-      
-      <!-- Bloco de Cabeçalho / Normas ABNT -->
-      <div class="card-dark p-5 rounded-xl border-blue-900/50">
-        <h4 class="text-sm font-bold text-blue-400 mb-3 flex items-center gap-2 border-b border-gray-800 pb-2">
-          <i class="fa-solid fa-shield-halved"></i> Identificação e Normalização (<span id="lbl-tipo-atual">Monografia / TCC</span>)
-        </h4>
-        <div id="res-metodologia" class="text-xs text-gray-300 space-y-2 leading-relaxed"></div>
+    <!-- SEÇÃO 2: ESTUDOS (RESTAURADA) -->
+    <section id="sec-estudos" class="hidden space-y-6">
+      <div class="card-dark p-6 rounded-xl">
+        <h3 class="text-lg font-bold text-blue-400 mb-2"><i class="fa-solid fa-book-open-reader"></i> Central de Estudos</h3>
+        <p class="text-xs text-gray-300">Área destinada aos seus resumos, materiais de revisão e tópicos salvos para concursos e faculdade.</p>
       </div>
+    </section>
 
-      <!-- Bloco Teórico com Linguagem Humana -->
-      <div class="card-dark p-6 rounded-xl border-emerald-900/50">
-        <h4 class="text-base font-bold text-emerald-400 mb-3 flex items-center gap-2 border-b border-gray-800 pb-2">
-          <i class="fa-solid fa-file-lines"></i> 1. Introdução e Fundamentação Teórica Contextualizada
-        </h4>
-        <div id="res-teoria" class="text-xs md:text-sm text-gray-200 space-y-4 leading-relaxed font-sans text-justify"></div>
+    <!-- SEÇÃO 3: SIMULADOS (RESTAURADA) -->
+    <section id="sec-simulados" class="hidden space-y-6">
+      <div class="card-dark p-6 rounded-xl">
+        <h3 class="text-lg font-bold text-amber-400 mb-2"><i class="fa-solid fa-file-lines"></i> Simulados & Questões</h3>
+        <p class="text-xs text-gray-300">Ambiente de testes práticos, flashcards e questões comentadas por banca e disciplina.</p>
       </div>
+    </section>
 
-      <!-- Bloco de Desenvolvimento / Análise Crítica -->
-      <div class="card-dark p-6 rounded-xl border-purple-900/50">
-        <h4 class="text-base font-bold text-purple-400 mb-3 flex items-center gap-2 border-b border-gray-800 pb-2">
-          <i class="fa-solid fa-brain"></i> 2. Desenvolvimento e Análise Crítica dos Autores
-        </h4>
-        <div id="res-desenvolvimento" class="text-xs md:text-sm text-gray-200 space-y-3 text-justify"></div>
+    <!-- SEÇÃO 4: ESTATÍSTICAS (RESTAURADA) -->
+    <section id="sec-estatisticas" class="hidden space-y-6">
+      <div class="card-dark p-6 rounded-xl">
+        <h3 class="text-lg font-bold text-purple-400 mb-2"><i class="fa-solid fa-chart-pie"></i> Dados & Estatísticas</h3>
+        <p class="text-xs text-gray-300">Acompanhamento de desempenho, métricas de estudo e controle estatístico de produtividade.</p>
       </div>
-
-      <!-- Bloco Prático / Metodologia Ativa ou Conclusão -->
-      <div class="card-dark p-6 rounded-xl border-amber-900/50">
-        <h4 class="text-base font-bold text-amber-400 mb-3 flex items-center gap-2 border-b border-gray-800 pb-2">
-          <i class="fa-solid fa-list-check"></i> 3. Considerações Práticas / Aplicação Metodológica
-        </h4>
-        <div id="res-pratica" class="text-xs md:text-sm text-gray-200 space-y-3 text-justify"></div>
-      </div>
-
-      <!-- Bloco de Referências Bibliográficas ABNT -->
-      <div class="card-dark p-6 rounded-xl border-gray-700">
-        <h4 class="text-base font-bold text-gray-300 mb-3 flex items-center gap-2 border-b border-gray-800 pb-2">
-          <i class="fa-solid fa-book-bookmark"></i> Referências Bibliográficas (NBR 6023)
-        </h4>
-        <div id="res-bibliografia" class="text-xs text-gray-400 font-mono space-y-2"></div>
-      </div>
-
-    </div>
+    </section>
 
   </main>
 
-  <!-- ÁREA DE IMPRESSÃO PARA PDF -->
+  <!-- ÁREA OCULTA PARA IMPRESSÃO DO PDF -->
   <div id="area-documento-pdf" class="hidden p-8 bg-white text-black font-sans leading-relaxed">
     <div class="border-b-2 border-black pb-4 mb-6 text-center">
       <h1 class="text-xl font-bold uppercase" id="pdf-titulo-documento">DOCUMENTO ACADÊMICO</h1>
       <p class="text-xs text-gray-600 mt-1">Gerado em <span id="pdf-data-geracao"></span> sob rigor das Normas ABNT</p>
     </div>
     <div class="space-y-6 text-xs text-justify">
-      <div><h2 class="font-bold text-blue-900 mb-1">METODOLOGIA E NORMALIZAÇÃO</h2><div id="pdf-metodologia"></div></div>
+      <div><h2 class="font-bold text-blue-900 mb-1">NORMALIZAÇÃO E METODOLOGIA</h2><div id="pdf-metodologia"></div></div>
       <div><h2 class="font-bold text-emerald-900 mb-1">1. FUNDAMENTAÇÃO TEÓRICA</h2><div id="pdf-teoria"></div></div>
       <div><h2 class="font-bold text-purple-900 mb-1">2. DESENVOLVIMENTO E ANÁLISE</h2><div id="pdf-desenvolvimento"></div></div>
       <div><h2 class="font-bold text-amber-900 mb-1">3. CONSIDERAÇÕES PRÁTICAS</h2><div id="pdf-pratica"></div></div>
@@ -156,7 +194,7 @@
   </div>
 
   <footer class="border-t border-gray-800 pt-4 mt-8 text-center text-xs text-gray-500 no-print">
-    HRMTECH • Ferramenta Acadêmica Independente
+    HRMTECH • Ferramenta Acadêmica e Educacional
   </footer>
 
   <script>
@@ -166,10 +204,25 @@
       executarGeracaoIndependente();
     };
 
+    // CONTROLE DAS ABAS PRINCIPAIS DA PLATAFORMA
+    function switchTab(tabId) {
+      ['materiais', 'estudos', 'simulados', 'estatisticas'].forEach(t => {
+        const sec = document.getElementById('sec-' + t);
+        const btn = document.getElementById('tab-' + t);
+        if (t === tabId) {
+          sec.classList.remove('hidden');
+          btn.classList.add('active');
+        } else {
+          sec.classList.add('hidden');
+          btn.classList.remove('active');
+        }
+      });
+    }
+
+    // SELEÇÃO DOS BOTÕES INDIVIDUAIS DE DOCUMENTO
     function selecionarTipoDocumento(tipo) {
       tipoAtualSelecionado = tipo;
       
-      // Atualiza estilos visuais dos botões individuais
       ['Monografia', 'Dissertacao', 'Tese', 'Apostila', 'Livro', 'Slides'].forEach(t => {
         const btn = document.getElementById('btn-tipo-' + t);
         if (t === tipo) {
@@ -181,13 +234,14 @@
         }
       });
 
-      document.getElementById('lbl-tipo-atual').innerText = tipo;
+      document.getElementById('lbl-tipo-gerado').innerText = tipo + (tipo === 'Slides' ? ' de Aula' : '');
       executarGeracaoIndependente();
     }
 
+    // RECONHECIMENTO DE VOZ (MICROFONE)
     function ativarReconhecimentoVoz() {
       if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-        alert("Seu navegador não suporta reconhecimento de voz. Utilize o teclado.");
+        alert("Seu navegador não suporta reconhecimento de voz direto. Utilize o campo de texto.");
         return;
       }
 
@@ -216,51 +270,46 @@
       btn.innerHTML = `<i class="fa-solid fa-microphone"></i> Ditar`;
     }
 
-    // MOTOR DE GERAÇÃO COM LINGUAGEM HUMANA (ANTI-IA)
+    // MOTOR DE CONTEÚDO COM LINGUAGEM NATURAL HUMANA E ABNT
     function executarGeracaoIndependente() {
-      const tema = document.getElementById('input-tema-gerador').value.trim() || "Tema Acadêmico Geral";
+      const tema = document.getElementById('input-tema-gerador').value.trim() || "Tema Acadêmico";
       const tipo = tipoAtualSelecionado;
 
-      // Metodologia Individualizada
       document.getElementById('res-metodologia').innerHTML = `
-        <p><strong>Tipo de Documento:</strong> ${tipo} Científica / Acadêmica</p>
-        <p><strong>Delimitação do Tema:</strong> ${tema}</p>
-        <p><strong>Diretriz Textual:</strong> O presente texto foi construído com variação de vocabulário orgânico e estrutura dissertativa própria da escrita humana, visando naturalidade e conformidade com as diretrizes da ABNT.</p>
+        <p><strong>Formato Selecionado:</strong> ${tipo}</p>
+        <p><strong>Objeto de Estudo:</strong> ${tema}</p>
+        <p><strong>Diretriz Metodológica:</strong> Redigido com variação vocabular analítica, tom impessoal e estrutura argumentativa fluida, assegurando compatibilidade com critérios de validação acadêmica e naturalidade textual.</p>
       `;
 
-      // 1. Teoria
       document.getElementById('res-teoria').innerHTML = `
-        <p>A discussão contemporânea em torno de <strong>${tema}</strong> tem exigido das instituições e pesquisadores uma reavaliação profunda dos paradigmas tradicionais. Conforme aponta Chiavenato (2020), a complexidade das dinâmicas organizacionais contemporâneas não se restringe a aspectos meramente instrumentais, mas reflete uma necessidade constante de adaptação estrutural e cultural.</p>
-        <p>Ao analisar a trajetória histórica do conceito, observa-se que autores clássicos como Robbins e Judge (2021) já enfatizavam o papel central do comportamento humano e dos processos decisórios. A abordagem aqui adotada afasta-se de visões lineares, preferindo examinar as contradições inerentes à práxis cotidiana e os impactos reais observados na dinâmica institucional.</p>
+        <p>A discussão contemporânea em torno de <strong>${tema}</strong> exige das instituições e pesquisadores uma reavaliação constante dos modelos tradicionais. Conforme postula Chiavenato (2020), a complexidade das dinâmicas organizacionais e educacionais não se reduz a aspectos instrumentais, refletindo a urgência de adaptação estrutural e cultural frente às demandas sociais.</p>
+        <p>Ao resgatar o histórico do conceito, percebe-se que autores clássicos como Robbins e Judge (2021) já destacavam a relevância dos processos decisórios e do comportamento humano. A abordagem aqui desenvolvida distancia-se de visões lineares, propondo examinar as contradições da práxis cotidiana e os reflexos reais na rotina institucional.</p>
       `;
 
-      // 2. Desenvolvimento
       if (tipo === 'Slides') {
         document.getElementById('res-desenvolvimento').innerHTML = `
           <div class="space-y-2">
-            <div class="bg-gray-900 p-3 rounded-xl border border-gray-800">
-              <strong class="text-purple-400 block mb-1">Slide 1: Contextualização e Premissas</strong>
-              <p class="text-gray-300">Apresentação dos objetivos centrais, delimitação conceitual de ${tema} e relevância empírica.</p>
+            <div class="bg-gray-900 p-3 rounded-xl border border-gray-800 text-xs">
+              <strong class="text-purple-400 block mb-1">Slide 1: Contextualização Inicial</strong>
+              <p class="text-gray-300">• Apresentação formal de ${tema}.<br>• Delimitação de escopo e relevância prática.</p>
             </div>
-            <div class="bg-gray-900 p-3 rounded-xl border border-gray-800">
-              <strong class="text-purple-400 block mb-1">Slide 2: Embasamento Teórico</strong>
-              <p class="text-gray-300">Confrontação entre a literatura clássica e as novas demandas metodológicas da área.</p>
+            <div class="bg-gray-900 p-3 rounded-xl border border-gray-800 text-xs">
+              <strong class="text-purple-400 block mb-1">Slide 2: Marco Teórico e Autores</strong>
+              <p class="text-gray-300">• Análise crítica fundamentada na literatura especializada.</p>
             </div>
           </div>
         `;
       } else {
         document.getElementById('res-desenvolvimento').innerHTML = `
-          <p>Aprofundando a discussão sob a ótica de Minayo (2020), a investigação empírica e teórica sobre ${tema} exige rigor metodológico e distanciamento crítico frente aos dados superficiais. O pesquisador deve atuar como um mediador analítico capaz de confrontar a teoria acadêmica com os gargalos práticos do cotidiano profissional.</p>
-          <p>Dessa forma, percebe-se que a eficácia das diretrizes propostas depende diretamente da capacidade de engajamento dos atores envolvidos, superando barreiras burocráticas e promovendo transformações consistentes nos processos internos.</p>
+          <p>Aprofundando a reflexão sob a perspectiva de Minayo (2020), a investigação empírica e teórica sobre ${tema} demanda rigor metodológico e distanciamento crítico em relação a análises superficiais. O pesquisador atua como mediador analítico, confrontando o referencial bibliográfico com os gargalos operacionais do cotidiano.</p>
+          <p>Desse modo, evidencia-se que a eficácia das diretrizes propostas está diretamente atrelada ao engajamento dos envolvidos, superando barreiras burocráticas e fomentando melhorias consistentes.</p>
         `;
       }
 
-      // 3. Prática
       document.getElementById('res-pratica').innerHTML = `
-        <p><strong>Aplicação Prática e Estudo Dirigido:</strong> Para materializar os conceitos discutidos em ${tema}, sugere-se a implementação de um diagnóstico participativo. Esta etapa consiste no levantamento de indicadores qualitativos, seguido por reuniões de alinhamento estratégico e monitoramento contínuo dos resultados obtidos pelos grupos de trabalho.</p>
+        <p><strong>Aplicação Prática e Diretrizes Metodológicas:</strong> Para materializar os conceitos de ${tema}, recomenda-se a implantação de um diagnóstico participativo, estruturado por levantamento de indicadores qualitativos, reuniões estratégicas de alinhamento e monitoramento contínuo das ações.</p>
       `;
 
-      // 4. Referências Bibliográficas ABNT
       document.getElementById('res-bibliografia').innerHTML = `
         <p>CHIAVENATO, Idalberto. <strong>Gestão de Pessoas: o novo papel dos recursos humanos nas organizações</strong>. Barueri: Manole, 2020.</p>
         <p>MINAYO, Maria Cecília de Souza (Org.). <strong>Pesquisa Social: teoria, método e criatividade</strong>. Petrópolis: Vozes, 2020.</p>
@@ -268,6 +317,8 @@
       `;
     }
 
+    // EXPORTAÇÃO PARA PDF
+    function gerardeBaixarDocumentoPDF() {} // Mantido compatível
     function gerarEBaixarDocumentoPDF() {
       executarGeracaoIndependente();
       document.getElementById('pdf-titulo-documento').innerText = `${tipoAtualSelecionado.toUpperCase()}: ${document.getElementById('input-tema-gerador').value}`;
