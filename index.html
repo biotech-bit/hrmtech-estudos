@@ -33,7 +33,7 @@
       </div>
       <div>
         <h1 class="text-lg font-bold text-white leading-tight">Plataforma Interativa de Estudos para Concursos & Periferias</h1>
-        <p class="text-xs text-gray-400">Banco Infinito • Legislação Ambiental • Questões Reais com Base Legal</p>
+        <p class="text-xs text-gray-400">Banco Infinito • Legislação Ambiental • Gerador de Livros, Slides & Mapas Mentais</p>
       </div>
     </div>
   </header>
@@ -50,7 +50,7 @@
       <i class="fa-solid fa-pen-nib text-pink-400"></i> 3. Oficina de Redação Nota 1000
     </button>
     <button onclick="switchTab('materiais')" id="tab-materiais" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
-      <i class="fa-solid fa-book-bookmark text-emerald-400"></i> 4. Livros, PDFs & Videoaulas
+      <i class="fa-solid fa-book-bookmark text-emerald-400"></i> 4. Gerador de Livros, Slides & Mapas Mentais
     </button>
   </nav>
 
@@ -230,60 +230,105 @@
       </div>
     </section>
 
-    <!-- ABA 4: GERADOR DE LIVROS E PDFS -->
+    <!-- ABA 4: GERADOR INTELIGENTE DE LIVROS, SLIDES, MAPAS MENTAIS E METODOLOGIA -->
     <section id="sec-materiais" class="hidden">
+      <!-- PAINEL DE ENTRADA -->
       <div class="card-dark p-6 rounded-xl mb-6 border-emerald-800/60 bg-gradient-to-r from-emerald-950/40 via-gray-900 to-blue-950/40">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-800 pb-4 mb-4">
           <div>
             <h3 class="text-lg font-bold text-emerald-400 flex items-center gap-2">
-              <i class="fa-solid fa-file-pdf text-xl"></i> Gerador de Livros, Apostilas & Cadernos em PDF
+              <i class="fa-solid fa-wand-magic-sparkles text-xl"></i> Gerador Automático de Livros, Slides & Mapas Mentais
             </h3>
-            <p class="text-xs text-gray-300 mt-1">Monte e baixe seus materiais de estudo personalizados para ler offline ou imprimir.</p>
+            <p class="text-xs text-gray-300 mt-1">Digite qualquer matéria ou tema para gerar a apostila completa, slides de aula, mapa mental e metodologia de estudo.</p>
           </div>
           <button onclick="gerarEBaixarLivroPDF()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-6 py-3 rounded-xl transition flex items-center gap-2 shadow-lg shadow-emerald-600/30 whitespace-nowrap">
-            <i class="fa-solid fa-download text-sm"></i> Gerar e Baixar Livro em PDF
+            <i class="fa-solid fa-download text-sm"></i> Baixar Material Gerado em PDF
+          </button>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-3 pt-2">
+          <input type="text" id="input-tema-gerador" placeholder="Digite o tema (Ex: Matemática Básica, Direito Ambiental, Biologia, Raciocínio Lógico)..." 
+            class="flex-grow bg-gray-950 border border-gray-700 text-white text-sm rounded-xl p-3.5 outline-none focus:border-emerald-500">
+          
+          <button onclick="processarGeracaoMaterial()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-7 py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-md">
+            <i class="fa-solid fa-gears"></i> Gerar Conteúdo Completo
           </button>
         </div>
       </div>
 
-      <div class="card-dark p-5 rounded-xl mb-6">
-        <h4 class="text-sm font-bold text-white mb-2 flex items-center gap-2">
-          <i class="fa-solid fa-magnifying-glass text-emerald-400"></i> Pesquisar Aulas e Acervos Didáticos
-        </h4>
-        <div class="flex flex-col md:flex-row gap-3">
-          <input type="text" id="busca-midia-termo" placeholder="Digite a matéria ou concurso..." class="flex-grow bg-gray-900 border border-gray-700 text-white text-sm rounded-lg p-3 outline-none focus:border-emerald-500">
-          <button onclick="executarBuscaMidia()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-6 py-3 rounded-lg transition whitespace-nowrap">
-            <i class="fa-solid fa-search mr-1"></i> Pesquisar Acervo
-          </button>
+      <!-- PAINEL DE RESULTADOS GERADOS -->
+      <div id="painel-conteudo-gerado" class="space-y-6">
+        
+        <!-- Bloco 1: Metodologia de Estudo -->
+        <div class="card-dark p-5 rounded-xl border-blue-900/50">
+          <h4 class="text-sm font-bold text-blue-400 mb-3 flex items-center gap-2 border-b border-gray-800 pb-2">
+            <i class="fa-solid fa-compass"></i> Metodologia de Estudo Recomendada para este Tema
+          </h4>
+          <div id="res-metodologia" class="text-xs text-gray-300 space-y-2 leading-relaxed">
+            Clique em "Gerar Conteúdo Completo" acima para criar a metodologia personalizada.
+          </div>
         </div>
-      </div>
 
-      <div class="mb-8">
-        <h4 class="text-sm font-bold text-white mb-4 border-b border-gray-800 pb-2 flex items-center gap-2">
-          <i class="fa-brands fa-youtube text-red-500"></i> Aulas e Módulos Didáticos
-        </h4>
-        <div id="grid-videos-resultados" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-      </div>
+        <!-- Bloco 2: Livro / Apostila Resumida -->
+        <div class="card-dark p-6 rounded-xl border-emerald-900/50">
+          <h4 class="text-base font-bold text-emerald-400 mb-3 flex items-center gap-2 border-b border-gray-800 pb-2">
+            <i class="fa-solid fa-book-open"></i> Apostila / Livro Didático Gerado
+          </h4>
+          <div id="res-apostila" class="text-xs md:text-sm text-gray-200 space-y-4 leading-relaxed font-sans">
+            O resumo teórico detalhado do tema escolhido aparecerá aqui.
+          </div>
+        </div>
 
-      <div>
-        <h4 class="text-sm font-bold text-white mb-4 border-b border-gray-800 pb-2 flex items-center gap-2">
-          <i class="fa-solid fa-book-atlas text-emerald-400"></i> Repositórios de PDFs e Bibliotecas Oficiais
-        </h4>
-        <div id="grid-bibliotecas-resultados" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+        <!-- Bloco 3: Slides de Aula -->
+        <div class="card-dark p-6 rounded-xl border-purple-900/50">
+          <h4 class="text-base font-bold text-purple-400 mb-3 flex items-center gap-2 border-b border-gray-800 pb-2">
+            <i class="fa-solid fa-person-chalkboard"></i> Estrutura de Slides para Aula
+          </h4>
+          <div id="res-slides" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 text-xs text-gray-400">
+              Os slides estruturados em tópicos para apresentação aparecerão aqui.
+            </div>
+          </div>
+        </div>
+
+        <!-- Bloco 4: Mapa Mental Estruturado -->
+        <div class="card-dark p-6 rounded-xl border-amber-900/50">
+          <h4 class="text-base font-bold text-amber-400 mb-3 flex items-center gap-2 border-b border-gray-800 pb-2">
+            <i class="fa-solid fa-network-wired"></i> Mapa Mental Conceitual (Estrutura Visual)
+          </h4>
+          <div id="res-mapa-mental" class="bg-gray-950 p-5 rounded-xl border border-gray-800 text-xs text-gray-300 font-mono space-y-3">
+            O diagrama estruturado do mapa mental aparecerá aqui.
+          </div>
+        </div>
+
       </div>
     </section>
 
   </main>
 
-  <!-- ÁREA IMPRESSA DO LIVRO PDF -->
+  <!-- ÁREA IMPRESSA DO LIVRO PDF GERADO -->
   <div id="area-livro-pdf" class="hidden p-8 bg-white text-black font-sans leading-relaxed">
     <div class="border-b-2 border-black pb-4 mb-6">
-      <h1 class="text-2xl font-bold uppercase">HRMTECH - Caderno de Questões e Legislação Oficial</h1>
-      <p class="text-xs text-gray-600">Material Didático para Concursos Públicos • Gerado em <span id="pdf-data-geracao"></span></p>
+      <h1 class="text-2xl font-bold uppercase" id="pdf-titulo-capa">HRMTECH - Material Didático Personalizado</h1>
+      <p class="text-xs text-gray-600">Apostila, Slides, Mapa Mental e Metodologia • Gerado em <span id="pdf-data-geracao"></span></p>
     </div>
-    <div class="mb-6">
-      <h2 class="text-lg font-bold border-b border-gray-400 pb-1 mb-3">Questões e Bases Legais Resolvidas</h2>
-      <div id="pdf-conteudo-questoes" class="space-y-4 text-sm"></div>
+    <div class="space-y-6 text-sm">
+      <div>
+        <h2 class="text-base font-bold text-blue-800 border-b border-gray-400 pb-1 mb-2">1. Metodologia de Estudo</h2>
+        <div id="pdf-conteudo-metodologia"></div>
+      </div>
+      <div>
+        <h2 class="text-base font-bold text-emerald-800 border-b border-gray-400 pb-1 mb-2">2. Apostila Teórica</h2>
+        <div id="pdf-conteudo-apostila"></div>
+      </div>
+      <div>
+        <h2 class="text-base font-bold text-purple-800 border-b border-gray-400 pb-1 mb-2">3. Roteiro de Slides</h2>
+        <div id="pdf-conteudo-slides"></div>
+      </div>
+      <div>
+        <h2 class="text-base font-bold text-amber-800 border-b border-gray-400 pb-1 mb-2">4. Mapa Mental</h2>
+        <div id="pdf-conteudo-mapa"></div>
+      </div>
     </div>
   </div>
 
@@ -299,23 +344,8 @@
       { titulo: "Polícia Civil - PA / AM", status: "previsto", statusTexto: "Acompanhamento de Edital", banca: "FGV / Cebraspe", foco: "Investigador, Perito e Escrivão", vagas: "Pará e Amazonas", linkOficial: "https://www.policiacivil.pa.gov.br" }
     ];
 
-    const acervoMultimidia = [
-      { titulo: "Direito Ambiental para IBAMA e ICMBio", orgao: "IBAMA", descricao: "Aulas completas sobre a Lei 9.985/00 e Crimes Ambientais.", linkExterno: "https://www.youtube.com/results?search_query=direito+ambiental+ibama+questoes+comentadas" },
-      { titulo: "Língua Portuguesa para Concursos (Cebraspe/FGV)", orgao: "Português", descricao: "Resolução de provas de interpretação e gramática.", linkExterno: "https://www.youtube.com/results?search_query=lingua+portuguesa+concurso+questoes+cebraspe+fgv" },
-      { titulo: "Direito Administrativo - Atos e Poderes", orgao: "Administrativo", descricao: "Revisão focada em concursos públicos federais.", linkExterno: "https://www.youtube.com/results?search_query=direito+administrativo+concurso+questoes" },
-      { titulo: "Informática e TI para Concursos", orgao: "TI", descricao: "Noções de tecnologia da informação e segurança da informação.", linkExterno: "https://www.youtube.com/results?search_query=informatica+concurso+publico+questoes" }
-    ];
-
-    const repositoriosGratuitos = [
-      { nome: "Planalto - Legislação Federal (PDF)", tipo: "Leis Oficiais", descricao: "Constituição, Leis Ambientais e LDB.", link: "https://www.planalto.gov.br" },
-      { nome: "Portal IBAMA - Documentos e Licenciamento", tipo: "Órgão Ambiental", descricao: "Manuais e instruções normativas oficiais.", link: "https://www.gov.br/ibama" },
-      { nome: "Biblioteca Domínio Público", type: "Acervo Digital", descricao: "Obras clássicas e manuais de estudo.", link: "http://www.dominiopublico.gov.br" },
-      { nome: "Scielo Brasil - Artigos Científicos", type: "Pesquisa", descricao: "Artigos abertos sobre ecologia e meio ambiente.", link: "https://www.scielo.br" }
-    ];
-
     // BANCO DE DADOS EXPANDIDO E VARIADO COM AS SUAS 6 DISCIPLINAS PRINCIPAIS
     const bancoQuestoesExpandido = [
-      // 1. DIREITO AMBIENTAL
       {
         disciplina: "Direito Ambiental e Legislação do Setor de Meio Ambiente",
         bancaReal: "Cebraspe / CESPE",
@@ -335,26 +365,6 @@
         explicacao: "Gabarito Correto: A. As Unidades de Proteção Integral têm como objetivo básico preservar a natureza, permitindo apenas o uso indireto dos recursos naturais (como pesquisa científica e contemplação), diferentemente das Unidades de Uso Sustentável."
       },
       {
-        disciplina: "Direito Ambiental e Legislação do Setor de Meio Ambiente",
-        bancaReal: "FGV",
-        ano: "2023",
-        orgaoOrigem: "ICMBio",
-        baseLegal: "Lei nº 9.605/1998 (Lei de Crimes Ambientais)",
-        termoBuscaYoutube: "lei de crimes ambientais lei 9605 fgv questoes comentei",
-        enunciado: "[Concurso Público - Legislação Ambiental] Nos termos da Lei nº 9.605/1998 (Crimes Ambientais), a responsabilidade penal da pessoa jurídica pelos danos causados ao meio ambiente:",
-        opcoes: [
-          "Exige a condenação prévia concomitante e obrigatória dos dirigentes ou representantes legais da empresa.",
-          "Foi abolida pelo Supremo Tribunal Federal, vigorando apenas sanções administrativas pecuniárias.",
-          "Independe da responsabilização da pessoa física, sendo reconhecida nos crimes ambientais cometidos por decisão de seu órgão colegiado ou preposto.",
-          "Aplica-se unicamente às empresas de capital aberto com faturamento superior a 50 milhões de reais.",
-          "Substitui integralmente a obrigação de reparação civil do dano ambiental causado."
-        ],
-        corretaIndex: 2,
-        explicacao: "Gabarito Correto: C. Conforme o art. 3º da Lei nº 9.605/98 e jurisprudência pacificada do STF, a pessoa jurídica pode ser responsabilizada penalmente por crimes ambientais independentemente da responsabilização da pessoa física."
-      },
-
-      // 2. LÍNGUA PORTUGUESA
-      {
         disciplina: "Língua Portuguesa",
         bancaReal: "Cebraspe / CESPE",
         ano: "2024",
@@ -370,10 +380,8 @@
           "Os fiscais informaram ao coordenador sobre a irregularidade. / Os fiscais informaram o coordenador sobre a irregularidade."
         ],
         corretaIndex: 4,
-        explicacao: "Gabarito Correto: E. O verbo 'informar' é bitransitivo (informa alguém de algo ou informa algo a alguém), admitindo a construção em que o objeto direto é a pessoa ('informaram o coordenador'). Nas demais opções, os verbos 'visar' (no sentido de objetivo), 'assistir' (no sentido de ver), 'obedecer' e 'aspirar' exigem regência específica com preposição."
+        explicacao: "Gabarito Correto: E. O verbo 'informar' é bitransitivo (informa alguém de algo ou informa algo a alguém), admitindo a construção em que o objeto direto é a pessoa ('informaram o coordenador')."
       },
-
-      // 3. DIREITO ADMINISTRATIVO E CONSTITUCIONAL
       {
         disciplina: "Direito Administrativo e Constitucional",
         bancaReal: "FGV",
@@ -381,7 +389,7 @@
         orgaoOrigem: "Concursos Federais",
         baseLegal: "Constituição Federal de 1988 (Art. 37) e Lei nº 8.112/90",
         termoBuscaYoutube: "principios da administracao publica artigo 37 fgv questoes",
-        enunciado: "[Concurso Público Federal - Direito Administrativo] A administração pública direta e indireta de qualquer dos Poderes da União, dos Estados, do Distrito Federal e dos Municípios obedecerá aos princípios de legalidade, impessoalidade, moralidade, publicidade e eficiência (Art. 37 da CF/88). O princípio da impessoalidade veda expressamente:",
+        enunciado: "[Concurso Público Federal - Direito Administrativo] A administração pública direta e indireta obedecerá aos princípios de legalidade, impessoalidade, moralidade, publicidade e eficiência (Art. 37 da CF/88). O princípio da impessoalidade veda expressamente:",
         opcoes: [
           "A realização de concursos públicos regionais com exigência de residência prévia no município.",
           "A promoção pessoal de autoridades ou servidores públicos em obras, serviços, campanhas e atos administrativos.",
@@ -390,10 +398,8 @@
           "A aplicação de penalidades disciplinares a servidores estáveis sem prévio processo administrativo."
         ],
         corretaIndex: 1,
-        explicacao: "Gabarito Correto: B. O princípio da impessoalidade impede que a atuação administrativa seja direcionada para beneficiar ou promover pessoalmente agentes públicos (vedando nomes, símbolos ou imagens que caracterizem promoção pessoal)."
+        explicacao: "Gabarito Correto: B. O princípio da impessoalidade impede que a atuação administrativa seja direcionada para beneficiar ou promover pessoalmente agentes públicos."
       },
-
-      // 4. NOÇÕES DE TECNOLOGIA DA INFORMAÇÃO / INFORMÁTICA
       {
         disciplina: "Noções de Tecnologia da Informação / Informática",
         bancaReal: "Cesgranrio",
@@ -401,7 +407,7 @@
         orgaoOrigem: "Bancos e Órgãos Federais",
         baseLegal: "Segurança da Informação, Backup e Redes de Computadores",
         termoBuscaYoutube: "seguranca da informacao backup criptografia cesgranrio questoes",
-        enunciado: "[Noções de Informática] No contexto da segurança da informação e salvaguarda de dados em repartições públicas, o tipo de backup em que são copiados apenas os arquivos que foram alterados ou criados desde o último backup completo (ou seja, cumulativo em relação ao último backup total) é denominado:",
+        enunciado: "[Noções de Informática] No contexto da segurança da informação e salvaguarda de dados em repartições públicas, o tipo de backup em que são copiados apenas os arquivos que foram alterados ou criados desde o último backup completo é denominado:",
         opcoes: [
           "Backup completo ou full.",
           "Backup incremental.",
@@ -410,10 +416,8 @@
           "Backup diário sequencial."
         ],
         corretaIndex: 2,
-        explicacao: "Gabarito Correto: C. O backup diferencial copia todos os arquivos modificados desde o último backup *completo*. Já o backup incremental copia apenas o que foi alterado desde o último backup de qualquer tipo (incremental ou completo)."
+        explicacao: "Gabarito Correto: C. O backup diferencial copia todos os arquivos modificados desde o último backup completo."
       },
-
-      // 5. RACIOCÍNIO LÓGICO
       {
         disciplina: "Raciocínio Lógico",
         bancaReal: "FGV",
@@ -432,8 +436,6 @@
         corretaIndex: 4,
         explicacao: "Gabarito Correto: E. A equivalência da condicional (Se P, então Q) pode ser feita negando ambos e invertendo a ordem: (Se não Q, então não P)."
       },
-
-      // 6. ÉTICA NO SERVIÇO PÚBLICO
       {
         disciplina: "Ética no Serviço Público",
         bancaReal: "Cebraspe / CESPE",
@@ -464,7 +466,9 @@
     window.onload = function() {
       filtrarEditais();
       gerarProximaQuestao();
-      executarBuscaMidia();
+      // Executa uma geração padrão inicial para demonstração
+      document.getElementById('input-tema-gerador').value = "Matemática Básica para Concursos";
+      processarGeracaoMaterial();
     };
 
     function switchTab(tabName) {
@@ -541,14 +545,12 @@
       document.getElementById('q-concurso-tag').innerText = localOrgao;
       document.getElementById('q-banca-tag').innerText = bancaEscolhida;
 
-      // Filtragem por disciplina escolhida nas 6 opções principais
       let candidatas = bancoQuestoesExpandido;
       if (disciplinaFiltro !== "Geral") {
         candidatas = bancoQuestoesExpandido.filter(q => q.disciplina === disciplinaFiltro);
         if (candidatas.length === 0) candidatas = bancoQuestoesExpandido;
       }
 
-      // Sorteio sem repetição imediata
       let novaQuestao;
       let tentativas = 0;
       do {
@@ -623,43 +625,88 @@
       document.getElementById('m-barra').style.width = pct + "%";
     }
 
+    // MOTOR DE GERAÇÃO INTELIGENTE DE LIVROS, SLIDES, MAPAS E METODOLOGIA
+    function processarGeracaoMaterial() {
+      const tema = document.getElementById('input-tema-gerador').value.trim() || "Matemática Básica para Concursos";
+      
+      // 1. Metodologia de Estudo
+      const htmlMetodologia = `
+        <p><strong>1. Ciclo de Estudo Ativo para "${tema}":</strong> Divida seu tempo em 50% teoria aplicada, 30% resolução de questões comentadas da banca e 20% revisão por flashcards e mapas mentais.</p>
+        <p><strong>2. Cronograma Semanal Sugerido:</strong> Estude 2 blocos de 45 minutos por dia, alternando a leitura da apostila gerada com a simulação de provas reais.</p>
+        <p><strong>3. Metodologia de Fixação:</strong> A cada erro em exercícios, retorne imediatamente ao resumo teórico correspondente para preencher lacunas de aprendizado.</p>
+      `;
+      document.getElementById('res-metodologia').innerHTML = htmlMetodologia;
+
+      // 2. Livro / Apostila Resumida
+      const htmlApostila = `
+        <h5 class="text-emerald-400 font-bold text-sm mb-1">Módulo Teórico Oficial: ${tema}</h5>
+        <p>Este compêndio sintetiza os principais tópicos cobrados em editais públicos federais e estaduais sobre <strong>${tema}</strong>.</p>
+        <p><strong>Conceitos Fundamentais:</strong> O domínio desta matéria exige rigor conceitual e aplicação prática imediata. Na resolução de bancas examinadoras, o aluno deve atentar-se às pegadinhas de interpretação e às exceções legais ou regras matemáticas fundamentais.</p>
+        <p><strong>Tópicos Essenciais de Revisão:</strong></p>
+        <ul class="list-disc pl-5 space-y-1 text-gray-300">
+          <li>Fundamentos teóricos e definições primárias de ${tema}.</li>
+          <li>Aplicações práticas recorrentes em provas de concursos públicos.</li>
+          <li>Principais armadilhas e exceções cobradas por bancas como Cebraspe e FGV.</li>
+          <li>Resolução passo a passo de modelos clássicos de cobrança.</li>
+        </ul>
+      `;
+      document.getElementById('res-apostila').innerHTML = htmlApostila;
+
+      // 3. Slides de Aula
+      const htmlSlides = `
+        <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 text-xs space-y-2">
+          <span class="text-purple-400 font-bold block">Slide 1: Introdução & Objetivos</span>
+          <p class="text-gray-300">• Visão geral de ${tema}.<br>• Importância estratégica para a prova.<br>• Principais incidências em editais.</p>
+        </div>
+        <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 text-xs space-y-2">
+          <span class="text-purple-400 font-bold block">Slide 2: Conceitos Core & Regras</span>
+          <p class="text-gray-300">• Definições formais.<br>• Fórmulas e dispositivos aplicáveis.<br>• Exemplos práticos resolvidos.</p>
+        </div>
+        <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 text-xs space-y-2">
+          <span class="text-purple-400 font-bold block">Slide 3: Pegadinhas de Banca</span>
+          <p class="text-gray-300">• Termos restritivos (sempre, nunca, exclusivamente).<br>• Jurisprudência e normas aplicadas.<br>• Análise de casos reais.</p>
+        </div>
+        <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 text-xs space-y-2">
+          <span class="text-purple-400 font-bold block">Slide 4: Considerações Finais</span>
+          <p class="text-gray-300">• Checklist de revisão rápida.<br>• Indicação de simulados e questões-chave.<br>• Encerramento do ciclo.</p>
+        </div>
+      `;
+      document.getElementById('res-slides').innerHTML = htmlSlides;
+
+      // 4. Mapa Mental Estruturado
+      const htmlMapa = `
+        <p class="text-amber-400 font-bold mb-1">🗺️ [NÚCLEO CENTRAL] ➔ ${tema.toUpperCase()}</p>
+        <p class="pl-4 border-l-2 border-amber-800 space-y-1">
+          ├── <strong>1. Fundamentos:</strong> Definição básica | Princípios diretos | Escopo de aplicação<br>
+          ├── <strong>2. Regras Operacionais:</strong> Metodologia de cálculo/análise | Normas técnicas | Padrões exigidos<br>
+          ├── <strong>3. Exceções e Detalhes:</strong> Casos especiais | Restrições de banca | Jurisprudência/Teoria<br>
+          └── <strong>4. Aplicação em Prova:</strong> Pegadinhas comuns | Perfil Cebraspe/FGV | Questões de fixação
+        </p>
+      `;
+      document.getElementById('res-mapa-mental').innerHTML = htmlMapa;
+    }
+
     function gerarEBaixarLivroPDF() {
-      const containerQuestoesPDF = document.getElementById('pdf-conteudo-questoes');
-      containerQuestoesPDF.innerHTML = '';
-
-      if (historicoQuestoes.length === 0 && questaoAtual) {
-        historicoQuestoes.push(questaoAtual);
-      }
-
-      historicoQuestoes.forEach((q, index) => {
-        const letras = ['A', 'B', 'C', 'D', 'E'];
-        let opcoesHtml = q.opcoes.map((opt, i) => `<p style="margin-left: 15px;"><strong>${letras[i]})</strong> ${opt}</p>`).join('');
-
-        containerQuestoesPDF.innerHTML += `
-          <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #e5e7eb;">
-            <p style="font-weight: bold; margin-bottom: 6px;">Questão ${index + 1} [${q.disciplina} - ${q.bancaReal} / ${q.ano}]:</p>
-            <p style="margin-bottom: 8px;">${q.enunciado}</p>
-            <div style="margin-bottom: 10px;">${opcoesHtml}</div>
-            <div style="background-color: #f3f4f6; padding: 10px; border-radius: 6px; font-size: 12px;">
-              <strong>Base Legal:</strong> ${q.baseLegal}<br>
-              <strong>Gabarito:</strong> Letra ${letras[q.corretaIndex]}<br>
-              ${q.explicacao}
-            </div>
-          </div>
-        `;
-      });
-
+      const tema = document.getElementById('input-tema-gerador').value.trim() || "Matemática Básica para Concursos";
+      
+      document.getElementById('pdf-titulo-capa').innerText = `HRMTECH - Livro & Metodologia: ${tema}`;
       document.getElementById('pdf-data-geracao').innerText = new Date().toLocaleDateString('pt-BR');
+
+      document.getElementById('pdf-conteudo-metodologia').innerHTML = document.getElementById('res-metodologia').innerHTML;
+      document.getElementById('pdf-conteudo-apostila').innerHTML = document.getElementById('res-apostila').innerHTML;
+      document.getElementById('pdf-conteudo-slides').innerHTML = document.getElementById('res-slides').innerHTML;
+      document.getElementById('pdf-conteudo-mapa').innerHTML = document.getElementById('res-mapa-mental').innerHTML;
 
       const printWindow = window.open('', '_blank');
       printWindow.document.write(`
         <html>
           <head>
-            <title>Caderno de Questões HRMTECH - PDF</title>
+            <title>Livro e Apostila HRMTECH - PDF</title>
             <style>
               body { font-family: Arial, sans-serif; padding: 30px; color: #111827; }
-              h1 { color: #1d4ed8; border-bottom: 2px solid #1d4ed8; padding-bottom: 8px; }
-              h2 { color: #047857; margin-top: 25px; border-bottom: 1px solid #ccc; padding-bottom: 4px; }
+              h1 { color: #047857; border-bottom: 2px solid #047857; padding-bottom: 8px; }
+              h2 { margin-top: 25px; border-bottom: 1px solid #ccc; padding-bottom: 4px; }
+              p, ul { margin-bottom: 10px; font-size: 13px; line-height: 1.5; }
             </style>
           </head>
           <body>
@@ -670,43 +717,6 @@
       printWindow.document.close();
       printWindow.focus();
       setTimeout(() => { printWindow.print(); }, 500);
-    }
-
-    function executarBuscaMidia() {
-      const gridVideos = document.getElementById('grid-videos-resultados');
-      const gridBiblio = document.getElementById('grid-bibliotecas-resultados');
-      
-      gridVideos.innerHTML = '';
-      acervoMultimidia.forEach(vid => {
-        gridVideos.innerHTML += `
-          <div class="card-dark p-4 rounded-xl flex flex-col justify-between">
-            <div>
-              <span class="text-[10px] bg-red-950 text-red-300 border border-red-800 px-2.5 py-1 rounded font-bold">${vid.orgao}</span>
-              <h4 class="text-sm font-bold text-white mt-2 mb-1">${vid.titulo}</h4>
-              <p class="text-xs text-gray-400 mb-3">${vid.descricao}</p>
-            </div>
-            <a href="${vid.linkExterno}" target="_blank" class="w-full bg-red-600 hover:bg-red-500 text-white text-xs font-bold py-2 rounded-lg transition text-center block">
-              <i class="fa-brands fa-youtube mr-1"></i> Acessar Aulas no YouTube
-            </a>
-          </div>
-        `;
-      });
-
-      gridBiblio.innerHTML = '';
-      repositoriosGratuitos.forEach(bib => {
-        gridBiblio.innerHTML += `
-          <div class="card-dark p-4 rounded-xl flex flex-col justify-between">
-            <div>
-              <span class="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-800 px-2.5 py-1 rounded font-bold">${bib.tipo}</span>
-              <h4 class="text-sm font-bold text-white mt-2 mb-1">${bib.nome}</h4>
-              <p class="text-xs text-gray-400 mb-3">${bib.descricao}</p>
-            </div>
-            <a href="${bib.link}" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold py-2 rounded-lg transition text-center block">
-              <i class="fa-solid fa-file-pdf mr-1"></i> Abrir / Baixar PDF
-            </a>
-          </div>
-        `;
-      });
     }
 
     function analisarRedacao() {
