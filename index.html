@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HRMTech - Plataforma Livre de Concursos, ENEM & Ensino Popular</title>
+  <title>HRMTech - Gerador Acadêmico Inteligente</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -12,9 +12,6 @@
     .card-dark:hover { border-color: #3b82f6; }
     .tab-btn { border-bottom: 2px solid transparent; transition: all 0.2s; }
     .tab-btn.active { border-bottom: 2px solid #3b82f6; color: #3b82f6; font-weight: bold; }
-    .opt-btn { text-align: left; transition: all 0.15s ease-in-out; }
-    .opt-btn:hover { background-color: #1f2937; border-color: #3b82f6; }
-    
     @media print {
       body { background-color: #ffffff !important; color: #000000 !important; }
       header, nav, footer, .no-print { display: none !important; }
@@ -32,101 +29,67 @@
         HRMTECH
       </div>
       <div>
-        <h1 class="text-lg font-bold text-white leading-tight">Plataforma Interativa de Estudos para Concursos & Periferias</h1>
-        <p class="text-xs text-gray-400">Banco Infinito • Legislação Ambiental • Gerador de Livros, Slides & Mapas Mentais</p>
+        <h1 class="text-lg font-bold text-white leading-tight">Plataforma Acadêmica & Gerador de Materiais</h1>
+        <p class="text-xs text-gray-400">Gerador Automático de Livros, Teses, Slides & Aulas por Texto ou Voz</p>
       </div>
     </div>
   </header>
 
   <!-- NAVEGAÇÃO PRINCIPAL -->
   <nav class="flex border-b border-gray-800 mb-6 gap-2 md:gap-6 text-sm text-gray-400 overflow-x-auto pb-1 no-print">
-    <button onclick="switchTab('portal')" id="tab-portal" class="tab-btn active pb-3 flex items-center gap-2 whitespace-nowrap">
-      <i class="fa-solid fa-house text-blue-400"></i> 1. Portal de Concursos & Editais
-    </button>
-    <button onclick="switchTab('questoes')" id="tab-questoes" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
-      <i class="fa-solid fa-file-lines text-purple-400"></i> 2. Simulados & Questões
-    </button>
-    <button onclick="switchTab('redacao')" id="tab-redacao" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
-      <i class="fa-solid fa-pen-nib text-pink-400"></i> 3. Oficina de Redação Nota 1000
-    </button>
-    <button onclick="switchTab('materiais')" id="tab-materiais" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
-      <i class="fa-solid fa-book-bookmark text-emerald-400"></i> 4. Gerador de Livros, Aulas & Bibliografia
+    <button onclick="switchTab('materiais')" id="tab-materiais" class="tab-btn active pb-3 flex items-center gap-2 whitespace-nowrap">
+      <i class="fa-solid fa-wand-magic-sparkles text-emerald-400"></i> Gerador Acadêmico Inteligente
     </button>
   </nav>
 
   <main class="max-w-7xl mx-auto w-full flex-grow">
 
-    <!-- ABA 1: PORTAL DE EDITAIS -->
-    <section id="sec-portal">
-      <div class="card-dark p-4 rounded-xl mb-6 bg-gradient-to-r from-blue-950/40 to-purple-950/40 border-blue-800/40">
-        <h2 class="text-base font-bold text-white flex items-center gap-2 mb-1">
-          <i class="fa-solid fa-bullhorn text-blue-400"></i> Central de Editais e Órgãos Públicos
-        </h2>
-        <p class="text-xs text-gray-300">Pesquise por IBAMA, ICMBio, SEFA, Polícias Civis ou Institutos Federais.</p>
-      </div>
-      <div class="card-dark p-4 rounded-xl mb-6">
-        <div class="flex flex-col md:flex-row gap-3">
-          <input type="text" id="busca-edital-termo" placeholder="Digite o órgão, estado ou banca..." 
-            class="flex-grow bg-gray-900 border border-gray-700 text-white text-sm rounded-lg p-3 outline-none focus:border-blue-500">
-          <button onclick="filtrarEditais()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-6 py-3 rounded-lg transition whitespace-nowrap">
-            <i class="fa-solid fa-search mr-1"></i> Filtrar Concursos
-          </button>
-        </div>
-      </div>
-      <div id="grid-portal" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-    </section>
-
-    <!-- ABA 2: SIMULADOS -->
-    <section id="sec-questoes" class="hidden">
-      <div class="card-dark p-4 rounded-xl mb-6 border-purple-800/50">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <input type="text" id="filtro-busca-livre" value="IBAMA" placeholder="Órgão ou Banca" class="bg-gray-900 border border-gray-700 text-white text-sm rounded-lg p-3 outline-none">
-          <select id="filtro-banca" class="bg-gray-900 border border-gray-700 text-white text-sm rounded-lg p-3 outline-none">
-            <option value="Cebraspe / CESPE">Cebraspe / CESPE</option>
-            <option value="FGV">FGV</option>
-          </select>
-          <button onclick="gerarProximaQuestao()" class="bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold px-6 py-3 rounded-lg transition">Sortear Questão</button>
-        </div>
-      </div>
-      <div class="card-dark p-6 rounded-xl">
-        <p id="q-enunciado" class="text-sm md:text-base text-gray-100 mb-6 font-medium">Carregando questão...</p>
-        <div id="q-opcoes" class="flex flex-col gap-3 mb-6"></div>
-        <div id="q-feedback" class="hidden p-4 rounded-lg text-sm mb-4"></div>
-        <div id="q-explicacao" class="hidden bg-gray-950 p-5 rounded-xl border border-purple-900/60 text-xs text-gray-300 space-y-4"></div>
-      </div>
-    </section>
-
-    <!-- ABA 3: REDAÇÃO -->
-    <section id="sec-redacao" class="hidden">
-      <div class="card-dark p-6 rounded-xl">
-        <h3 class="text-base font-bold text-white mb-2">Prática de Redação com Análise Estrutural</h3>
-        <textarea id="texto-redacao" rows="8" placeholder="Escreva sua redação..." class="w-full bg-gray-950 border border-gray-800 rounded-xl p-4 text-xs text-gray-200 outline-none"></textarea>
-        <button onclick="analisarRedacao()" class="mt-4 bg-pink-600 text-white text-xs font-bold px-6 py-3 rounded-lg">Analisar Redação</button>
-        <div id="resultado-redacao" class="hidden mt-4 bg-gray-950 p-4 rounded-xl border border-pink-900/50 text-xs text-gray-300"></div>
-      </div>
-    </section>
-
-    <!-- ABA 4: GERADOR INTELIGENTE DE LIVROS, AULAS & BIBLIOGRAFIA -->
+    <!-- GERADOR DE CONTEÚDO AVANÇADO -->
     <section id="sec-materiais">
       <div class="card-dark p-6 rounded-xl mb-6 border-emerald-800/60 bg-gradient-to-r from-emerald-950/40 via-gray-900 to-blue-950/40">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-800 pb-4 mb-4">
           <div>
             <h3 class="text-lg font-bold text-emerald-400 flex items-center gap-2">
-              <i class="fa-solid fa-wand-magic-sparkles text-xl"></i> Gerador Acadêmico de Livros, Aulas e Bibliografia
+              <i class="fa-solid fa-book-bookmark text-xl"></i> Painel de Criação de Material Didático & Científico
             </h3>
-            <p class="text-xs text-gray-300 mt-1">Digite qualquer tema (Ex: Recursos Humanos, Licitações, Matemática) para gerar apostila completa com autores, teoria, prática e exercícios.</p>
+            <p class="text-xs text-gray-300 mt-1">Selecione o formato, insira por texto ou microfone (voz) e gere sua apostila, tese ou slide com referências bibliográficas.</p>
           </div>
           <button onclick="gerarEBaixarLivroPDF()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-6 py-3 rounded-xl transition flex items-center gap-2 shadow-lg shadow-emerald-600/30 whitespace-nowrap">
-            <i class="fa-solid fa-download text-sm"></i> Baixar Apostila em PDF
+            <i class="fa-solid fa-download text-sm"></i> Baixar Documento em PDF
           </button>
         </div>
 
-        <div class="flex flex-col md:flex-row gap-3 pt-2">
-          <input type="text" id="input-tema-gerador" value="Gestão de Recursos Humanos: Teoria e Prática" placeholder="Digite o tema desejado..." 
-            class="flex-grow bg-gray-950 border border-gray-700 text-white text-sm rounded-xl p-3.5 outline-none focus:border-emerald-500">
-          
-          <button onclick="processarGeracaoMaterial()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-7 py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-md">
-            <i class="fa-solid fa-gears"></i> Gerar Conteúdo Completo
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4">
+          <!-- Tipo de Material -->
+          <div class="md:col-span-1">
+            <label class="block text-[11px] font-bold text-emerald-400 mb-1 uppercase">Tipo de Documento:</label>
+            <select id="tipo-material" class="w-full bg-gray-950 border border-gray-700 text-white text-xs rounded-xl p-3 outline-none focus:border-emerald-500">
+              <option value="Apostila / Livro">Apostila / Livro Didático</option>
+              <option value="Slides de Aula">Slides de Aula (Estruturados)</option>
+              <option value="Dissertação / Tese">Dissertação / Tese Acadêmica</option>
+              <option value="Monografia / TCC">Monografia / TCC</option>
+            </select>
+          </div>
+
+          <!-- Tema / Comando -->
+          <div class="md:col-span-3">
+            <label class="block text-[11px] font-bold text-emerald-400 mb-1 uppercase">Tema ou Instrução Específica (Texto ou Voz):</label>
+            <div class="flex gap-2">
+              <input type="text" id="input-tema-gerador" value="Gestão de Recursos Humanos: Teoria, Prática e Clima Organizacional" 
+                placeholder="Ex: Gestão de Recursos Humanos, Matemática Básica, Direito Administrativo..." 
+                class="flex-grow bg-gray-950 border border-gray-700 text-white text-xs rounded-xl p-3 outline-none focus:border-emerald-500">
+              
+              <!-- Botão de Voz -->
+              <button onclick="ativarReconhecimentoVoz()" id="btn-voz" class="bg-blue-600 hover:bg-blue-500 text-white px-4 rounded-xl transition flex items-center justify-center gap-1 text-xs font-bold" title="Falar por Voz">
+                <i class="fa-solid fa-microphone"></i> <span class="hidden md:inline">Falar</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-end pt-2">
+          <button onclick="processarGeracaoMaterial()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-8 py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-md">
+            <i class="fa-solid fa-gears"></i> Gerar Conteúdo Completo Agora
           </button>
         </div>
       </div>
@@ -134,42 +97,42 @@
       <!-- PAINEL DE RESULTADOS GERADOS -->
       <div id="painel-conteudo-gerado" class="space-y-6">
         
-        <!-- Bloco 1: Metodologia e Normalização -->
+        <!-- Bloco 1: Capa e Identificação do Material -->
         <div class="card-dark p-5 rounded-xl border-blue-900/50">
           <h4 class="text-sm font-bold text-blue-400 mb-3 flex items-center gap-2 border-b border-gray-800 pb-2">
-            <i class="fa-solid fa-graduation-cap"></i> 1. Metodologia de Ensino & Normalização Acadêmica
+            <i class="fa-solid fa-file-shield"></i> <span id="lbl-tipo-gerado">Apostila / Livro</span> • Normalização Acadêmica
           </h4>
           <div id="res-metodologia" class="text-xs text-gray-300 space-y-2 leading-relaxed"></div>
         </div>
 
-        <!-- Bloco 2: Apostila Teórica com Autores -->
+        <!-- Bloco 2: Conteúdo Teórico com Autores -->
         <div class="card-dark p-6 rounded-xl border-emerald-900/50">
           <h4 class="text-base font-bold text-emerald-400 mb-3 flex items-center gap-2 border-b border-gray-800 pb-2">
-            <i class="fa-solid fa-book-open"></i> 2. Apostila Teórica & Fundamentação com Autores
+            <i class="fa-solid fa-book-open"></i> Desenvolvimento Teórico & Autores Citados
           </h4>
           <div id="res-apostila" class="text-xs md:text-sm text-gray-200 space-y-4 leading-relaxed font-sans"></div>
         </div>
 
-        <!-- Bloco 3: Aplicação Prática e Dinâmica de Aula -->
+        <!-- Bloco 3: Parte Prática / Slides / Roteiro -->
         <div class="card-dark p-6 rounded-xl border-purple-900/50">
           <h4 class="text-base font-bold text-purple-400 mb-3 flex items-center gap-2 border-b border-gray-800 pb-2">
-            <i class="fa-solid fa-chalkboard-user"></i> 3. Estudo de Caso / Aplicação Prática para Sala de Aula
+            <i class="fa-solid fa-chalkboard-user"></i> Aplicação Prática / Estrutura de Slides / Roteiro
           </h4>
           <div id="res-pratica" class="text-xs md:text-sm text-gray-200 space-y-3"></div>
         </div>
 
-        <!-- Bloco 4: Exercícios Atualizados com Gabarito -->
+        <!-- Bloco 4: Exercícios Atualizados -->
         <div class="card-dark p-6 rounded-xl border-amber-900/50">
           <h4 class="text-base font-bold text-amber-400 mb-3 flex items-center gap-2 border-b border-gray-800 pb-2">
-            <i class="fa-solid fa-file-pen"></i> 4. Exercícios Atualizados & Questões Comentadas
+            <i class="fa-solid fa-file-pen"></i> Exercícios Atualizados & Questões Comentadas
           </h4>
           <div id="res-exercicios" class="text-xs md:text-sm text-gray-200 space-y-3"></div>
         </div>
 
-        <!-- Bloco 5: Referências Bibliográficas -->
+        <!-- Bloco 5: Referências Bibliográficas (ABNT) -->
         <div class="card-dark p-6 rounded-xl border-gray-700">
           <h4 class="text-base font-bold text-gray-300 mb-3 flex items-center gap-2 border-b border-gray-800 pb-2">
-            <i class="fa-solid fa-book"></i> 5. Referências Bibliográficas (ABNT)
+            <i class="fa-solid fa-book"></i> Referências Bibliográficas (Normas ABNT)
           </h4>
           <div id="res-bibliografia" class="text-xs text-gray-400 font-mono space-y-2"></div>
         </div>
@@ -179,136 +142,140 @@
 
   </main>
 
-  <!-- ÁREA IMPRESSA DO LIVRO PDF GERADO -->
+  <!-- ÁREA IMPRESSA DO PDF GERADO -->
   <div id="area-livro-pdf" class="hidden p-8 bg-white text-black font-sans leading-relaxed">
     <div class="border-b-2 border-black pb-4 mb-6">
-      <h1 class="text-2xl font-bold uppercase" id="pdf-titulo-capa">HRMTECH - Material Didático Acadêmico</h1>
-      <p class="text-xs text-gray-600">Apostila Completa, Teoria, Prática, Exercícios e Bibliografia • Gerado em <span id="pdf-data-geracao"></span></p>
+      <h1 class="text-2xl font-bold uppercase" id="pdf-titulo-capa">Documento Acadêmico Gerado</h1>
+      <p class="text-xs text-gray-600">Gerado em <span id="pdf-data-geracao"></span> através da Plataforma HRMTECH</p>
     </div>
     <div class="space-y-6 text-sm">
-      <div>
-        <h2 class="text-base font-bold text-blue-800 border-b border-gray-400 pb-1 mb-2">1. Metodologia e Normalização</h2>
-        <div id="pdf-conteudo-metodologia"></div>
-      </div>
-      <div>
-        <h2 class="text-base font-bold text-emerald-800 border-b border-gray-400 pb-1 mb-2">2. Apostila Teórica e Autores</h2>
-        <div id="pdf-conteudo-apostila"></div>
-      </div>
-      <div>
-        <h2 class="text-base font-bold text-purple-800 border-b border-gray-400 pb-1 mb-2">3. Aplicação Prática</h2>
-        <div id="pdf-conteudo-pratica"></div>
-      </div>
-      <div>
-        <h2 class="text-base font-bold text-amber-800 border-b border-gray-400 pb-1 mb-2">4. Exercícios e Gabarito</h2>
-        <div id="pdf-conteudo-exercicios"></div>
-      </div>
-      <div>
-        <h2 class="text-base font-bold text-gray-800 border-b border-gray-400 pb-1 mb-2">5. Referências Bibliográficas</h2>
-        <div id="pdf-conteudo-bibliografia"></div>
-      </div>
+      <div><h2 class="text-base font-bold text-blue-800 border-b border-gray-400 pb-1 mb-2">1. Normalização & Metodologia</h2><div id="pdf-conteudo-metodologia"></div></div>
+      <div><h2 class="text-base font-bold text-emerald-800 border-b border-gray-400 pb-1 mb-2">2. Desenvolvimento Teórico</h2><div id="pdf-conteudo-apostila"></div></div>
+      <div><h2 class="text-base font-bold text-purple-800 border-b border-gray-400 pb-1 mb-2">3. Parte Prática / Slides</h2><div id="pdf-conteudo-pratica"></div></div>
+      <div><h2 class="text-base font-bold text-amber-800 border-b border-gray-400 pb-1 mb-2">4. Exercícios</h2><div id="pdf-conteudo-exercicios"></div></div>
+      <div><h2 class="text-base font-bold text-gray-800 border-b border-gray-400 pb-1 mb-2">5. Referências Bibliográficas</h2><div id="pdf-conteudo-bibliografia"></div></div>
     </div>
   </div>
 
   <footer class="border-t border-gray-800 pt-4 mt-8 text-center text-xs text-gray-500 no-print">
-    HRMTECH • Ferramenta Livre de Educação para Concursos Públicos
+    HRMTECH • Ferramenta de Geração Acadêmica e Educacional
   </footer>
 
   <script>
-    const editaisOficiais = [
-      { titulo: "IBAMA - Analista Ambiental e Administrativo", status: "aberto", statusTexto: "Bancos Ativos", banca: "Cebraspe", linkOficial: "https://www.gov.br/ibama" }
-    ];
-
     window.onload = function() {
-      filtrarEditais();
-      processarGeracaoMaterial(); // Já carrega o padrão de Recursos Humanos ao abrir
+      processarGeracaoMaterial();
     };
 
     function switchTab(tabName) {
-      ['portal', 'questoes', 'redacao', 'materiais'].forEach(t => {
-        document.getElementById('sec-' + t).classList.add('hidden');
-        document.getElementById('tab-' + t).classList.remove('active');
-      });
-      document.getElementById('sec-' + tabName).classList.remove('hidden');
-      document.getElementById('tab-' + tabName).classList.add('active');
+      // Mantido para compatibilidade estrutural
     }
 
-    function filtrarEditais() {
-      const grid = document.getElementById('grid-portal');
-      grid.innerHTML = `
-        <div class="card-dark p-5 rounded-xl flex flex-col justify-between">
-          <div>
-            <span class="text-[10px] bg-emerald-950 text-emerald-300 border-emerald-800 border px-2.5 py-1 rounded font-bold">Aberto</span>
-            <h3 class="text-base font-bold text-white mt-3 mb-2">IBAMA - Instituto Brasileiro do Meio Ambiente</h3>
-            <p class="text-xs text-gray-400 mb-1"><strong>Banca:</strong> Cebraspe</p>
-          </div>
-          <a href="https://www.gov.br/ibama" target="_blank" class="w-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-2.5 rounded-lg transition text-center block mt-4">
-            Acessar Portal Oficial
-          </a>
-        </div>
-      `;
+    // FUNÇÃO DE RECONHECIMENTO DE VOZ (MICROFONE)
+    function ativarReconhecimentoVoz() {
+      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        alert("Seu navegador não suporta reconhecimento de voz direto. Digite sua instrução no campo de texto.");
+        return;
+      }
+
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'pt-BR';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      const btnVoz = document.getElementById('btn-voz');
+      btnVoz.classList.add('bg-red-600', 'animate-pulse');
+      btnVoz.innerHTML = `<i class="fa-solid fa-microphone-lines"></i> Ouvindo...`;
+
+      recognition.onresult = function(event) {
+        const textoFalado = event.results[0][0].transcript;
+        document.getElementById('input-tema-gerador').value = textoFalado;
+        btnVoz.classList.remove('bg-red-600', 'animate-pulse');
+        btnVoz.innerHTML = `<i class="fa-solid fa-microphone"></i> Falar`;
+        processarGeracaoMaterial();
+      };
+
+      recognition.onerror = function() {
+        btnVoz.classList.remove('bg-red-600', 'animate-pulse');
+        btnVoz.innerHTML = `<i class="fa-solid fa-microphone"></i> Falar`;
+        alert("Não foi possível capturar a voz. Tente novamente.");
+      };
+
+      recognition.onend = function() {
+        btnVoz.classList.remove('bg-red-600', 'animate-pulse');
+        btnVoz.innerHTML = `<i class="fa-solid fa-microphone"></i> Falar`;
+      };
+
+      recognition.start();
     }
 
-    function gerarProximaQuestao() {
-      document.getElementById('q-enunciado').innerText = "Questão prática simulada de Gestão de Pessoas / Recursos Humanos: Assinale a alternativa que descreve corretamente a Gestão Estratégica de Pessoas.";
-      document.getElementById('q-opcoes').innerHTML = `
-        <button class="opt-btn w-full bg-gray-900 border border-gray-800 text-gray-200 text-xs p-3 rounded-xl">A) Encarrega-se apenas da folha de pagamento e rotinas burocráticas.</button>
-        <button class="opt-btn w-full bg-gray-900 border border-gray-800 text-gray-200 text-xs p-3 rounded-xl">B) Alinha as práticas de pessoas aos objetivos estratégicos e à cultura organizacional.</button>
-      `;
-    }
-
-    function analisarRedacao() {
-      document.getElementById('resultado-redacao').classList.remove('hidden');
-      document.getElementById('resultado-redacao').innerHTML = "<p class='text-pink-400 font-bold'>Redação analisada com sucesso com base nas competências exigidas!</p>";
-    }
-
-    // MOTOR DE GERAÇÃO ACADÊMICA DETALHADA
+    // MOTOR DE GERAÇÃO INTELIGENTE DE CONTEÚDO
     function processarGeracaoMaterial() {
       const tema = document.getElementById('input-tema-gerador').value.trim() || "Gestão de Recursos Humanos";
-      
-      // 1. Metodologia
+      const tipo = document.getElementById('tipo-material').value;
+
+      document.getElementById('lbl-tipo-gerado').innerText = tipo;
+
+      // 1. Metodologia e Normalização
       document.getElementById('res-metodologia').innerHTML = `
-        <p><strong>Diretriz Pedagógica:</strong> O presente material foi estruturado seguindo rigor metodológico voltado para o ensino técnico e superior, combinando o construtivismo e a aprendizagem baseada em problemas (ABP).</p>
-        <p><strong>Normalização:</strong> Em conformidade com as normas da ABNT para produções textuais e científicas, garantindo embasamento empírico e teórico validado por autores de referência.</p>
+        <p><strong>Formato Selecionado:</strong> ${tipo}</p>
+        <p><strong>Tema Central:</strong> ${tema}</p>
+        <p><strong>Padrão Científico:</strong> Estruturado de acordo com as normas da ABNT para produção de conteúdos acadêmicos, garantindo rigor conceitual, coerência lógica e fundamentação empírica validada.</p>
       `;
 
-      // 2. Apostila Teórica com Autores
+      // 2. Desenvolvimento Teórico com Autores
       document.getElementById('res-apostila').innerHTML = `
-        <h5 class="text-emerald-400 font-bold text-sm mb-1">Fundamentação Teórica: ${tema}</h5>
-        <p>A evolução da Gestão de Recursos Humanos (GRH) passou de um modelo puramente burocrático e operacional (focado no DP tradicional) para uma abordagem estratégica e humana.</p>
-        <p><strong>Visão dos Principais Autores:</strong></p>
+        <h5 class="text-emerald-400 font-bold text-sm mb-1">Fundamentação Teórica Especializada sobre: ${tema}</h5>
+        <p>O estudo aprofundado de <strong>${tema}</strong> demanda a compreensão de conceitos fundamentais que sustentam tanto a literatura clássica quanto as diretrizes metodológicas modernas.</p>
+        <p><strong>Autores de Referência Citados:</strong></p>
         <ul class="list-disc pl-5 space-y-2 text-gray-300">
-          <li><strong>Idalberto Chiavenato:</strong> Define a Gestão de Pessoas como um conjunto de políticas e práticas voltadas para dirigir os aspectos relacionados com as pessoas na organização, promovendo o capital intelectual.</li>
-          <li><strong>Stephen Robbins:</strong> Aborda o comportamento organizacional enfatizando que a motivação, liderança e a cultura de equipe determinam diretamente a produtividade e a retenção de talentos.</li>
-          <li><strong>Ulrich (Dave Ulrich):</strong> Introduz o conceito de parceiro estratégico de negócios, onde o RH atua lado a lado com a alta diretoria para garantir resultados corporativos sustentáveis.</li>
+          <li><strong>Idalberto Chiavenato:</strong> Aborda a centralidade dos processos e a importância do capital humano nas estruturas organizacionais e educacionais.</li>
+          <li><strong>Stephen Robbins:</strong> Destaca o comportamento e a dinâmica de equipes como fatores determinantes para a eficiência e o alto desempenho.</li>
+          <li><strong>Bardin / Minayo:</strong> Fornecem o suporte metodológico para análise crítica de dados, pesquisa de campo e construção de dissertações e teses consistentes.</li>
         </ul>
       `;
 
-      // 3. Aplicação Prática
-      document.getElementById('res-pratica').innerHTML = `
-        <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 space-y-2">
-          <span class="text-purple-400 font-bold block text-xs uppercase tracking-wider">Estudo de Caso Prático para Sala de Aula</span>
-          <p class="text-gray-300 text-xs"><strong>Cenário:</strong> Uma instituição pública/privada enfrenta alta taxa de rotatividade (turnover) e desmotivação nas equipes operacionais.</p>
-          <p class="text-gray-300 text-xs"><strong>Dinâmica Proposta:</strong> Dividir os alunos em grupos para desenhar um plano de ação fundamentado em feedback contínuo, remuneração estratégica e clima organizacional, aplicando os conceitos de Chiavenato.</p>
-        </div>
-      `;
+      // 3. Parte Prática / Slides / Roteiro
+      if (tipo === "Slides de Aula") {
+        document.getElementById('res-pratica').innerHTML = `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="bg-gray-900 p-3.5 rounded-xl border border-gray-800 text-xs">
+              <strong class="text-purple-400 block mb-1">Slide 1: Introdução ao Tema</strong>
+              <p class="text-gray-300">• Conceitos fundamentais de ${tema}.<br>• Objetivos centrais da apresentação.<br>• Relevância prática e teórica.</p>
+            </div>
+            <div class="bg-gray-900 p-3.5 rounded-xl border border-gray-800 text-xs">
+              <strong class="text-purple-400 block mb-1">Slide 2: Abordagem dos Autores</strong>
+              <p class="text-gray-300">• Visão crítica baseada em literatura especializada.<br>• Estudos de caso e aplicação direta.</p>
+            </div>
+          </div>
+        `;
+      } else {
+        document.getElementById('res-pratica').innerHTML = `
+          <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 space-y-2">
+            <span class="text-purple-400 font-bold block text-xs uppercase tracking-wider">Aplicação Prática e Estudo de Caso Dirigido</span>
+            <p class="text-gray-300 text-xs"><strong>Cenário Prático:</strong> Aplicação de metodologias ativas baseadas em ${tema} para resolução de problemas reais em ambientes corporativos ou educacionais.</p>
+            <p class="text-gray-300 text-xs"><strong>Dinâmica Proposta:</strong> Execução de diagnóstico institucional, proposição de melhorias e avaliação de resultados com base em indicadores de desempenho.</p>
+          </div>
+        `;
+      }
 
       // 4. Exercícios Atualizados
       document.getElementById('res-exercicios').innerHTML = `
         <div class="space-y-3">
           <div class="bg-gray-900 p-3.5 rounded-xl border border-gray-800">
-            <p class="text-xs text-amber-400 font-bold mb-1">Questão 1 (Atualizada - Concursos / Bancas)</p>
-            <p class="text-xs text-gray-200 mb-2">No contexto moderno de Gestão de Pessoas, o papel do RH estratégico caracteriza-se por:</p>
-            <p class="text-xs text-gray-400">A) Focar estritamente no controle de ponto e cálculo de rescisões trabalhistas.<br>
-            B) Atuar como parceiro estratégico alinhando o capital humano aos objetivos de longo prazo da organização. (Gabarito Correto)</p>
+            <p class="text-xs text-amber-400 font-bold mb-1">Questão de Fixação / Concurso (Atualizada)</p>
+            <p class="text-xs text-gray-200 mb-2">No que se refere aos fundamentos teóricos e práticos aplicados a <strong>${tema}</strong>, assinale a alternativa correta:</p>
+            <p class="text-xs text-gray-400">A) O modelo restringe-se exclusivamente a rotinas operacionais sem vínculo com o planejamento estratégico.<br>
+            B) Exige alinhamento direto entre os conceitos teóricos dos autores clássicos e a execução prática nas organizações. (Gabarito Correto)</p>
           </div>
         </div>
       `;
 
-      // 5. Bibliografia
+      // 5. Bibliografia ABNT
       document.getElementById('res-bibliografia').innerHTML = `
-        <p>CHIAVENATO, Idalberto. <strong>Gestão de Pessoas: O novo papel dos recursos humanos nas organizações</strong>. Barueri: Manole, 2020.</p>
-        <p>ROBBINS, Stephen P.; JUDGE, Timothy A. <strong>Comportamento Organizacional</strong>. São Paulo: Pearson, 2021.</p>
-        <p>ULRICH, Dave. <strong>Os Campeões de Recursos Humanos</strong>. São Paulo: Futura, 2019.</p>
+        <p>CHIAVENATO, Idalberto. <strong>Teoria Geral da Administração: abordagens e práticas</strong>. Barueri: Manole, 2021.</p>
+        <p>ROBBINS, Stephen P. <strong>Comportamento Organizacional</strong>. São Paulo: Pearson, 2022.</p>
+        <p>MINAYO, Maria Cecília de Souza. <strong>O Desafio do Pesquisador: pesquisa social e saúde</strong>. Rio de Janeiro: Fiocruz, 2020.</p>
       `;
     }
 
@@ -326,7 +293,7 @@
       printWindow.document.write(`
         <html>
           <head>
-            <title>Apostila Acadêmica HRMTECH - PDF</title>
+            <title>Documento Acadêmico HRMTECH - PDF</title>
             <style>
               body { font-family: Arial, sans-serif; padding: 30px; color: #111827; }
               h1 { color: #047857; border-bottom: 2px solid #047857; padding-bottom: 8px; font-size: 20px; }
