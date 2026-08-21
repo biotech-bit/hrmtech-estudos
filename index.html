@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HRMTech - Plataforma Acadêmica & Gerador</title>
+  <title>HRMTech - Plataforma Acadêmica & Concursos</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -31,31 +31,31 @@
         HRMTECH
       </div>
       <div>
-        <h1 class="text-lg font-bold text-white leading-tight">Plataforma Acadêmica & Gerador de Materiais</h1>
-        <p class="text-xs text-gray-400">Gerador Automático de Livros, Teses, Slides & Aulas por Texto ou Voz</p>
+        <h1 class="text-lg font-bold text-white leading-tight">Plataforma Acadêmica, Concursos & Gerador</h1>
+        <p class="text-xs text-gray-400">Sistema Completo de Estudos, Provas, Simulados e Produção Científica Anti-IA</p>
       </div>
     </div>
   </header>
 
-  <!-- NAVEGAÇÃO PRINCIPAL (TODAS AS ABAS RESTAURADAS) -->
+  <!-- NAVEGAÇÃO PRINCIPAL COM TODAS AS ABAS ORIGINAIS -->
   <nav class="flex border-b border-gray-800 mb-6 gap-2 md:gap-6 text-sm text-gray-400 overflow-x-auto pb-1 no-print">
     <button onclick="switchTab('materiais')" id="tab-materiais" class="tab-btn active pb-3 flex items-center gap-2 whitespace-nowrap">
       <i class="fa-solid fa-wand-magic-sparkles text-emerald-400"></i> Gerador Acadêmico Anti-IA
     </button>
-    <button onclick="switchTab('estudos')" id="tab-estudos" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
-      <i class="fa-solid fa-book-open-reader text-blue-400"></i> Central de Estudos
+    <button onclick="switchTab('concursos')" id="tab-concursos" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
+      <i class="fa-solid fa-magnifying-glass text-blue-400"></i> Concursos & Pesquisa
     </button>
     <button onclick="switchTab('simulados')" id="tab-simulados" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
-      <i class="fa-solid fa-file-lines text-amber-400"></i> Simulados & Questões
+      <i class="fa-solid fa-file-lines text-amber-400"></i> Simulados & Provas
     </button>
     <button onclick="switchTab('estatisticas')" id="tab-estatisticas" class="tab-btn pb-3 flex items-center gap-2 whitespace-nowrap">
-      <i class="fa-solid fa-chart-pie text-purple-400"></i> Dados & Estatísticas
+      <i class="fa-solid fa-chart-pie text-purple-400"></i> Desempenho & Pontuação
     </button>
   </nav>
 
   <main class="max-w-7xl mx-auto w-full flex-grow">
 
-    <!-- SEÇÃO 1: GERADOR ACADÊMICO (COM ABAS INDIVIDUAIS E ANTI-IA) -->
+    <!-- SEÇÃO 1: GERADOR ACADÊMICO (COM BOTÕES INDIVIDUAIS E ANTI-IA) -->
     <section id="sec-materiais" class="space-y-6">
       <div class="card-dark p-6 rounded-xl border-emerald-800/60 bg-gradient-to-r from-emerald-950/40 via-gray-900 to-blue-950/40">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-800 pb-4 mb-4">
@@ -63,7 +63,7 @@
             <h3 class="text-lg font-bold text-emerald-400 flex items-center gap-2">
               <i class="fa-solid fa-pen-fancy text-xl"></i> Painel de Produção Acadêmica (Anti-Plágio / Anti-IA)
             </h3>
-            <p class="text-xs text-gray-300 mt-1">Selecione o formato desejado, digite ou fale por voz e gere conteúdos formatados rigidamente nas normas ABNT.</p>
+            <p class="text-xs text-gray-300 mt-1">Selecione o formato exato, utilize texto ou microfone e gere conteúdos formatados nas normas ABNT.</p>
           </div>
           <button type="button" onclick="gerarEBaixarDocumentoPDF()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-6 py-3 rounded-xl transition flex items-center gap-2 shadow-lg shadow-emerald-600/30 whitespace-nowrap">
             <i class="fa-solid fa-download text-sm"></i> Baixar Documento em PDF
@@ -152,27 +152,89 @@
       </div>
     </section>
 
-    <!-- SEÇÃO 2: ESTUDOS (RESTAURADA) -->
-    <section id="sec-estudos" class="hidden space-y-6">
+    <!-- SEÇÃO 2: CONCURSOS & PESQUISA POR ESTADO, MUNICÍPIO E ÓRGÃOS (RESTAURADA) -->
+    <section id="sec-concursos" class="hidden space-y-6">
       <div class="card-dark p-6 rounded-xl">
-        <h3 class="text-lg font-bold text-blue-400 mb-2"><i class="fa-solid fa-book-open-reader"></i> Central de Estudos</h3>
-        <p class="text-xs text-gray-300">Área destinada aos seus resumos, materiais de revisão e tópicos salvos para concursos e faculdade.</p>
+        <h3 class="text-lg font-bold text-blue-400 mb-2"><i class="fa-solid fa-magnifying-glass"></i> Pesquisa de Concursos por Estado, Município e Órgãos</h3>
+        <p class="text-xs text-gray-300 mb-4">Filtre editais abertos, selecione a localidade desejada e baixe materiais de estudo específicos.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+          <div>
+            <label class="block text-[11px] font-bold text-blue-400 mb-1 uppercase">Estado (UF):</label>
+            <select class="w-full bg-gray-950 border border-gray-700 text-white text-xs rounded-xl p-3 outline-none">
+              <option>Pará (PA)</option>
+              <option>Amazonas (AM)</option>
+              <option>São Paulo (SP)</option>
+              <option>Geral / Federal</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-blue-400 mb-1 uppercase">Município:</label>
+            <input type="text" placeholder="Ex: Itaituba, Belém..." class="w-full bg-gray-950 border border-gray-700 text-white text-xs rounded-xl p-3 outline-none">
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-blue-400 mb-1 uppercase">Órgão / Instituição:</label>
+            <input type="text" placeholder="Ex: SEFA-PA, Polícia Civil..." class="w-full bg-gray-950 border border-gray-700 text-white text-xs rounded-xl p-3 outline-none">
+          </div>
+        </div>
+
+        <div class="border-t border-gray-800 pt-4 mt-4">
+          <h4 class="text-xs font-bold text-gray-300 mb-3"><i class="fa-solid fa-download text-emerald-400"></i> Links de Vídeo e Materiais para Download</h4>
+          <div class="space-y-2 text-xs">
+            <div class="bg-gray-900 p-3 rounded-xl border border-gray-800 flex justify-between items-center">
+              <div>
+                <p class="font-bold text-white">Apostila Completa SEFA-PA & Legislação Tributária</p>
+                <p class="text-gray-400 text-[11px]">Material em PDF + Videoaula Explicativa</p>
+              </div>
+              <div class="flex gap-2">
+                <a href="#" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-lg text-[11px] font-bold flex items-center gap-1"><i class="fa-solid fa-video"></i> Vídeo</a>
+                <a href="#" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-[11px] font-bold flex items-center gap-1"><i class="fa-solid fa-download"></i> Baixar</a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- SEÇÃO 3: SIMULADOS (RESTAURADA) -->
+    <!-- SEÇÃO 3: SIMULADOS & PROVAS (RESTAURADA COM FEEDBACK) -->
     <section id="sec-simulados" class="hidden space-y-6">
       <div class="card-dark p-6 rounded-xl">
-        <h3 class="text-lg font-bold text-amber-400 mb-2"><i class="fa-solid fa-file-lines"></i> Simulados & Questões</h3>
-        <p class="text-xs text-gray-300">Ambiente de testes práticos, flashcards e questões comentadas por banca e disciplina.</p>
+        <h3 class="text-lg font-bold text-amber-400 mb-2"><i class="fa-solid fa-file-lines"></i> Simulados com Provas & Feedback Comentado</h3>
+        <p class="text-xs text-gray-300 mb-4">Responda às questões e receba feedback imediato com gabarito comentado.</p>
+        
+        <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 space-y-3 text-xs">
+          <p class="font-bold text-amber-300">Questão 1: Acerca do Direito Administrativo e Gestão Pública...</p>
+          <div class="space-y-1.5 pl-2 text-gray-300">
+            <label class="block cursor-pointer"><input type="radio" name="q1" class="mr-2"> A) O princípio da legalidade restringe a atuação da administração...</label>
+            <label class="block cursor-pointer"><input type="radio" name="q1" class="mr-2"> B) A administração pública direta compreende os órgãos integrados...</label>
+          </div>
+          <button onclick="alert('Feedback: Resposta correta! Os órgãos da administração direta integram a estrutura centralizada do Estado.')" class="bg-amber-600 hover:bg-amber-500 text-white px-4 py-2 rounded-lg font-bold text-xs mt-2">
+            Enviar Resposta & Ver Feedback
+          </button>
+        </div>
       </div>
     </section>
 
-    <!-- SEÇÃO 4: ESTATÍSTICAS (RESTAURADA) -->
+    <!-- SEÇÃO 4: DESEMPENHO E PONTUAÇÃO (RESTAURADA) -->
     <section id="sec-estatisticas" class="hidden space-y-6">
       <div class="card-dark p-6 rounded-xl">
-        <h3 class="text-lg font-bold text-purple-400 mb-2"><i class="fa-solid fa-chart-pie"></i> Dados & Estatísticas</h3>
-        <p class="text-xs text-gray-300">Acompanhamento de desempenho, métricas de estudo e controle estatístico de produtividade.</p>
+        <h3 class="text-lg font-bold text-purple-400 mb-2"><i class="fa-solid fa-chart-pie"></i> Desempenho e Pontuação de Alunos</h3>
+        <p class="text-xs text-gray-300 mb-4">Acompanhe seu índice de acertos, pontuação acumulada nos simulados e evolução nas matérias.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 text-center">
+            <span class="text-purple-400 text-2xl font-bold block">88%</span>
+            <span class="text-gray-400 text-xs">Taxa de Acertos Geral</span>
+          </div>
+          <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 text-center">
+            <span class="text-emerald-400 text-2xl font-bold block">142</span>
+            <span class="text-gray-400 text-xs">Simulados Realizados</span>
+          </div>
+          <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 text-center">
+            <span class="text-blue-400 text-2xl font-bold block">Nível Avançado</span>
+            <span class="text-gray-400 text-xs">Classificação de Desempenho</span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -194,7 +256,7 @@
   </div>
 
   <footer class="border-t border-gray-800 pt-4 mt-8 text-center text-xs text-gray-500 no-print">
-    HRMTECH • Ferramenta Acadêmica e Educacional
+    HRMTECH • Plataforma Acadêmica e Concursos
   </footer>
 
   <script>
@@ -206,7 +268,7 @@
 
     // CONTROLE DAS ABAS PRINCIPAIS DA PLATAFORMA
     function switchTab(tabId) {
-      ['materiais', 'estudos', 'simulados', 'estatisticas'].forEach(t => {
+      ['materiais', 'concursos', 'simulados', 'estatisticas'].forEach(t => {
         const sec = document.getElementById('sec-' + t);
         const btn = document.getElementById('tab-' + t);
         if (t === tabId) {
@@ -318,7 +380,6 @@
     }
 
     // EXPORTAÇÃO PARA PDF
-    function gerardeBaixarDocumentoPDF() {} // Mantido compatível
     function gerarEBaixarDocumentoPDF() {
       executarGeracaoIndependente();
       document.getElementById('pdf-titulo-documento').innerText = `${tipoAtualSelecionado.toUpperCase()}: ${document.getElementById('input-tema-gerador').value}`;
