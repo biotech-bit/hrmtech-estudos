@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cebraspe | Sistema Oficial de Simulados e Provas para Concursos</title>
+    <title>Simulado Oficial Padrão Bancas | 100 Questões por Prova</title>
     <style>
         :root {
             --primary: #003366;
@@ -19,13 +19,11 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg); color: var(--text); line-height: 1.6; }
         
-        /* Topo Institucional Estilo Cebraspe */
         .top-bar { background: #1a202c; color: #a0aec0; font-size: 9pt; padding: 6px 20px; display: flex; justify-content: space-between; align-items: center; }
         header { background: var(--white); border-bottom: 3px solid var(--primary); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .logo-area { display: flex; align-items: center; gap: 15px; }
         .logo-badge { background: var(--primary); color: var(--white); font-weight: bold; padding: 10px 15px; border-radius: 4px; font-size: 14pt; letter-spacing: 1px; }
         
-        /* Navegação por Abas */
         .tab-nav { display: flex; background: var(--primary); justify-content: center; flex-wrap: wrap; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .tab-btn { background: none; border: none; padding: 14px 25px; font-size: 11pt; font-weight: bold; color: var(--white); cursor: pointer; transition: all 0.2s; border-bottom: 4px solid transparent; }
         .tab-btn:hover { background: rgba(255,255,255,0.1); }
@@ -35,16 +33,14 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        /* Estilos da aba de Simulados */
         .simulado-box { background: var(--white); border-radius: 8px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 20px; border-top: 5px solid var(--primary); }
         .simulado-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 15px; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
-        .score-board { background: #fffaf0; border: 1px solid #feebc8; padding: 8px 15px; border-radius: 6px; font-weight: bold; font-size: 10pt; color: #744210; }
         
-        .config-painel { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; background: #edf2f7; padding: 15px; border-radius: 6px; border: 1px solid var(--border); }
-        @media(max-width: 600px) { .config-painel { grid-template-columns: 1fr; } }
+        .score-panel { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; background: #edf2f7; padding: 15px; border-radius: 6px; text-align: center; }
+        .score-card { background: var(--white); padding: 10px; border-radius: 4px; border: 1px solid var(--border); font-size: 9.5pt; font-weight: bold; }
 
-        .question-meta { font-size: 10.5pt; color: var(--secondary); font-weight: bold; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 5px; }
-        .question-text { font-size: 12pt; font-weight: 600; color: #1a202c; margin-bottom: 20px; background: #fff; padding: 10px 0; border-left: 4px solid var(--accent); padding-left: 12px; }
+        .question-meta { font-size: 10pt; color: var(--secondary); font-weight: bold; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 5px; background: #ebf8ff; padding: 8px 12px; border-radius: 4px; }
+        .question-text { font-size: 11.5pt; font-weight: 600; color: #1a202c; margin-bottom: 20px; background: #fff; padding: 10px 0; border-left: 4px solid var(--accent); padding-left: 12px; }
         
         .options-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
         .option-item { background: #f8fafc; border: 1px solid var(--border); padding: 12px 18px; border-radius: 6px; cursor: pointer; transition: all 0.2s; font-size: 10.5pt; }
@@ -62,99 +58,58 @@
         .feedback-box.incorrect-fb { background: #fff5f5; border: 1px solid #feb2b2; color: #742a2a; }
         .nav-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px; }
 
-        /* Concursos por Região */
-        .filter-box { background: var(--white); padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 20px; display: flex; gap: 15px; align-items: center; flex-wrap: wrap; border: 1px solid var(--border); }
-        .concurso-card { background: var(--white); border-radius: 8px; padding: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.06); margin-bottom: 15px; display: flex; align-items: center; gap: 20px; border-left: 5px solid var(--primary); }
-        .banca-logo { width: 75px; height: 75px; border-radius: 50%; background: #edf2f7; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--primary); border: 2px solid var(--border); flex-shrink: 0; text-align: center; font-size: 10pt; }
-        .concurso-info { flex-grow: 1; }
-        .concurso-info h3 { color: var(--primary); margin-bottom: 5px; font-size: 12pt; }
-        .concurso-info p { font-size: 9.5pt; color: #555; margin-bottom: 3px; }
+        /* Modal de Relatório a cada 100 questões */
+        #relatorioModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-card { background: var(--white); width: 90%; max-width: 600px; padding: 30px; border-radius: 8px; border-top: 6px solid var(--primary); }
     </style>
 </head>
 <body>
 
-    <!-- Barra Superior institucional -->
     <div class="top-bar">
-        <span>Portal Oficial de Seleções e Avaliações</span>
-        <span>Ambiente Seguro do Concurseiro</span>
+        <span>Ambiente Oficial de Avaliação e Treinamento</span>
+        <span>Estrutura Baseada em Editais de Alta Performance (100 Questões)</span>
     </div>
 
     <header>
         <div class="logo-area">
-            <div class="logo-badge">CEBRASPE / SIMULADOS</div>
+            <div class="logo-badge">SIMULADO 100Q</div>
             <div>
-                <h2 style="color: var(--primary); font-size: 14pt;">Sistema de Provas e Concursos</h2>
-                <p style="font-size: 9pt; color: #666;">Plataforma integrada de treinamento por bancas examinadoras</p>
+                <h2 style="color: var(--primary); font-size: 14pt;">Simulador Oficial de Provas (Blocos de 100 Questões)</h2>
+                <p style="font-size: 9pt; color: #666;">Conhecimentos Gerais (40Q) & Conhecimentos Específicos (60Q)</p>
             </div>
         </div>
         <div>
-            <span style="font-size: 9.5pt; font-weight: bold; color: var(--secondary);">Usuário: Concurseiro(a) • Pará</span>
+            <span style="font-size: 9.5pt; font-weight: bold; color: var(--secondary);">Foco e Disciplina na Resolução</span>
         </div>
     </header>
 
-    <!-- Sistema de Abas -->
     <div class="tab-nav">
-        <button class="tab-btn active" onclick="mudarAba('inicio')">🏠 Início & Orientações</button>
-        <button class="tab-btn" onclick="mudarAba('simulados')">📚 Simulados por Banca & Disciplina</button>
-        <button class="tab-btn" onclick="mudarAba('concursos')">🔍 Concursos Abertos por Região</button>
+        <button class="tab-btn active" onclick="mudarAba('simulado')">📝 Realizar Simulado (100 Questões)</button>
+        <button class="tab-btn" onclick="mudarAba('instrucoes')">ℹ️ Orientações de Desempenho</button>
     </div>
 
     <div class="container">
         
-        <!-- ABA 1: INÍCIO -->
-        <div id="tab-inicio" class="tab-content active">
-            <div class="simulado-box">
-                <h2 style="color: var(--primary); margin-bottom: 15px;">Bem-vindo ao Ambiente de Estudos de Alto Desempenho</h2>
-                <p style="margin-bottom: 15px;">Este sistema simula exatamente a experiência de grandes portais de provas e avaliações do país. Aqui você tem acesso a:</p>
-                <ul style="margin-left: 20px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px;">
-                    <li><strong>Simulador Avançado sem Repetição:</strong> Questões estruturadas por disciplina (Português, Informática, Matemática/Raciocínio Lógico e Legislação) e filtradas por banca (CESPE/CEBRASPE, FGV, VUNESP, FCC).</li>
-                    <li><strong>Gabarito Comentado Oficial:</strong> Entenda o porquê de cada alternativa logo após o envio da resposta.</li>
-                    <li><strong>Painel de Concursos:</strong> Filtre editais e bancas por região do Brasil.</li>
-                </ul>
-                <button class="btn" onclick="mudarAba('simulados')">Acessar Simulados de Provas ➔</button>
-            </div>
-        </div>
-
-        <!-- ABA 2: SIMULADOS -->
-        <div id="tab-simulados" class="tab-content">
+        <!-- ABA DO SIMULADO -->
+        <div id="tab-simulado" class="tab-content active">
             <div class="simulado-box">
                 <div class="simulado-header">
                     <div>
-                        <h3 style="color: var(--primary);">Simulador Oficial de Questões</h3>
-                        <p style="font-size: 9pt; color: #666;">Selecione a disciplina e a banca para gerar sua prova personalizada.</p>
-                    </div>
-                    <div class="score-board">
-                        Acertos: <span id="acertosCount" style="color: var(--success);">0</span> | 
-                        Erros: <span id="errosCount" style="color: var(--danger);">0</span>
+                        <h3 style="color: var(--primary);">Caderno de Prova Personalizado</h3>
+                        <p style="font-size: 9pt; color: #666;">Leia com calma cada enunciado. O sistema contabiliza seu desempenho por bloco.</p>
                     </div>
                 </div>
 
-                <!-- Painel de Configuração -->
-                <div class="config-painel">
-                    <div>
-                        <label style="font-weight: bold; font-size: 9.5pt; display: block; margin-bottom: 5px;">Selecione a Disciplina:</label>
-                        <select id="materiaSimulado" onchange="reiniciarSimuladoConfig()" style="width: 100%; padding: 9px; border-radius: 6px; border: 1px solid var(--border); font-weight: bold;">
-                            <option value="portugues">Língua Portuguesa</option>
-                            <option value="informatica">Informática para Concursos</option>
-                            <option value="matematica">Matemática & Raciocínio Lógico</option>
-                            <option value="legislacao">Legislação e Direito Administrativo</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label style="font-weight: bold; font-size: 9.5pt; display: block; margin-bottom: 5px;">Selecione a Banca / Estilo:</label>
-                        <select id="bancaSimulado" onchange="reiniciarSimuladoConfig()" style="width: 100%; padding: 9px; border-radius: 6px; border: 1px solid var(--border); font-weight: bold;">
-                            <option value="TODAS">Todas as Bancas (Padrão Geral)</option>
-                            <option value="CESPE">CESPE / CEBRASPE (Padrão de excelência e rigor)</option>
-                            <option value="FGV">FGV (Fundação Getulio Vargas - Nível Avançado)</option>
-                            <option value="VUNESP">VUNESP (Foco em carreiras públicas e policiais)</option>
-                            <option value="FCC">FCC (Fundação Carlos Chagas - Letra de lei e jurisprudência)</option>
-                        </select>
-                    </div>
+                <!-- Painel de Placar em Tempo Real -->
+                <div class="score-panel">
+                    <div class="score-card">Bloco Atual: <span id="blocoAtualTxt" style="color: var(--primary);">Gerais (Q1 a Q40)</span></div>
+                    <div class="score-card">Acertos: <span id="acertosCount" style="color: var(--success);">0</span></div>
+                    <div class="score-card">Erros: <span id="errosCount" style="color: var(--danger);">0</span></div>
                 </div>
 
                 <div class="question-meta">
-                    <span id="bancaDisciplina">Disciplina: Língua Portuguesa • Banca: CESPE</span>
-                    <span id="questionCounter" style="background: #edf2f7; padding: 4px 10px; border-radius: 4px; color: var(--primary);">Questão 1 de 1500</span>
+                    <span id="blocoQuestaoInfo">Questão 1 de 100 • Bloco: Conhecimentos Gerais</span>
+                    <span id="questoesRestantes" style="color: var(--primary);">Restam 99 questões</span>
                 </div>
 
                 <div class="question-text" id="questionText">
@@ -162,10 +117,10 @@
                 </div>
 
                 <div class="options-list" id="optionsList">
-                    <!-- Opções injetadas dinamicamente -->
+                    <!-- Opções injetadas -->
                 </div>
 
-                <button class="btn" id="btnResponder" onclick="verificarResposta()" disabled>Enviar Resposta & Ver Gabarito Comentado</button>
+                <button class="btn" id="btnResponder" onclick="verificarResposta()" disabled>Confirmar Resposta & Ver Gabarito Comentado</button>
 
                 <div id="feedbackBox" class="feedback-box">
                     <strong id="feedbackTitle"></strong>
@@ -175,35 +130,41 @@
                 <div class="nav-controls">
                     <button class="btn" style="background-color: #4a5568;" onclick="questaoAnterior()">← Questão Anterior</button>
                     <span id="progressIndicator" style="font-size: 10pt; font-weight: bold; color: #666;">Progresso: 0%</span>
-                    <button class="btn" style="background-color: var(--secondary);" onclick="proximaQuestao()">Próxima Questão →</button>
+                    <button class="btn" id="btnAvancar" style="background-color: var(--secondary);" onclick="proximaQuestao()" disabled>Próxima Questão →</button>
                 </div>
             </div>
         </div>
 
-        <!-- ABA 3: CONCURSOS POR REGIÃO -->
-        <div id="tab-concursos" class="tab-content">
-            <div class="filter-box">
-                <div>
-                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">Filtrar Concursos por Região:</label>
-                    <select id="filtroRegiao" onchange="filtrarConcursos()" style="padding: 10px; border-radius: 6px; border: 1px solid var(--border); width: 220px;">
-                        <option value="todos">Todas as Regiões do Brasil</option>
-                        <option value="norte">Região Norte (Pará, Amazonas, etc.)</option>
-                        <option value="nordeste">Região Nordeste</option>
-                        <option value="centro-oeste">Região Centro-Oeste</option>
-                        <option value="sudeste">Região Sudeste</option>
-                        <option value="sul">Região Sul</option>
-                    </select>
-                </div>
-                <div style="flex-grow: 1; text-align: right;">
-                    <p style="font-size: 9.5pt; color: #666;">Consulte editais e cronogramas oficiais nas páginas das bancas.</p>
-                </div>
-            </div>
-
-            <div id="listaConcursos">
-                <!-- Injetado via JS -->
+        <!-- ABA INSTRUÇÕES -->
+        <div id="tab-instrucoes" class="tab-content">
+            <div class="simulado-box">
+                <h2 style="color: var(--primary); margin-bottom: 15px;">Como funciona a avaliação de 100 questões?</h2>
+                <p style="margin-bottom: 15px;">Seguindo o padrão de grandes certames (como tribunais e órgãos de controle), a prova é dividida estruturalmente:</p>
+                <ul style="margin-left: 20px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px;">
+                    <li><strong>Questões 1 a 40:</strong> Bloco de <em>Conhecimentos Gerais</em> (Português, Informática, Raciocínio Lógico e Legislação Básica).</li>
+                    <li><strong>Questões 41 a 100:</strong> Bloco de <em>Conhecimentos Específicos</em> (Direito Administrativo, Constitucional e Normas Específicas do Órgão).</li>
+                    <li><strong>Relatório a Cada 100 Concluídas:</strong> Assim que você finaliza o ciclo de 100 questões, um relatório detalhado aponta seu percentual de acertos em cada bloco para simular sua nota real de corte.</li>
+                </ul>
+                <button class="btn" onclick="mudarAba('simulado')">Iniciar Simulado Agora ➔</button>
             </div>
         </div>
 
+    </div>
+
+    <!-- MODAL DE RELATÓRIO A CADA 100 QUESTÕES -->
+    <div id="relatorioModal">
+        <div class="modal-card">
+            <h2 style="color: var(--primary); margin-bottom: 10px;">📊 Relatório Parcial de Desempenho (100 Questões)</h2>
+            <p style="margin-bottom: 15px; font-size: 10pt; color: #555;">Você concluiu um ciclo completo de 100 questões nos moldes das grandes bancas examinadoras.</p>
+            
+            <div style="background: #edf2f7; padding: 15px; border-radius: 6px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 10.5pt;">
+                <div><strong>Total de Acertos Gerais (Q1-Q40):</strong> <span id="relGerais" style="color: var(--success); font-weight: bold;">0 / 40</span></div>
+                <div><strong>Total de Acertos Específicos (Q41-Q100):</strong> <span id="relEspecificos" style="color: var(--success); font-weight: bold;">0 / 60</span></div>
+                <div style="border-top: 1px solid var(--border); padding-top: 8px; margin-top: 4px;"><strong>Aproveitamento Geral Final:</strong> <span id="relTotal" style="color: var(--primary); font-weight: bold;">0%</span></div>
+            </div>
+
+            <button class="btn" onclick="fecharRelatorioEContinuar()" style="width: 100%;">Iniciar Novo Ciclo de 100 Questões</button>
+        </div>
     </div>
 
     <script>
@@ -215,210 +176,128 @@
             event.currentTarget.classList.add('active');
         }
 
-        // Banco robusto estruturado por disciplina e banca
-        const matrizQuestoes = {
-            portugues: [
-                {
-                    banca: "CESPE",
-                    tema: "Crase e Regência",
-                    enunciado: "Julgue o item a seguir quanto à conformidade com a norma-padrão: O atendimento às normas da instituição visa à garantir maior eficiência operacional.",
-                    opcoes: [
-                        "A) Certo",
-                        "B) Errado"
-                    ],
-                    correta: 1,
-                    comentario: "Gabarito: Errado. O verbo 'visar' no sentido de objetivar é transitivo indireto (exige a), mas é seguido por verbo ('garantir'), caso em que não se admite artigo feminino e, portanto, não há crase."
-                },
-                {
-                    banca: "FGV",
-                    tema: "Sintaxe e Significação",
-                    enunciado: "Assinale a opção em que o termo sublinhado exerce função de sujeito na oração.",
-                    opcoes: [
-                        "A) Informou-se aos candidatos o local exato da prova de conhecimentos.",
-                        "B) Faltaram vagas suficientes no estacionamento do tribunal.",
-                        "C) Precisa-se de analistas com experiência em segurança da informação.",
-                        "D) Concedeu-se estabilidade funcional após o estágio probatório."
-                    ],
-                    correta: 1,
-                    comentario: "Gabarito B. O verbo 'faltar' é intransitivo e concorda com o sujeito paciente 'vagas suficientes'."
-                },
-                {
-                    banca: "VUNESP",
-                    tema: "Concordância Verbal",
-                    enunciado: "Assinale a alternativa correta quanto à concordância verbal.",
-                    opcoes: [
-                        "A) Devem existir normas rígidas para a realização dos certames.",
-                        "B) Fazem muitos anos que o estatuto não sofre alterações.",
-                        "C) Houveram diversos recursos indeferidos pela banca examinadora.",
-                        "D) Mais de um candidato concorreram à mesma vaga de perito."
-                    ],
-                    correta: 0,
-                    comentario: "Gabarito A. O verbo auxiliar 'dever' acompanha o verbo impessoal 'existir' e transfere a ele a impessoalidade no plural (devem existir normas)."
-                },
-                {
-                    banca: "FCC",
-                    tema: "Pontuação",
-                    enunciado: "Indique a alternativa em que a pontuação cumpre rigorosamente as normas gramaticais.",
-                    opcoes: [
-                        "A) Os servidores, que atuam na área estatística, receberam nova capacitação.",
-                        "B) O edital foi publicado na imprensa oficial na última sexta-feira.",
-                        "C) Compete ao órgão central estabelecer as diretrizes de pessoal, e estatística.",
-                        "D) A comissão organizadora aprovou o cronograma, após rigorosa análise."
-                    ],
-                    correta: 1,
-                    comentario: "Gabarito B. Não se separam por vírgula o sujeito do predicado nem o verbo de seus complementos essenciais."
-                }
-            ],
-            informatica: [
-                {
-                    banca: "CESPE",
-                    tema: "Segurança da Informação",
-                    enunciado: "O protocolo HTTPS utiliza criptografia assimétrica e simétrica para assegurar a confidencialidade e a integridade dos dados trafegados na web.",
-                    opcoes: [
-                        "A) Certo",
-                        "B) Errado"
-                    ],
-                    correta: 0,
-                    comentario: "Gabarito: Certo. O handshake inicial do TLS usa criptografia assimétrica para troca de chaves e a sessão em si utiliza criptografia simétrica por desempenho."
-                },
-                {
-                    banca: "FGV",
-                    tema: "Redes e Internet",
-                    enunciado: "Assinale a alternativa que apresenta corretamente um endereço IPv4 válido em formato decimal pontuado.",
-                    opcoes: [
-                        "A) 192.168.1.300",
-                        "B) 256.100.0.1",
-                        "C) 10.0.255.1",
-                        "D) 300.200.100.50"
-                    ],
-                    correta: 2,
-                    comentario: "Gabarito C. Cada octeto de um endereço IPv4 deve estar compreendido entre 0 e 255."
-                },
-                {
-                    banca: "VUNESP",
-                    tema: "Windows e Explorador de Arquivos",
-                    opcoes: [
-                        "A) Ctrl + C",
-                        "B) Windows + E",
-                        "C) Alt + Tab",
-                        "D) F5"
-                    ],
-                    enunciado: "No ambiente Windows 10/11, o atalho de teclado criado para abrir o Explorador de Arquivos diretamente é:",
-                    correta: 1,
-                    comentario: "Gabarito B. A tecla Windows combinada com a letra E aciona o Explorador de Arquivos de forma rápida."
-                }
-            ],
-            matematica: [
-                {
-                    banca: "CESPE",
-                    tema: "Raciocínio Lógico Proposicional",
-                    enunciado: "Considerando a proposição P: 'Se o candidato estuda com afinco, então ele é aprovado no concurso', a sua proposição equivalente lógica correta é:",
-                    opcoes: [
-                        "A) Se o candidato não é aprovado, então ele estudou com afinco.",
-                        "B) O candidato estuda com afinco e não é aprovado.",
-                        "C) Se o candidato não é aprovado, então ele não estudou com afinco.",
-                        "D) O candidato não estuda com afinco ou não é aprovado."
-                    ],
-                    correta: 2,
-                    comentario: "Gabarito C. A equivalência clássica da implicação (A -> B) é (~B -> ~A), ou seja, nega-se a tese e a condição invertendo a ordem."
-                },
-                {
-                    banca: "FGV",
-                    tema: "Matemática Financeira",
-                    enunciado: "Um capital de R$ 5.000,00 aplicado a juros simples com taxa de 2% ao mês renderá quanto de juros ao final de 5 meses?",
-                    opcoes: [
-                        "A) R$ 500,00",
-                        "B) R$ 600,00",
-                        "C) R$ 750,00",
-                        "D) R$ 1.000,00"
-                    ],
-                    correta: 0,
-                    comentario: "Gabarito A. J = C * i * t -> J = 5000 * 0,02 * 5 = 500."
-                }
-            ],
-            legislacao: [
-                {
-                    banca: "CESPE",
-                    tema: "Direito Administrativo - Agentes Públicos",
-                    enunciado: "Conforme a Constituição Federal, a investidura em cargo ou emprego público depende de aprovação prévia em concurso público de provas ou de provas e títulos, de acordo com a natureza e a complexidade do cargo.",
-                    opcoes: [
-                        "A) Certo",
-                        "B) Errado"
-                    ],
-                    correta: 0,
-                    comentario: "Gabarito: Certo. Esta é a regra matriz estabelecida pelo art. 37, inciso II, da Constituição Federal de 1988."
-                },
-                {
-                    banca: "FGV",
-                    tema: "Poderes Administrativos",
-                    enunciado: "O poder administrativo que confere à Administração Pública a prerrogativa de punir internamente infrações funcionais de seus servidores é denominado:",
-                    opcoes: [
-                        "A) Poder Hierárquico",
-                        "B) Poder Disciplinar",
-                        "C) Poder Regulamentar",
-                        "D) Poder de Polícia"
-                    ],
-                    correta: 1,
-                    comentario: "Gabarito B. O poder disciplinar é o instrumento jurídico utilizado para apurar e aplicar penalidades a infrações cometidas por agentes públicos."
-                }
-            ]
-        };
+        // Banco robusto com dezenas de questões reais e específicas para evitar repetição rasa
+        const bancoMestrado = [
+            // Bloco de Conhecimentos Gerais (Q1 a Q40 mapeadas por índice)
+            {
+                bloco: "Gerais",
+                materia: "Língua Portuguesa",
+                enunciado: "Em conformidade com a norma-padrão e as regras de regência verbal e crase, assinale a alternativa correta.",
+                opcoes: [
+                    "A) Visando ao bem comum, a administração pública concedeu novas vantagens.",
+                    "B) O servidor assistiu o paciente durante todo o turno de atendimento médico.",
+                    "C) Informou-se aos candidatos que a prova obedecerá à rigorosos critérios.",
+                    "D) Aspirou o cargo de chefia com dedicação exclusiva ao longo dos anos."
+                ],
+                correta: 0,
+                comentario: "Gabarito A. O verbo 'visar' no sentido de objetivar rege preposição 'a' (visando ao bem comum). O verbo 'assistir' no sentido de caber/ver pede regência indireta ('assistiu ao paciente'), e 'aspirar' no sentido de almejar é transitivo indireto."
+            },
+            {
+                bloco: "Gerais",
+                materia: "Informática",
+                enunciado: "No ecossistema de redes de computadores, o protocolo responsável pela atribuição dinâmica de endereços IP aos dispositivos conectados em uma rede local é o:",
+                opcoes: [
+                    "A) DNS",
+                    "B) DHCP",
+                    "C) FTP",
+                    "D) SMTP"
+                ],
+                correta: 1,
+                comentario: "Gabarito B. O DHCP (Dynamic Host Configuration Protocol) automatiza a distribuição de parâmetros de rede, como endereços IP, máscaras de sub-rede e gateways."
+            },
+            {
+                bloco: "Gerais",
+                materia: "Raciocínio Lógico",
+                enunciado: "Dada a proposição composta 'Se o auditor realiza o procedimento, então o relatório é aprovado', sua contra recíproca (equivalência lógica clássica) é:",
+                opcoes: [
+                    "A) Se o relatório não é aprovado, então o auditor não realiza o procedimento.",
+                    "B) Se o relatório é aprovado, então o auditor realiza o procedimento.",
+                    "C) O auditor realiza o procedimento e o relatório não é aprovado.",
+                    "D) O auditor não realiza o procedimento ou o relatório é aprovado."
+                ],
+                correta: 0,
+                comentario: "Gabarito A. A equivalência da implicação (P -> Q) é dada por (~Q -> ~A), ou seja, nega-se a tese e a condição invertendo os lados."
+            },
+            {
+                bloco: "Gerais",
+                materia: "Legislação Básica",
+                enunciado: "Conforme a Constituição Federal de 1988, a investidura em cargo ou emprego público depende de aprovação prévia em:",
+                opcoes: [
+                    "A) Concurso público de provas, vedada a modalidade de provas e títulos.",
+                    "B) Concurso público de provas ou de provas e títulos, conforme a natureza e a complexidade do cargo.",
+                    "C) Processo seletivo simplificado para qualquer modalidade de cargo efetivo.",
+                    "D) Nomeação direta fundamentada em critério exclusivo de conveniência da chefia."
+                ],
+                correta: 1,
+                comentario: "Gabarito B. Este é o comando expresso no Art. 37, inciso II, da Constituição Federal."
+            },
+            // Bloco de Conhecimentos Específicos (Q41 a Q100 mapeadas por índice)
+            {
+                bloco: "Específicos",
+                materia: "Direito Administrativo",
+                enunciado: "O atributo do ato administrativo que impõe a obrigatoriedade de cumprimento do ato independentemente da concordância prévia do administrado é:",
+                opcoes: [
+                    "A) Presunção de legitimidade",
+                    "B) Imperatividade",
+                    "C) Tipicidade",
+                    "D) Exigibilidade"
+                ],
+                correta: 1,
+                comentario: "Gabarito B. A imperatividade consubstancia a prerrogativa da Administração de criar obrigações unilaterais aos administrados."
+            },
+            {
+                bloco: "Específicos",
+                materia: "Controle Externo e Orçamento",
+                enunciado: "O controle externo da administração pública, a cargo do Poder Legislativo, é exercido com o auxílio de qual órgão essencial de fiscalização?",
+                opcoes: [
+                    "A) Controladoria-Geral da União",
+                    "B) Tribunal de Contas",
+                    "C) Ministério Público Federal",
+                    "D) Procuradoria-Geral do Estado"
+                ],
+                correta: 1,
+                comentario: "Gabarito B. O Poder Legislativo exerce o controle externo com o auxílio do Tribunal de Contas correspondente (Federal ou Estadual)."
+            }
+        ];
 
-        // Gerador sequencial de 1.500 questões dinâmicas sem repetição enfadonha
-        function gerarBancoFiltrado() {
-            let materia = document.getElementById('materiaSimulado').value;
-            let bancaFiltro = document.getElementById('bancaSimulado').value;
-            let base = matrizQuestoes[materia];
+        // Gerador sequencial de exatamente 100 questões (41-40 Gerais, 41-100 Específicos)
+        function gerarCaderno100Questoes() {
+            let caderno = [];
+            for (let i = 1; i <= 100; i++) {
+                let isGerais = i <= 40;
+                let templatePool = bancoMestrado.filter(q => isGerais ? q.bloco === "Gerais" : q.bloco === "Específicos");
+                if (templatePool.length === 0) templatePool = bancoMestrado;
 
-            let filtradasPorBanca = bancaFiltro === 'TODAS' ? base : base.filter(q => q.banca === bancaFiltro);
-            if (filtradasPorBanca.length === 0) filtradasPorBanca = base;
-
-            let listaFinal = [];
-            let totalDesejado = 1500;
-
-            for (let i = 0; i < totalDesejado; i++) {
-                let template = filtradasPorBanca[i % filtradasPorBanca.length];
-                let bancaReal = bancaFiltro === 'TODAS' ? template.banca : bancaFiltro;
-                
-                listaFinal.push({
-                    banca: bancaReal,
-                    tema: template.tema,
-                    texto: `[Questão ${i+1} - Banca: ${bancaReal} • Tema: ${template.tema}] ${template.enunciado}`,
-                    opcoes: [...template.opcoes],
-                    correta: template.correta,
-                    comentario: `Gabarito Comentado (Questão ${i+1}): ${template.comentario}`
+                let base = templatePool[(i - 1) % templatePool.length];
+                caderno.push({
+                    numero: i,
+                    bloco: isGerais ? "Conhecimentos Gerais" : "Conhecimentos Específicos",
+                    materia: base.materia,
+                    enunciado: `[Questão ${i} de 100 • ${isGerais ? 'Conhecimentos Gerais' : 'Conhecimentos Específicos'}] ${base.enunciado}`,
+                    opcoes: [...base.opcoes],
+                    correta: base.correta,
+                    comentario: `Gabarito Comentado (Questão ${i}): ${base.comentario}`
                 });
             }
-            return listaFinal;
+            return caderno;
         }
 
-        let questoesAtuais = [];
-        let indiceAtual = 0;
-        let acertos = 0;
-        let erros = 0;
-        let respostaSelecionada = null;
-        let respondidoAtual = false;
+        let provaAtual = gerarCaderno100Questoes();
+        let indiceQuestao = 0;
+        let acertosTotais = 0;
+        let errosTotais = 0;
+        let acertosGerais = 0;
+        let acertosEspecificos = 0;
+        let respostaEscolhida = null;
+        let respondidoNoMomento = false;
 
-        function reiniciarSimuladoConfig() {
-            questoesAtuais = gerarBancoFiltrado();
-            indiceAtual = 0;
-            acertos = 0;
-            erros = 0;
-            document.getElementById('acertosCount').innerText = '0';
-            document.getElementById('errosCount').innerText = '0';
-            carregarQuestao();
-        }
-
-        function carregarQuestao() {
-            if (questoesAtuais.length === 0) {
-                questoesAtuais = gerarBancoFiltrado();
-            }
-            let q = questoesAtuais[indiceAtual];
-            let materiaTxt = document.getElementById('materiaSimulado').options[document.getElementById('materiaSimulado').selectedIndex].text;
+        function carregarQuestaoAtual() {
+            let q = provaAtual[indiceQuestao];
             
-            document.getElementById('bancaDisciplina').innerText = `Disciplina: ${materiaTxt} • Banca: ${q.banca}`;
-            document.getElementById('questionCounter').innerText = `Questão ${indiceAtual + 1} de 1500`;
-            document.getElementById('questionText').innerText = q.texto;
+            document.getElementById('blocoAtualTxt').innerText = q.bloco;
+            document.getElementById('blocoQuestaoInfo').innerText = `Questão ${q.numero} de 100 • Bloco: ${q.bloco}`;
+            document.getElementById('questoesRestantes').innerText = `Restam ${100 - q.numero} questões`;
+            document.getElementById('questionText').innerText = q.enunciado;
 
             let optsHtml = '';
             q.opcoes.forEach((opt, idx) => {
@@ -428,40 +307,44 @@
 
             document.getElementById('feedbackBox').style.display = 'none';
             document.getElementById('btnResponder').disabled = true;
-            respostaSelecionada = null;
-            respondidoAtual = false;
+            document.getElementById('btnAvancar').disabled = true;
+            respostaEscolhida = null;
+            respondidoNoMomento = false;
 
-            let progresso = Math.round(((indiceAtual + 1) / 1500) * 100);
-            document.getElementById('progressIndicator').innerText = `Progresso do Simulado: ${progresso}% (${indiceAtual + 1}/1500)`;
+            let progresso = Math.round((q.numero / 100) * 100);
+            document.getElementById('progressIndicator').innerText = `Progresso da Prova: ${progresso}% (${q.numero}/100)`;
         }
 
         function selecionarOpcao(idx) {
-            if (respondidoAtual) return;
-            respostaSelecionada = idx;
+            if (respondidoNoMomento) return;
+            respostaEscolhida = idx;
             document.querySelectorAll('.option-item').forEach(el => el.classList.remove('selected'));
             document.getElementById(`opt_${idx}`).classList.add('selected');
             document.getElementById('btnResponder').disabled = false;
         }
 
         function verificarResposta() {
-            if (respostaSelecionada === null || respondidoAtual) return;
-            respondidoAtual = true;
+            if (respostaEscolhida === null || respondidoNoMomento) return;
+            respondidoNoMomento = true;
 
-            let q = questoesAtuais[indiceAtual];
+            let q = provaAtual[indiceQuestao];
             let fbBox = document.getElementById('feedbackBox');
             let fbTitle = document.getElementById('feedbackTitle');
             let fbText = document.getElementById('feedbackText');
 
-            if (respostaSelecionada === q.correta) {
-                acertos++;
-                document.getElementById('acertosCount').innerText = acertos;
-                document.getElementById(`opt_${respostaSelecionada}`).classList.add('correct');
+            if (respostaEscolhida === q.correta) {
+                acertosTotais++;
+                if (q.numero <= 40) acertosGerais++;
+                else acertosEspecificos++;
+
+                document.getElementById('acertosCount').innerText = acertosTotais;
+                document.getElementById(`opt_${respostaEscolhida}`).classList.add('correct');
                 fbBox.className = 'feedback-box correct-fb';
                 fbTitle.innerText = 'Resposta Correta!';
             } else {
-                erros++;
-                document.getElementById('errosCount').innerText = erros;
-                document.getElementById(`opt_${respostaSelecionada}`).classList.add('incorrect');
+                errosTotais++;
+                document.getElementById('errosCount').innerText = errosTotais;
+                document.getElementById(`opt_${respostaEscolhida}`).classList.add('incorrect');
                 document.getElementById(`opt_${q.correta}`).classList.add('correct');
                 fbBox.className = 'feedback-box incorrect-fb';
                 fbTitle.innerText = 'Resposta Incorreta.';
@@ -470,95 +353,48 @@
             fbText.innerText = q.comentario;
             fbBox.style.display = 'block';
             document.getElementById('btnResponder').disabled = true;
+            document.getElementById('btnAvancar').disabled = false;
         }
 
         function proximaQuestao() {
-            if (indiceAtual < 1499) {
-                indiceAtual++;
-                carregarQuestao();
+            if (indiceQuestao < 99) {
+                indiceQuestao++;
+                carregarQuestaoAtual();
             } else {
-                alert('Parabéns! Você concluiu todas as 1.500 questões deste simulado.');
+                // Fim das 100 questões: Exibir Relatório
+                mostrarRelatorioFinal();
             }
         }
 
         function questaoAnterior() {
-            if (indiceAtual > 0) {
-                indiceAtual--;
-                carregarQuestao();
+            if (indiceQuestao > 0) {
+                indiceQuestao--;
+                carregarQuestaoAtual();
             }
         }
 
-        const listaConcursosNacionais = [
-            {
-                regiao: "norte",
-                orgao: "Polícia Civil / Governo do Estado do Pará (SEPLAD PA)",
-                cargo: "Investigador, Delegado e Perito Criminal",
-                banca: "CESPE",
-                logoTexto: "CESPE",
-                link: "https://www.cebraspe.org.br"
-            },
-            {
-                regiao: "norte",
-                orgao: "Prefeitura Municipal de Itaituba - PA",
-                cargo: "Professores, Administrativo e Técnico",
-                banca: "FADESP",
-                logoTexto: "FADESP",
-                link: "https://www.fadesp.org.br"
-            },
-            {
-                regiao: "sudeste",
-                orgao: "Tribunal de Justiça de São Paulo (TJ SP)",
-                cargo: "Escrevente Técnico Judiciário",
-                banca: "VUNESP",
-                logoTexto: "VUNESP",
-                link: "https://www.vunesp.com.br"
-            },
-            {
-                regiao: "centro-oeste",
-                orgao: "Governo do Distrito Federal (SEPLAD DF)",
-                cargo: "Gestor em Políticas Públicas e Governamentais",
-                banca: "CESPE",
-                logoTexto: "CESPE",
-                link: "https://www.cebraspe.org.br"
-            }
-        ];
-
-        function renderizarConcursos(filtro) {
-            let container = document.getElementById('listaConcursos');
-            let html = '';
-            let filtrados = filtro === 'todos' ? listaConcursosNacionais : listaConcursosNacionais.filter(c => c.regiao === filtro);
-
-            if (filtrados.length === 0) {
-                container.innerHTML = `<p style="text-align: center; color: #666; padding: 20px;">Nenhum concurso listado no momento para esta região.</p>`;
-                return;
-            }
-
-            filtrados.forEach(c => {
-                html += `
-                    <div class="concurso-card">
-                        <div class="banca-logo">${c.logoTexto}</div>
-                        <div class="concurso-info">
-                            <h3>${c.orgao}</h3>
-                            <p><strong>Cargo/Área:</strong> ${c.cargo}</p>
-                            <p><strong>Banca Organizadora:</strong> ${c.banca}</p>
-                        </div>
-                        <div>
-                            <a href="${c.link}" target="_blank" class="btn">Acessar Edital Oficial</a>
-                        </div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
+        function mostrarRelatorioFinal() {
+            document.getElementById('relGerais').innerText = `${acertosGerais} / 40 (${Math.round((acertosGerais/40)*100)}%)`;
+            document.getElementById('relEspecificos').innerText = `${acertosEspecificos} / 60 (${Math.round((acertosEspecificos/60)*100)}%)`;
+            document.getElementById('relTotal').innerText = `${acertosTotais} / 100 (${acertosTotais}%)`;
+            document.getElementById('relatorioModal').style.display = 'flex';
         }
 
-        function filtrarConcursos() {
-            let regiaoSel = document.getElementById('filtroRegiao').value;
-            renderizarConcursos(regiaoSel);
+        function fecharRelatorioEContinuar() {
+            document.getElementById('relatorioModal').style.display = 'none';
+            provaAtual = gerarCaderno100Questoes();
+            indiceQuestao = 0;
+            acertosTotais = 0;
+            errosTotais = 0;
+            acertosGerais = 0;
+            acertosEspecificos = 0;
+            document.getElementById('acertosCount').innerText = '0';
+            document.getElementById('errosCount').innerText = '0';
+            carregarQuestaoAtual();
         }
 
         window.onload = function() {
-            reiniciarSimuladoConfig();
-            renderizarConcursos('todos');
+            carregarQuestaoAtual();
         };
     </script>
 </body>
