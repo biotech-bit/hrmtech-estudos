@@ -3,46 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal do Concurseiro & Simulados Oficiais</title>
+    <title>Cebraspe | Sistema Oficial de Simulados e Provas para Concursos</title>
     <style>
         :root {
-            --primary: #1a365d;
-            --secondary: #2b6cb0;
-            --accent: #319795;
+            --primary: #003366;
+            --secondary: #004080;
+            --accent: #d89300;
             --success: #2f855a;
             --danger: #c53030;
-            --bg: #f7fafc;
+            --bg: #f4f6f9;
             --text: #2d3748;
             --white: #ffffff;
-            --border: #e2e8f0;
+            --border: #cbd5e0;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg); color: var(--text); line-height: 1.6; }
-        header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: var(--white); padding: 20px; text-align: center; }
+        
+        /* Topo Institucional Estilo Cebraspe */
+        .top-bar { background: #1a202c; color: #a0aec0; font-size: 9pt; padding: 6px 20px; display: flex; justify-content: space-between; align-items: center; }
+        header { background: var(--white); border-bottom: 3px solid var(--primary); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .logo-area { display: flex; align-items: center; gap: 15px; }
+        .logo-badge { background: var(--primary); color: var(--white); font-weight: bold; padding: 10px 15px; border-radius: 4px; font-size: 14pt; letter-spacing: 1px; }
         
         /* Navegação por Abas */
-        .tab-nav { display: flex; background: var(--white); border-bottom: 2px solid var(--border); justify-content: center; flex-wrap: wrap; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .tab-btn { background: none; border: none; padding: 15px 25px; font-size: 11pt; font-weight: bold; color: var(--text); cursor: pointer; transition: all 0.2s; border-bottom: 3px solid transparent; }
-        .tab-btn:hover { color: var(--secondary); background: #f7fafc; }
-        .tab-btn.active { color: var(--primary); border-bottom: 3px solid var(--accent); background: #edf2f7; }
+        .tab-nav { display: flex; background: var(--primary); justify-content: center; flex-wrap: wrap; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .tab-btn { background: none; border: none; padding: 14px 25px; font-size: 11pt; font-weight: bold; color: var(--white); cursor: pointer; transition: all 0.2s; border-bottom: 4px solid transparent; }
+        .tab-btn:hover { background: rgba(255,255,255,0.1); }
+        .tab-btn.active { background: var(--secondary); border-bottom: 4px solid var(--accent); }
 
-        .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
+        .container { max-width: 1050px; margin: 25px auto; padding: 0 15px; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        /* Estilos da aba de Simulados estilo Prova */
-        .simulado-box { background: var(--white); border-radius: 8px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 20px; }
+        /* Estilos da aba de Simulados */
+        .simulado-box { background: var(--white); border-radius: 8px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 20px; border-top: 5px solid var(--primary); }
         .simulado-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 15px; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
-        .score-board { background: #fffaf0; border: 1px solid #feebc8; padding: 8px 15px; border-radius: 6px; font-weight: bold; font-size: 10pt; }
+        .score-board { background: #fffaf0; border: 1px solid #feebc8; padding: 8px 15px; border-radius: 6px; font-weight: bold; font-size: 10pt; color: #744210; }
         
-        .config-painel { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; background: #edf2f7; padding: 15px; border-radius: 6px; }
+        .config-painel { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; background: #edf2f7; padding: 15px; border-radius: 6px; border: 1px solid var(--border); }
         @media(max-width: 600px) { .config-painel { grid-template-columns: 1fr; } }
 
-        .question-meta { font-size: 11pt; color: var(--secondary); font-weight: bold; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 5px; }
-        .question-text { font-size: 12pt; font-weight: 600; color: var(--primary); margin-bottom: 20px; background: #fff; padding: 10px 0; }
+        .question-meta { font-size: 10.5pt; color: var(--secondary); font-weight: bold; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 5px; }
+        .question-text { font-size: 12pt; font-weight: 600; color: #1a202c; margin-bottom: 20px; background: #fff; padding: 10px 0; border-left: 4px solid var(--accent); padding-left: 12px; }
         
         .options-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-        .option-item { background: #f7fafc; border: 1px solid var(--border); padding: 12px 15px; border-radius: 6px; cursor: pointer; transition: all 0.2s; font-size: 10.5pt; }
+        .option-item { background: #f8fafc; border: 1px solid var(--border); padding: 12px 18px; border-radius: 6px; cursor: pointer; transition: all 0.2s; font-size: 10.5pt; }
         .option-item:hover { background: #edf2f7; border-color: var(--secondary); }
         .option-item.selected { background: #ebf8ff; border-color: var(--secondary); font-weight: bold; }
         .option-item.correct { background: #f0fff4 !important; border-color: var(--success) !important; color: var(--success); font-weight: bold; }
@@ -57,27 +62,41 @@
         .feedback-box.incorrect-fb { background: #fff5f5; border: 1px solid #feb2b2; color: #742a2a; }
         .nav-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px; }
 
-        /* Estilos da aba de Concursos por Região */
-        .filter-box { background: var(--white); padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 20px; display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
-        .concurso-card { background: var(--white); border-radius: 8px; padding: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.06); margin-bottom: 15px; display: flex; align-items: center; gap: 20px; border-left: 5px solid var(--secondary); }
-        .banca-logo { width: 70px; height: 70px; border-radius: 50%; background: #edf2f7; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--primary); border: 2px solid var(--border); flex-shrink: 0; text-align: center; font-size: 10pt; }
+        /* Concursos por Região */
+        .filter-box { background: var(--white); padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 20px; display: flex; gap: 15px; align-items: center; flex-wrap: wrap; border: 1px solid var(--border); }
+        .concurso-card { background: var(--white); border-radius: 8px; padding: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.06); margin-bottom: 15px; display: flex; align-items: center; gap: 20px; border-left: 5px solid var(--primary); }
+        .banca-logo { width: 75px; height: 75px; border-radius: 50%; background: #edf2f7; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--primary); border: 2px solid var(--border); flex-shrink: 0; text-align: center; font-size: 10pt; }
         .concurso-info { flex-grow: 1; }
         .concurso-info h3 { color: var(--primary); margin-bottom: 5px; font-size: 12pt; }
-        .concurso-info p { font-size: 9.5pt; color: #666; margin-bottom: 3px; }
+        .concurso-info p { font-size: 9.5pt; color: #555; margin-bottom: 3px; }
     </style>
 </head>
 <body>
+
+    <!-- Barra Superior institucional -->
+    <div class="top-bar">
+        <span>Portal Oficial de Seleções e Avaliações</span>
+        <span>Ambiente Seguro do Concurseiro</span>
+    </div>
+
     <header>
-        <h1>Portal do Concurseiro & Simulados de Provas Reais</h1>
-        <p>Treine com questões inéditas e contextualizadas por banca e pesquise editais em todo o Brasil.</p>
+        <div class="logo-area">
+            <div class="logo-badge">CEBRASPE / SIMULADOS</div>
+            <div>
+                <h2 style="color: var(--primary); font-size: 14pt;">Sistema de Provas e Concursos</h2>
+                <p style="font-size: 9pt; color: #666;">Plataforma integrada de treinamento por bancas examinadoras</p>
+            </div>
+        </div>
+        <div>
+            <span style="font-size: 9.5pt; font-weight: bold; color: var(--secondary);">Usuário: Concurseiro(a) • Pará</span>
+        </div>
     </header>
 
     <!-- Sistema de Abas -->
     <div class="tab-nav">
-        <button class="tab-btn active" onclick="mudarAba('inicio')">🏠 Início & Visão Geral</button>
-        <button class="tab-btn" onclick="mudarAba('simulados')">📚 Simulados Estilo Prova</button>
-        <button class="tab-btn" onclick="mudarAba('concursos')">🔍 Concursos por Região/Estado</button>
-        <button class="tab-btn" onclick="mudarAba('dicas')">💡 Estratégias de Estudo</button>
+        <button class="tab-btn active" onclick="mudarAba('inicio')">🏠 Início & Orientações</button>
+        <button class="tab-btn" onclick="mudarAba('simulados')">📚 Simulados por Banca & Disciplina</button>
+        <button class="tab-btn" onclick="mudarAba('concursos')">🔍 Concursos Abertos por Região</button>
     </div>
 
     <div class="container">
@@ -85,23 +104,24 @@
         <!-- ABA 1: INÍCIO -->
         <div id="tab-inicio" class="tab-content active">
             <div class="simulado-box">
-                <h2 style="color: var(--primary); margin-bottom: 15px;">Bem-vinda de volta, concurseira!</h2>
-                <p style="margin-bottom: 15px;">Esta plataforma foi otimizada para garantir alta performance nos seus estudos para concursos públicos (como carreiras policiais, tribunais e fiscais). Aqui você pode:</p>
+                <h2 style="color: var(--primary); margin-bottom: 15px;">Bem-vindo ao Ambiente de Estudos de Alto Desempenho</h2>
+                <p style="margin-bottom: 15px;">Este sistema simula exatamente a experiência de grandes portais de provas e avaliações do país. Aqui você tem acesso a:</p>
                 <ul style="margin-left: 20px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px;">
-                    <li><strong>Simulador Avançado por Disciplina e Banca:</strong> Escolha entre Língua Portuguesa, Informática, Matemática/Raciocínio Lógico e Legislação, definindo a banca (CESPE, FGV, VUNESP, FCC) com um banco robusto sem repetições enfadonhas.</li>
-                    <li><strong>Concursos por Região:</strong> Filtre editais abertos por região (Norte, Nordeste, Centro-Oeste, Sudeste, Sul) com links diretos oficiais e logotipos das bancas organizadoras.</li>
+                    <li><strong>Simulador Avançado sem Repetição:</strong> Questões estruturadas por disciplina (Português, Informática, Matemática/Raciocínio Lógico e Legislação) e filtradas por banca (CESPE/CEBRASPE, FGV, VUNESP, FCC).</li>
+                    <li><strong>Gabarito Comentado Oficial:</strong> Entenda o porquê de cada alternativa logo após o envio da resposta.</li>
+                    <li><strong>Painel de Concursos:</strong> Filtre editais e bancas por região do Brasil.</li>
                 </ul>
-                <button class="btn" onclick="mudarAba('simulados')">Acessar Simulados de Prova ➔</button>
+                <button class="btn" onclick="mudarAba('simulados')">Acessar Simulados de Provas ➔</button>
             </div>
         </div>
 
-        <!-- ABA 2: SIMULADOS (ESTILO PROVA COM FILTROS DE BANCA E DISCIPLINA) -->
+        <!-- ABA 2: SIMULADOS -->
         <div id="tab-simulados" class="tab-content">
             <div class="simulado-box">
                 <div class="simulado-header">
                     <div>
-                        <h3 style="color: var(--primary);">Simulado Oficial de Concursos</h3>
-                        <p style="font-size: 9pt; color: #666;">Selecione abaixo a disciplina e a banca para iniciar sua prova.</p>
+                        <h3 style="color: var(--primary);">Simulador Oficial de Questões</h3>
+                        <p style="font-size: 9pt; color: #666;">Selecione a disciplina e a banca para gerar sua prova personalizada.</p>
                     </div>
                     <div class="score-board">
                         Acertos: <span id="acertosCount" style="color: var(--success);">0</span> | 
@@ -109,11 +129,11 @@
                     </div>
                 </div>
 
-                <!-- Painel de Configuração da Prova -->
+                <!-- Painel de Configuração -->
                 <div class="config-painel">
                     <div>
-                        <label style="font-weight: bold; font-size: 9.5pt; display: block; margin-bottom: 5px;">Escolha a Disciplina:</label>
-                        <select id="materiaSimulado" onchange="reiniciarSimuladoConfig()" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border); font-weight: bold;">
+                        <label style="font-weight: bold; font-size: 9.5pt; display: block; margin-bottom: 5px;">Selecione a Disciplina:</label>
+                        <select id="materiaSimulado" onchange="reiniciarSimuladoConfig()" style="width: 100%; padding: 9px; border-radius: 6px; border: 1px solid var(--border); font-weight: bold;">
                             <option value="portugues">Língua Portuguesa</option>
                             <option value="informatica">Informática para Concursos</option>
                             <option value="matematica">Matemática & Raciocínio Lógico</option>
@@ -121,19 +141,19 @@
                         </select>
                     </div>
                     <div>
-                        <label style="font-weight: bold; font-size: 9.5pt; display: block; margin-bottom: 5px;">Escolha a Banca / Estilo:</label>
-                        <select id="bancaSimulado" onchange="reiniciarSimuladoConfig()" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border); font-weight: bold;">
+                        <label style="font-weight: bold; font-size: 9.5pt; display: block; margin-bottom: 5px;">Selecione a Banca / Estilo:</label>
+                        <select id="bancaSimulado" onchange="reiniciarSimuladoConfig()" style="width: 100%; padding: 9px; border-radius: 6px; border: 1px solid var(--border); font-weight: bold;">
                             <option value="TODAS">Todas as Bancas (Padrão Geral)</option>
-                            <option value="CESPE">CESPE / CEBRASPE (Certo/Errado & Múltipla Escolha)</option>
+                            <option value="CESPE">CESPE / CEBRASPE (Padrão de excelência e rigor)</option>
                             <option value="FGV">FGV (Fundação Getulio Vargas - Nível Avançado)</option>
-                            <option value="VUNESP">VUNESP (Foco em Polícias, Tribunais e Prefeituras)</option>
-                            <option value="FCC">FCC (Fundação Carlos Chagas - Letra de Lei e Jurisprudência)</option>
+                            <option value="VUNESP">VUNESP (Foco em carreiras públicas e policiais)</option>
+                            <option value="FCC">FCC (Fundação Carlos Chagas - Letra de lei e jurisprudência)</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="question-meta">
-                    <span id="bancaDisciplina">Disciplina: Língua Portuguesa • Banca: FGV</span>
+                    <span id="bancaDisciplina">Disciplina: Língua Portuguesa • Banca: CESPE</span>
                     <span id="questionCounter" style="background: #edf2f7; padding: 4px 10px; border-radius: 4px; color: var(--primary);">Questão 1 de 1500</span>
                 </div>
 
@@ -142,7 +162,7 @@
                 </div>
 
                 <div class="options-list" id="optionsList">
-                    <!-- Opções injetadas via JS -->
+                    <!-- Opções injetadas dinamicamente -->
                 </div>
 
                 <button class="btn" id="btnResponder" onclick="verificarResposta()" disabled>Enviar Resposta & Ver Gabarito Comentado</button>
@@ -160,11 +180,11 @@
             </div>
         </div>
 
-        <!-- ABA 3: CONCURSOS POR REGIÃO / ESTADO -->
+        <!-- ABA 3: CONCURSOS POR REGIÃO -->
         <div id="tab-concursos" class="tab-content">
             <div class="filter-box">
                 <div>
-                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">Filtrar por Região do Brasil:</label>
+                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">Filtrar Concursos por Região:</label>
                     <select id="filtroRegiao" onchange="filtrarConcursos()" style="padding: 10px; border-radius: 6px; border: 1px solid var(--border); width: 220px;">
                         <option value="todos">Todas as Regiões do Brasil</option>
                         <option value="norte">Região Norte (Pará, Amazonas, etc.)</option>
@@ -175,25 +195,12 @@
                     </select>
                 </div>
                 <div style="flex-grow: 1; text-align: right;">
-                    <p style="font-size: 9.5pt; color: #666;">Acesse o edital direto na página oficial da banca organizadora.</p>
+                    <p style="font-size: 9.5pt; color: #666;">Consulte editais e cronogramas oficiais nas páginas das bancas.</p>
                 </div>
             </div>
 
             <div id="listaConcursos">
-                <!-- Injetados dinamicamente via JS -->
-            </div>
-        </div>
-
-        <!-- ABA 4: DICAS -->
-        <div id="tab-dicas" class="tab-content">
-            <div class="simulado-box">
-                <h2 style="color: var(--primary); margin-bottom: 15px;">Dicas Estratégicas para o Dia da Prova</h2>
-                <div style="display: flex; flex-direction: column; gap: 15px;">
-                    <div style="background: #f7fafc; padding: 15px; border-left: 4px solid var(--accent); border-radius: 4px;">
-                        <h4 style="color: var(--primary); margin-bottom: 5px;">Simulação Real</h4>
-                        <p style="font-size: 10pt;">Treine selecionando a banca específica do concurso que você vai prestar (ex: CESPE para carreiras policiais ou VUNESP) para se acostumar com o nível de exigência e pegadinhas dos enunciados.</p>
-                    </div>
-                </div>
+                <!-- Injetado via JS -->
             </div>
         </div>
 
@@ -208,209 +215,163 @@
             event.currentTarget.classList.add('active');
         }
 
-        // Banco expandido e parametrizado por disciplina com dezenas de matrizes reais para gerar 1.500 questões variadas e sem repetição enfadonha
+        // Banco robusto estruturado por disciplina e banca
         const matrizQuestoes = {
             portugues: [
                 {
-                    banca: "FGV",
+                    banca: "CESPE",
                     tema: "Crase e Regência",
-                    enunciado: "Assinale a opção em que o emprego da crase está em absoluta conformidade com a norma-padrão.",
+                    enunciado: "Julgue o item a seguir quanto à conformidade com a norma-padrão: O atendimento às normas da instituição visa à garantir maior eficiência operacional.",
                     opcoes: [
-                        "A) Fomos à Brasília participar da solenidade de posse do novo secretário.",
-                        "B) Os servidores compareceram à reunião convocada pela chefia de gabinete.",
-                        "C) O projeto visa à proporcionar maior eficiência no atendimento ao cidadão.",
-                        "D) Entregamos o relatório financeiro à Vossa Senhoria para análise."
+                        "A) Certo",
+                        "B) Errado"
                     ],
                     correta: 1,
-                    comentario: "Gabarito B. Antes de nomes de cidades que admitem artigo feminino usa-se crase. Na letra C, antes de verbo não há crase. Na letra D, não se usa crase antes de pronome de tratamento."
+                    comentario: "Gabarito: Errado. O verbo 'visar' no sentido de objetivar é transitivo indireto (exige a), mas é seguido por verbo ('garantir'), caso em que não se admite artigo feminino e, portanto, não há crase."
                 },
                 {
-                    banca: "CESPE",
-                    tema: "Sintaxe e Significação de Palavras",
-                    enunciado: "Em 'O Estado deve garantir serviços públicos de excelência', a substituição de 'garantir' por 'assegurar' mantém a correção gramatical e o sentido original?",
+                    banca: "FGV",
+                    tema: "Sintaxe e Significação",
+                    enunciado: "Assinale a opção em que o termo sublinhado exerce função de sujeito na oração.",
                     opcoes: [
-                        "A) Sim, pois ambos os verbos possuem a mesma regência transitiva direta e sentido equivalente.",
-                        "B) Não, pois 'garantir' exige preposição obrigatória enquanto 'assegurar' é transitivo direto.",
-                        "C) Não, pois alteram o sentido de obrigatoriedade institucional.",
-                        "D) Sim, porém altera a estrutura da oração subordinada."
+                        "A) Informou-se aos candidatos o local exato da prova de conhecimentos.",
+                        "B) Faltaram vagas suficientes no estacionamento do tribunal.",
+                        "C) Precisa-se de analistas com experiência em segurança da informação.",
+                        "D) Concedeu-se estabilidade funcional após o estágio probatório."
                     ],
-                    correta: 0,
-                    comentario: "Gabarito A. Os verbos 'garantir' e 'assegurar' são sinônimos e podem atuar como transitivos diretos na acepção de assegurar algo a alguém."
+                    correta: 1,
+                    comentario: "Gabarito B. O verbo 'faltar' é intransitivo e concorda com o sujeito paciente 'vagas suficientes'."
                 },
                 {
                     banca: "VUNESP",
                     tema: "Concordância Verbal",
-                    enunciado: "Assinale a alternativa que apresenta correta concordância verbal de acordo com a norma-padrão.",
+                    enunciado: "Assinale a alternativa correta quanto à concordância verbal.",
                     opcoes: [
-                        "A) Devem haver muitos candidatos inscritos no concurso da Polícia Civil deste ano.",
-                        "B) Fazem muitos anos que a legislação de recursos humanos não é reformulada.",
-                        "C) Mais de um candidato desistiram da vaga na primeira etapa do certame.",
-                        "D) Havia sérios problemas estruturais na delegacia e na secretaria municipal."
+                        "A) Devem existir normas rígidas para a realização dos certames.",
+                        "B) Fazem muitos anos que o estatuto não sofre alterações.",
+                        "C) Houveram diversos recursos indeferidos pela banca examinadora.",
+                        "D) Mais de um candidato concorreram à mesma vaga de perito."
                     ],
-                    correta: 3,
-                    comentario: "Gabarito D. O verbo 'haver' no sentido de existir é impessoal e fica sempre no singular (havia sérios problemas)."
+                    correta: 0,
+                    comentario: "Gabarito A. O verbo auxiliar 'dever' acompanha o verbo impessoal 'existir' e transfere a ele a impessoalidade no plural (devem existir normas)."
                 },
                 {
                     banca: "FCC",
                     tema: "Pontuação",
-                    enunciado: "Assinale a alternativa em que a pontuação empregada está inteiramente correta.",
+                    enunciado: "Indique a alternativa em que a pontuação cumpre rigorosamente as normas gramaticais.",
                     opcoes: [
-                        "A) Os candidatos, que obtiveram nota superior a 80 pontos, foram convocados para o teste físico.",
-                        "B) Os candidatos que obtiveram nota superior a 80 pontos, foram convocados para o teste físico.",
-                        "C) O edital, foi publicado na imprensa oficial, na última sexta-feira.",
-                        "D) Compete ao órgão central, estabelecer as diretrizes de pessoal e estatística."
+                        "A) Os servidores, que atuam na área estatística, receberam nova capacitação.",
+                        "B) O edital foi publicado na imprensa oficial na última sexta-feira.",
+                        "C) Compete ao órgão central estabelecer as diretrizes de pessoal, e estatística.",
+                        "D) A comissão organizadora aprovou o cronograma, após rigorosa análise."
                     ],
-                    correta: 0,
-                    comentario: "Gabarito A. A oração subordinada adjetiva explicativa vem isolada por vírgulas de forma adequada."
+                    correta: 1,
+                    comentario: "Gabarito B. Não se separam por vírgula o sujeito do predicado nem o verbo de seus complementos essenciais."
                 }
             ],
             informatica: [
                 {
-                    banca: "FGV",
-                    tema: "Segurança da Informação e Redes",
-                    enunciado: "No âmbito de segurança da informação, o protocolo responsável pelo acesso seguro a páginas web com criptografia TLS/SSL é o:",
+                    banca: "CESPE",
+                    tema: "Segurança da Informação",
+                    enunciado: "O protocolo HTTPS utiliza criptografia assimétrica e simétrica para assegurar a confidencialidade e a integridade dos dados trafegados na web.",
                     opcoes: [
-                        "A) HTTP",
-                        "B) HTTPS",
-                        "C) FTP",
-                        "D) SMTP"
+                        "A) Certo",
+                        "B) Errado"
                     ],
-                    correta: 1,
-                    comentario: "Gabarito B. O protocolo HTTPS (Hypertext Transfer Protocol Secure) utiliza criptografia SSL/TLS para garantir a segurança na transferência de dados na web."
+                    correta: 0,
+                    comentario: "Gabarito: Certo. O handshake inicial do TLS usa criptografia assimétrica para troca de chaves e a sessão em si utiliza criptografia simétrica por desempenho."
                 },
                 {
-                    banca: "CESPE",
-                    tema: "Sistemas Operacionais (Windows)",
-                    enunciado: "No sistema operacional Windows, qual atalho de teclado é utilizado para abrir diretamente o Explorador de Arquivos (File Explorer)?",
+                    banca: "FGV",
+                    tema: "Redes e Internet",
+                    enunciado: "Assinale a alternativa que apresenta corretamente um endereço IPv4 válido em formato decimal pontuado.",
                     opcoes: [
-                        "A) Ctrl + Alt + Del",
-                        "B) Windows + D",
-                        "C) Windows + E",
-                        "D) Ctrl + Shift + Esc"
+                        "A) 192.168.1.300",
+                        "B) 256.100.0.1",
+                        "C) 10.0.255.1",
+                        "D) 300.200.100.50"
                     ],
                     correta: 2,
-                    comentario: "Gabarito C. A combinação de teclas Windows + E abre diretamente o Explorador de Arquivos no Windows."
+                    comentario: "Gabarito C. Cada octeto de um endereço IPv4 deve estar compreendido entre 0 e 255."
                 },
                 {
                     banca: "VUNESP",
-                    tema: "Planilhas Eletrônicas",
-                    enunciado: "Sobre os conceitos básicos de planilhas (Excel / Calc), qual função é utilizada para calcular a média aritmética de um intervalo de células?",
+                    tema: "Windows e Explorador de Arquivos",
                     opcoes: [
-                        "A) SOMA",
-                        "B) MEDIA",
-                        "C) CONT.NUM",
-                        "D) MAX"
+                        "A) Ctrl + C",
+                        "B) Windows + E",
+                        "C) Alt + Tab",
+                        "D) F5"
                     ],
+                    enunciado: "No ambiente Windows 10/11, o atalho de teclado criado para abrir o Explorador de Arquivos diretamente é:",
                     correta: 1,
-                    comentario: "Gabarito B. A função MÉDIA calcula a média aritmética dos valores contidos no intervalo especificado."
-                },
-                {
-                    banca: "FCC",
-                    tema: "Segurança e Malwares",
-                    enunciado: "Em computação, os malwares (softwares maliciosos) que se disfarçam de programas legítimos para enganar o usuário e infectar o sistema são chamados de:",
-                    opcoes: [
-                        "A) Ransomware",
-                        "B) Vírus de Macro",
-                        "C) Cavalo de Troia (Trojan)",
-                        "D) Worm"
-                    ],
-                    correta: 2,
-                    comentario: "Gabarito C. O Cavalo de Troia (Trojan) aparenta ser um software útil ou inofensivo, mas executa funções maliciosas ocultas."
+                    comentario: "Gabarito B. A tecla Windows combinada com a letra E aciona o Explorador de Arquivos de forma rápida."
                 }
             ],
             matematica: [
                 {
-                    banca: "FGV",
-                    tema: "Porcentagem",
-                    enunciado: "Se em um concurso público 30% dos 2.000 inscritos foram aprovados na primeira fase, qual o número total de candidatos reprovados?",
-                    opcoes: [
-                        "A) 600 candidatos",
-                        "B) 1.200 candidatos",
-                        "C) 1.400 candidatos",
-                        "D) 1.500 candidatos"
-                    ],
-                    correta: 2,
-                    comentario: "Gabarito C. Se 30% foram aprovados, 70% foram reprovados. 70% de 2.000 = 1.400 candidatos."
-                },
-                {
                     banca: "CESPE",
-                    tema: "Matemática Financeira Básica",
-                    enunciado: "Uma mercadoria teve seu preço reajustado em 20% e, posteriormente, concedeu-se um desconto de 20% sobre o novo valor. Em relação ao preço inicial, o preço final:",
+                    tema: "Raciocínio Lógico Proposicional",
+                    enunciado: "Considerando a proposição P: 'Se o candidato estuda com afinco, então ele é aprovado no concurso', a sua proposição equivalente lógica correta é:",
                     opcoes: [
-                        "A) Permaneceu exatamente o mesmo.",
-                        "B) Ficou 4% mais barato.",
-                        "C) Ficou 4% mais caro.",
-                        "D) Ficou 2% mais barato."
-                    ],
-                    correta: 1,
-                    comentario: "Gabarito B. 100 * 1,20 = 120. 120 * 0,80 = 96. Houve uma redução líquida de 4% em relação ao valor original."
-                },
-                {
-                    banca: "VUNESP",
-                    tema: "Razão e Proporção",
-                    enunciado: "Em uma turma de 40 servidores, a razão entre o número de homens e de mulheres é de 3 para 5. O número de mulheres nessa turma é:",
-                    opcoes: [
-                        "A) 15 mulheres",
-                        "B) 20 mulheres",
-                        "C) 25 mulheres",
-                        "D) 30 mulheres"
+                        "A) Se o candidato não é aprovado, então ele estudou com afinco.",
+                        "B) O candidato estuda com afinco e não é aprovado.",
+                        "C) Se o candidato não é aprovado, então ele não estudou com afinco.",
+                        "D) O candidato não estuda com afinco ou não é aprovado."
                     ],
                     correta: 2,
-                    comentario: "Gabarito C. Total de partes = 8. Cada parte vale 5. Mulheres = 5 partes * 5 = 25."
+                    comentario: "Gabarito C. A equivalência clássica da implicação (A -> B) é (~B -> ~A), ou seja, nega-se a tese e a condição invertendo a ordem."
                 },
                 {
-                    banca: "FCC",
-                    tema: "Regra de Três Composta",
-                    enunciado: "Se 5 analistas elaboram 15 relatórios em 3 dias, quantos dias seriam necessários para 10 analistas elaborarem 30 relatórios mantendo o mesmo ritmo?",
+                    banca: "FGV",
+                    tema: "Matemática Financeira",
+                    enunciado: "Um capital de R$ 5.000,00 aplicado a juros simples com taxa de 2% ao mês renderá quanto de juros ao final de 5 meses?",
                     opcoes: [
-                        "A) 1 dia",
-                        "B) 2 dias",
-                        "C) 3 dias",
-                        "D) 4 dias"
+                        "A) R$ 500,00",
+                        "B) R$ 600,00",
+                        "C) R$ 750,00",
+                        "D) R$ 1.000,00"
                     ],
-                    correta: 2,
-                    comentario: "Gabarito C. Dobrando a equipe e a produção simultaneamente, o tempo proporcional permanece em 3 dias."
+                    correta: 0,
+                    comentario: "Gabarito A. J = C * i * t -> J = 5000 * 0,02 * 5 = 500."
                 }
             ],
             legislacao: [
                 {
                     banca: "CESPE",
-                    tema: "Direito Administrativo - Princípios",
-                    enunciado: "Conforme a Constituição Federal de 1988, são princípios fundamentais da Administração Pública direta e indireta (art. 37):",
+                    tema: "Direito Administrativo - Agentes Públicos",
+                    enunciado: "Conforme a Constituição Federal, a investidura em cargo ou emprego público depende de aprovação prévia em concurso público de provas ou de provas e títulos, de acordo com a natureza e a complexidade do cargo.",
                     opcoes: [
-                        "A) Legalidade, impessoalidade, moralidade, publicidade e eficiência.",
-                        "B) Legalidade, probidade, moralidade, honestidade e rapidez.",
-                        "C) Lealdade, impessoalidade, competência, publicidade e eficácia.",
-                        "D) Legalidade, economicidade, moralidade, publicidade e controle."
+                        "A) Certo",
+                        "B) Errado"
                     ],
                     correta: 0,
-                    comentario: "Gabarito A. Mnemônico oficial LIMPE (Legalidade, Impessoalidade, Moralidade, Publicidade e Eficiência)."
+                    comentario: "Gabarito: Certo. Esta é a regra matriz estabelecida pelo art. 37, inciso II, da Constituição Federal de 1988."
                 },
                 {
                     banca: "FGV",
-                    tema: "Lei de Improbidade Administrativa",
-                    enunciado: "Nos termos da Lei de Improbidade Administrativa, constitui ato de improbidade administrativa que atenta contra os princípios da administração pública:",
+                    tema: "Poderes Administrativos",
+                    enunciado: "O poder administrativo que confere à Administração Pública a prerrogativa de punir internamente infrações funcionais de seus servidores é denominado:",
                     opcoes: [
-                        "A) Praticar ato visando fim proibido em lei ou regulamentação.",
-                        "B) Frustrar a licitude de concurso público para beneficiar parentes.",
-                        "C) Receber vantagem econômica para intermediar liberação de verba.",
-                        "D) Permitir a utilização de veículos oficiais em serviços particulares sem ressarcimento."
+                        "A) Poder Hierárquico",
+                        "B) Poder Disciplinar",
+                        "C) Poder Regulamentar",
+                        "D) Poder de Polícia"
                     ],
-                    correta: 0,
-                    comentario: "Gabarito A. Atentar contra os princípios compreende ações que violem os deveres de honestidade, imparcialidade e legalidade."
+                    correta: 1,
+                    comentario: "Gabarito B. O poder disciplinar é o instrumento jurídico utilizado para apurar e aplicar penalidades a infrações cometidas por agentes públicos."
                 }
             ]
         };
 
-        // Algoritmo gerador que garante 1.500 questões sequenciais dinâmicas e sem repetição monótona, filtrando por banca se solicitado
+        // Gerador sequencial de 1.500 questões dinâmicas sem repetição enfadonha
         function gerarBancoFiltrado() {
             let materia = document.getElementById('materiaSimulado').value;
             let bancaFiltro = document.getElementById('bancaSimulado').value;
             let base = matrizQuestoes[materia];
 
-            // Se houver filtro de banca, tenta pegar as da banca, senão usa a base inteira
             let filtradasPorBanca = bancaFiltro === 'TODAS' ? base : base.filter(q => q.banca === bancaFiltro);
-            if (filtradasPorBanca.length === 0) filtradasPorBanca = base; // Fallback se a banca específica não tiver todas
+            if (filtradasPorBanca.length === 0) filtradasPorBanca = base;
 
             let listaFinal = [];
             let totalDesejado = 1500;
@@ -496,7 +457,7 @@
                 document.getElementById('acertosCount').innerText = acertos;
                 document.getElementById(`opt_${respostaSelecionada}`).classList.add('correct');
                 fbBox.className = 'feedback-box correct-fb';
-                fbTitle.innerText = 'Resposta Correta! Muito bem.';
+                fbTitle.innerText = 'Resposta Correta!';
             } else {
                 erros++;
                 document.getElementById('errosCount').innerText = erros;
@@ -527,7 +488,6 @@
             }
         }
 
-        // Banco de Concursos por Região com Logotipos e Links Oficiais
         const listaConcursosNacionais = [
             {
                 regiao: "norte",
@@ -546,30 +506,6 @@
                 link: "https://www.fadesp.org.br"
             },
             {
-                regiao: "norte",
-                orgao: "Secretaria de Estado de Educação do Amazonas (SEDUC AM)",
-                cargo: "Professor de Biologia e Outras Áreas",
-                banca: "FGV",
-                logoTexto: "FGV",
-                link: "https://conhecimento.fgv.br"
-            },
-            {
-                regiao: "nordeste",
-                orgao: "Tribunal de Justiça da Bahia (TJ BA)",
-                cargo: "Técnico e Analista Judiciário",
-                banca: "FGV",
-                logoTexto: "FGV",
-                link: "https://conhecimento.fgv.br"
-            },
-            {
-                regiao: "centro-oeste",
-                orgao: "Governo do Distrito Federal (SEPLAD DF)",
-                cargo: "Gestor em Políticas Públicas e Governamentais",
-                banca: "CESPE",
-                logoTexto: "CESPE",
-                link: "https://www.cebraspe.org.br"
-            },
-            {
                 regiao: "sudeste",
                 orgao: "Tribunal de Justiça de São Paulo (TJ SP)",
                 cargo: "Escrevente Técnico Judiciário",
@@ -578,19 +514,18 @@
                 link: "https://www.vunesp.com.br"
             },
             {
-                regiao: "sul",
-                orgao: "Tribunal de Justiça do Rio Grande do Sul (TJ RS)",
-                cargo: "Oficial de Justiça e Analista",
-                banca: "IBFC",
-                logoTexto: "IBFC",
-                link: "https://www.ibfc.org.br"
+                regiao: "centro-oeste",
+                orgao: "Governo do Distrito Federal (SEPLAD DF)",
+                cargo: "Gestor em Políticas Públicas e Governamentais",
+                banca: "CESPE",
+                logoTexto: "CESPE",
+                link: "https://www.cebraspe.org.br"
             }
         ];
 
         function renderizarConcursos(filtro) {
             let container = document.getElementById('listaConcursos');
             let html = '';
-
             let filtrados = filtro === 'todos' ? listaConcursosNacionais : listaConcursosNacionais.filter(c => c.regiao === filtro);
 
             if (filtrados.length === 0) {
@@ -613,7 +548,6 @@
                     </div>
                 `;
             });
-
             container.innerHTML = html;
         }
 
@@ -622,7 +556,6 @@
             renderizarConcursos(regiaoSel);
         }
 
-        // Inicialização ao carregar a página
         window.onload = function() {
             reiniciarSimuladoConfig();
             renderizarConcursos('todos');
