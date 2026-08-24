@@ -200,7 +200,7 @@
 
     <!-- Script JavaScript Robusto -->
     <script>
-        // Banco de Dados Expandido de Concursos Nacionais e Regionais (Pará e Região em destaque)
+        // Banco de Dados com Links Específicos para Inscrição / Edital de cada Concurso
         const bancoConcursos = [
             {
                 id: 1,
@@ -211,6 +211,7 @@
                 banca: 'CEBRASPE',
                 status: 'Inscrições Abertas',
                 dataProva: '15/10/2026',
+                linkInscricao: 'https://www.cebraspe.org.br',
                 materiais: {
                     videoUrl: 'https://www.youtube.com/embed/jfKfPfyJRdk',
                     mapaMental: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1000&q=80',
@@ -240,6 +241,7 @@
                 banca: 'FADESP',
                 status: 'Edital Publicado',
                 dataProva: '10/11/2026',
+                linkInscricao: 'https://www.fadesp.org.br',
                 materiais: {
                     videoUrl: 'https://www.youtube.com/embed/5qap5aO4i9A',
                     mapaMental: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1000&q=80',
@@ -267,6 +269,7 @@
                 banca: 'VUNESP',
                 status: 'Previsto para Breve',
                 dataProva: '05/12/2026',
+                linkInscricao: 'https://www.vunesp.com.br',
                 materiais: {
                     videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
                     mapaMental: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=80',
@@ -296,6 +299,7 @@
                 banca: 'FGV',
                 status: 'Inscrições Abertas',
                 dataProva: '22/11/2026',
+                linkInscricao: 'https://conhecimento.fgv.br/concursos',
                 materiais: {
                     videoUrl: 'https://www.youtube.com/embed/jfKfPfyJRdk',
                     mapaMental: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1000&q=80',
@@ -322,6 +326,7 @@
                 banca: 'CESGRANRIO',
                 status: 'Comissão Formada',
                 dataProva: '20/01/2027',
+                linkInscricao: 'https://www.cesgranrio.org.br',
                 materiais: {
                     videoUrl: 'https://www.youtube.com/embed/5qap5aO4i9A',
                     mapaMental: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80',
@@ -434,9 +439,18 @@
                             <div class="text-xs text-slate-500 mb-4 bg-slate-50 p-2.5 rounded-lg border border-slate-100 flex items-center gap-2">
                                 <i class="fa-regular fa-calendar text-blue-600"></i> Data da Prova: <strong class="text-slate-700">${c.dataProva}</strong>
                             </div>
-                            <button onclick='abrirEstudo(${JSON.stringify(c)})' class="w-full bg-slate-900 hover:bg-blue-600 text-white font-semibold py-2.5 px-4 rounded-xl text-sm transition shadow flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-rocket"></i> Acessar Central de Estudos
-                            </button>
+                            
+                            <!-- Botões de Ação por Card -->
+                            <div class="space-y-2">
+                                <!-- Botão que direciona para o site específico de Inscrição / Edital -->
+                                <a href="${c.linkInscricao}" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 px-4 rounded-xl text-sm transition shadow flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-external-link-alt"></i> Inscrição / Edital Aberto
+                                </a>
+                                <!-- Botão para abrir o painel de estudos interno -->
+                                <button onclick='abrirEstudo(${JSON.stringify(c)})' class="w-full bg-slate-900 hover:bg-blue-600 text-white font-semibold py-2.5 px-4 rounded-xl text-sm transition shadow flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-rocket"></i> Acessar Central de Estudos
+                                </button>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -501,7 +515,6 @@
             }
             localStorage.setItem(`progresso_concurso_${concursoId}`, JSON.stringify(concluidos));
             
-            // Recalcular renderização do checklist
             const concurso = bancoConcursos.find(c => c.id === concursoId);
             renderizarChecklist(concurso);
         }
@@ -536,7 +549,6 @@
             document.getElementById('modalVideo').src = concurso.materiais.videoUrl;
             document.getElementById('modalMapa').src = concurso.materiais.mapaMental;
 
-            // Preencher Livros
             const listaLivros = document.getElementById('modalLivros');
             listaLivros.innerHTML = '';
             concurso.materiais.livrosPdf.forEach(l => {
@@ -549,7 +561,6 @@
                     </li>`;
             });
 
-            // Preencher Provas e Gabaritos
             const listaProvas = document.getElementById('modalProvas');
             listaProvas.innerHTML = '';
             concurso.materiais.provas.forEach(p => {
@@ -563,7 +574,6 @@
                     </li>`;
             });
 
-            // Renderizar Ciclo de Estudos
             renderizarChecklist(concurso);
             mudarAbaModal('materiais');
 
@@ -573,7 +583,7 @@
         // Fechar Modal
         function fecharModal() {
             document.getElementById('modalEstudo').classList.add('hidden');
-            document.getElementById('modalVideo').src = ''; // Interrompe o vídeo ao fechar
+            document.getElementById('modalVideo').src = '';
             concursoAtivoId = null;
         }
 
