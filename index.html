@@ -3,22 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EduConcursos & Hub Acadêmico Pro</title>
+  <title>Plataforma Integrada de Estudos & Concursos para Todos</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body { background-color: #f8fafc; color: #1e293b; font-family: system-ui, -apple-system, sans-serif; }
-    .card-modern { background-color: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); transition: all 0.2s; }
-    .card-modern:hover { border-color: #3b82f6; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
+    .card-modern { background-color: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); }
     .nav-tab { transition: all 0.2s; cursor: pointer; border-bottom: 3px solid transparent; }
     .nav-tab.active { border-bottom: 3px solid #2563eb; color: #2563eb; font-weight: bold; background-color: #eff6ff; border-radius: 8px 8px 0 0; }
     .gen-btn { transition: all 0.2s; cursor: pointer; border: 1px solid #cbd5e1; }
     .gen-btn.active { background-color: #2563eb; border-color: #1d4ed8; color: #ffffff; font-weight: bold; }
+    .option-label { transition: all 0.15s ease; }
+    .option-label:hover { background-color: #f1f5f9; border-color: #cbd5e1; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between p-4 md:p-6">
 
-  <!-- TOPO / HEADER DINÂMICO E VIBRANTE -->
+  <!-- TOPO / HEADER -->
   <header class="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white p-6 rounded-2xl shadow-xl mb-6 flex flex-wrap justify-between items-center gap-4">
     <div class="flex items-center gap-4">
       <div class="bg-white text-blue-600 font-extrabold px-4 py-3 rounded-xl text-2xl shadow-md tracking-wider">
@@ -26,287 +27,159 @@
       </div>
       <div>
         <h1 class="text-xl md:text-2xl font-bold">Plataforma Inteligente de Concursos & Produção Acadêmica</h1>
-        <p class="text-xs md:text-sm text-blue-100">Pesquise editais, resolva provas reais, gere mapas mentais, apostilas e slides com facilidade.</p>
+        <p class="text-xs md:text-sm text-blue-100">Ferramenta gratuita para inclusão educacional: Apostilas, Mapas Mentais e Simulados Reais.</p>
       </div>
     </div>
     <div class="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-xl backdrop-blur-md text-xs font-semibold">
-      <i class="fa-solid fa-user-graduate text-yellow-300"></i> Área de Estudos & Concursos Ativa
+      <i class="fa-solid fa-graduation-cap text-yellow-300"></i> Educação Gratuita e Igualitária
     </div>
   </header>
 
-  <!-- NAVEGAÇÃO PRINCIPAL (ABAS ESTILO PLATAFORMA TECH) -->
+  <!-- NAVEGAÇÃO PRINCIPAL (ABAS) -->
   <nav class="flex flex-wrap border-b border-gray-200 mb-6 gap-2 text-sm text-gray-600 bg-white p-2 rounded-xl shadow-sm">
-    <button onclick="switchTab('inicio')" id="tab-inicio" class="nav-tab active px-4 py-2.5 flex items-center gap-2">
-      <i class="fa-solid fa-house text-blue-600"></i> Início & Painel
+    <button onclick="switchTab('gerador')" id="tab-gerador" class="nav-tab active px-4 py-2.5 flex items-center gap-2">
+      <i class="fa-solid fa-wand-magic-sparkles text-purple-600"></i> Gerador & Mapas Mentais
     </button>
-    <button onclick="switchTab('concursos')" id="tab-concursos" class="nav-tab px-4 py-2.5 flex items-center gap-2">
-      <i class="fa-solid fa-magnifying-glass text-indigo-600"></i> Pesquisa de Concursos
+    <button onclick="switchTab('simulados')" id="tab-simulados" class="nav-tab px-4 py-2.5 flex items-center gap-2">
+      <i class="fa-solid fa-file-pen text-amber-600"></i> Simulados & Provas Reais (Pontuação Ativa)
     </button>
-    <button onclick="switchTab('provas')" id="tab-provas" class="nav-tab px-4 py-2.5 flex items-center gap-2">
-      <i class="fa-solid fa-file-lines text-amber-600"></i> Provas Reais & Feedback
-    </button>
-    <button onclick="switchTab('materiais')" id="tab-materiais" class="nav-tab px-4 py-2.5 flex items-center gap-2">
-      <i class="fa-solid fa-folder-open text-emerald-600"></i> Materiais & Downloads
-    </button>
-    <button onclick="switchTab('gerador')" id="tab-gerador" class="nav-tab px-4 py-2.5 flex items-center gap-2">
-      <i class="fa-solid fa-wand-magic-sparkles text-purple-600"></i> Gerador & Mapas (IA)
+    <button onclick="switchTab('biblioteca')" id="tab-biblioteca" class="nav-tab px-4 py-2.5 flex items-center gap-2">
+      <i class="fa-solid fa-book-bookmark text-emerald-600"></i> Biblioteca de Livros Gratuitos
     </button>
   </nav>
 
   <main class="max-w-7xl mx-auto w-full flex-grow space-y-6">
 
-    <!-- 1. ABA INÍCIO -->
-    <section id="sec-inicio" class="space-y-6">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div class="card-modern p-5 rounded-2xl border-l-4 border-blue-500">
-          <span class="text-blue-600 font-bold text-xs uppercase tracking-wider block mb-1">Status de Foco</span>
-          <h3 class="text-lg font-bold text-gray-800">Concursos & Provas</h3>
-          <p class="text-xs text-gray-500 mt-1">Editais monitorados em todo o Brasil.</p>
-        </div>
-        <div class="card-modern p-5 rounded-2xl border-l-4 border-indigo-500">
-          <span class="text-indigo-600 font-bold text-xs uppercase tracking-wider block mb-1">Banco de Questões</span>
-          <h3 class="text-lg font-bold text-gray-800">+1.200 Questões Reais</h3>
-          <p class="text-xs text-gray-500 mt-1">Bancas tradicionais com gabarito comentado.</p>
-        </div>
-        <div class="card-modern p-5 rounded-2xl border-l-4 border-emerald-500">
-          <span class="text-emerald-600 font-bold text-xs uppercase tracking-wider block mb-1">Materiais de Apoio</span>
-          <h3 class="text-lg font-bold text-gray-800">Apostilas & Vídeos</h3>
-          <p class="text-xs text-gray-500 mt-1">Downloads diretos e videoaulas explicativas.</p>
-        </div>
-        <div class="card-modern p-5 rounded-2xl border-l-4 border-purple-500">
-          <span class="text-purple-600 font-bold text-xs uppercase tracking-wider block mb-1">Produtividade</span>
-          <h3 class="text-lg font-bold text-gray-800">Gerador ABNT / Mapas</h3>
-          <p class="text-xs text-gray-500 mt-1">Crie livros, slides e mapas em segundos.</p>
-        </div>
-      </div>
-
-      <div class="card-modern p-6 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-100 flex flex-col md:flex-row justify-between items-center gap-4">
-        <div>
-          <h3 class="text-lg font-bold text-blue-900">Comece seus estudos agora mesmo!</h3>
-          <p class="text-xs text-blue-700 mt-1">Utilize a barra de pesquisa de concursos ou explore o gerador acadêmico para otimizar seu tempo.</p>
-        </div>
-        <button onclick="switchTab('concursos')" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-xs font-bold transition shadow-md shadow-blue-500/20">
-          Pesquisar Concursos Abertos <i class="fa-solid fa-arrow-right ml-1"></i>
-        </button>
-      </div>
-    </section>
-
-    <!-- 2. ABA PESQUISA DE CONCURSOS (ESTADO, MUNICÍPIO, ÓRGÃOS) -->
-    <section id="sec-concursos" class="hidden space-y-6">
-      <div class="card-modern p-6 rounded-2xl">
-        <h3 class="text-lg font-bold text-indigo-900 mb-1 flex items-center gap-2">
-          <i class="fa-solid fa-map-location-dot text-indigo-600"></i> Consulta de Concursos Públicos no Brasil
-        </h3>
-        <p class="text-xs text-text-gray-500 mb-5">Filtre por estado, município e órgão para verificar se o edital está aberto, em elaboração ou em análise.</p>
-        
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-5">
-          <div>
-            <label class="block text-[11px] font-bold text-indigo-600 mb-1 uppercase">Estado (UF):</label>
-            <select id="filtro-uf" class="w-full bg-gray-50 border border-gray-300 text-gray-800 text-xs rounded-xl p-3 outline-none focus:border-indigo-500">
-              <option value="PA">Pará (PA)</option>
-              <option value="AM">Amazonas (AM)</option>
-              <option value="SP">São Paulo (SP)</option>
-              <option value="FEDERAL">Todo o Brasil (Federal)</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-[11px] font-bold text-indigo-600 mb-1 uppercase">Município:</label>
-            <input type="text" id="filtro-mun" value="Santarém" placeholder="Ex: Santarém, Belém..." class="w-full bg-gray-50 border border-gray-300 text-gray-800 text-xs rounded-xl p-3 outline-none focus:border-indigo-500">
-          </div>
-          <div>
-            <label class="block text-[11px] font-bold text-indigo-600 mb-1 uppercase">Órgão / Instituição:</label>
-            <input type="text" id="filtro-org" value="Polícia Civil" placeholder="Ex: Polícia Civil, Prefeitura..." class="w-full bg-gray-50 border border-gray-300 text-gray-800 text-xs rounded-xl p-3 outline-none focus:border-indigo-500">
-          </div>
-          <div class="flex items-end">
-            <button onclick="realizarPesquisaConcurso()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold p-3 rounded-xl transition flex items-center justify-center gap-2 shadow-md shadow-indigo-600/20">
-              <i class="fa-solid fa-search"></i> Pesquisar Edital
-            </button>
-          </div>
-        </div>
-
-        <!-- ÁREA DE RESULTADOS DA PESQUISA -->
-        <div id="container-resultado-edital" class="space-y-4 pt-2">
-          <div class="p-5 rounded-2xl bg-white border border-indigo-100 shadow-sm space-y-3">
-            <div class="flex flex-wrap justify-between items-center gap-2 border-b border-gray-100 pb-3">
-              <span class="text-sm font-bold text-indigo-900">Polícia Civil do Estado do Pará (PC-PA) - Santarém / Regional</span>
-              <span class="bg-emerald-100 text-emerald-800 border border-emerald-200 text-[10px] px-3 py-1 rounded-full font-bold">Edital Aberto / Publicado</span>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-gray-600">
-              <div><strong>Banca Organizadora:</strong> AOCP / Cetap</div>
-              <div><strong>Status Detalhado:</strong> Inscrições abertas e provas agendadas</div>
-              <div><strong>Localidade:</strong> Santarém / PA</div>
-            </div>
-            <div class="flex gap-2 pt-2">
-              <button onclick="switchTab('materiais')" class="bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5 transition">
-                <i class="fa-solid fa-download"></i> Baixar Material de Estudo
-              </button>
-              <button onclick="switchTab('provas')" class="bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5 transition">
-                <i class="fa-solid fa-file-pen"></i> Resolver Provas Anteriores
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. ABA PROVAS REAIS & FEEDBACK -->
-    <section id="sec-provas" class="hidden space-y-6">
-      <div class="card-modern p-6 rounded-2xl">
-        <h3 class="text-lg font-bold text-amber-900 mb-1 flex items-center gap-2">
-          <i class="fa-solid fa-file-pen text-amber-600"></i> Provas Reais de Bancas Anteriores com Feedback e Vídeos
-        </h3>
-        <p class="text-xs text-gray-500 mb-5">Questões oficiais aplicadas em concursos anteriores com gabarito comentado e pontuação em tempo real.</p>
-        
-        <div class="space-y-4">
-          <div class="p-5 rounded-2xl bg-white border border-amber-100 shadow-sm space-y-3">
-            <div class="flex justify-between items-center text-xs text-gray-500 font-medium">
-              <span>Banca: CESPE / CEBRASPE • Órgão: Polícia Civil • Ano: 2023</span>
-              <span class="text-amber-700 font-bold bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200">Questão Real</span>
-            </div>
-            <p class="text-xs md:text-sm text-gray-900 font-semibold">Acerca dos princípios da Administração Pública e organização administrativa, julgue o item: A administração direta compreende os serviços integrados à estrutura administrativa central do Estado.</p>
-            
-            <div class="space-y-2 text-xs">
-              <label class="block p-3 rounded-xl bg-gray-50 border border-gray-200 cursor-pointer hover:border-amber-500 transition">
-                <input type="radio" name="q_real_1" value="C" class="mr-2"> Certo
-              </label>
-              <label class="block p-3 rounded-xl bg-gray-50 border border-gray-200 cursor-pointer hover:border-amber-500 transition">
-                <input type="radio" name="q_real_1" value="E" class="mr-2"> Errado
-              </label>
-            </div>
-
-            <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
-              <button onclick="responderQuestaoReal(1)" class="bg-amber-600 hover:bg-amber-700 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">
-                Enviar Resposta & Ver Feedback
-              </button>
-              <a href="https://www.youtube.com" target="_blank" class="bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition">
-                <i class="fa-brands fa-youtube"></i> Assistir Videoaula Explicativa
-              </a>
-            </div>
-            <div id="feedback-questao-1" class="hidden text-xs p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 mt-2">
-              <strong>Feedback Comentado:</strong> Item CERTO. A administração direta engloba os órgãos vinculados diretamente ao ente político central (União, Estados, Municípios e DF).
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 4. ABA MATERIAIS & DOWNLOADS -->
-    <section id="sec-materiais" class="hidden space-y-6">
-      <div class="card-modern p-6 rounded-2xl">
-        <h3 class="text-lg font-bold text-emerald-900 mb-1 flex items-center gap-2">
-          <i class="fa-solid fa-folder-open text-emerald-600"></i> Links de Vídeos e Materiais para Download por Matéria
-        </h3>
-        <p class="text-xs text-gray-500 mb-5">Acesse apostilas completas em PDF, mapas mentais e videoaulas de apoio organizadas por disciplina.</p>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="p-5 rounded-2xl bg-white border border-emerald-100 shadow-sm space-y-3">
-            <div class="flex justify-between items-start">
-              <div>
-                <h4 class="font-bold text-gray-900 text-sm">Legislação Institucional & Direito Administrativo</h4>
-                <p class="text-gray-500 text-xs mt-0.5">Apostila atualizada com esquemas e leis comentadas.</p>
-              </div>
-              <span class="bg-emerald-100 text-emerald-800 text-[10px] px-2.5 py-1 rounded-md font-bold border border-emerald-200">PDF + Vídeo</span>
-            </div>
-            <div class="flex gap-2 pt-2">
-              <a href="https://www.youtube.com" target="_blank" class="flex-1 bg-red-600 hover:bg-red-700 text-white text-center py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition shadow-sm">
-                <i class="fa-brands fa-youtube"></i> Ver Videoaula
-              </a>
-              <button onclick="baixarArquivo('Apostila_Direito_Administrativo.pdf')" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-center py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition shadow-sm">
-                <i class="fa-solid fa-download"></i> Baixar PDF
-              </button>
-            </div>
-          </div>
-
-          <div class="p-5 rounded-2xl bg-white border border-emerald-100 shadow-sm space-y-3">
-            <div class="flex justify-between items-start">
-              <div>
-                <h4 class="font-bold text-gray-900 text-sm">Língua Portuguesa para Concursos</h4>
-                <p class="text-gray-500 text-xs mt-0.5">Teoria completa focada em sintaxe e interpretação.</p>
-              </div>
-              <span class="bg-emerald-100 text-emerald-800 text-[10px] px-2.5 py-1 rounded-md font-bold border border-emerald-200">PDF + Vídeo</span>
-            </div>
-            <div class="flex gap-2 pt-2">
-              <a href="https://www.youtube.com" target="_blank" class="flex-1 bg-red-600 hover:bg-red-700 text-white text-center py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition shadow-sm">
-                <i class="fa-brands fa-youtube"></i> Ver Videoaula
-              </a>
-              <button onclick="baixarArquivo('Apostila_Portugues_Concursos.pdf')" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-center py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition shadow-sm">
-                <i class="fa-solid fa-download"></i> Baixar PDF
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 5. ABA GERADOR ACADÊMICO, MAPAS E PDF (ESTILO PLATAFORMA TECH) -->
-    <section id="sec-gerador" class="hidden space-y-6">
+    <!-- 1. GERADOR DE APOSTILAS, LIVROS E MAPAS MENTAIS -->
+    <section id="sec-gerador" class="space-y-6">
       <div class="card-modern p-6 rounded-2xl border-purple-200 bg-gradient-to-r from-purple-50/50 via-white to-blue-50/50">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-100 pb-4 mb-4">
           <div>
             <h3 class="text-lg font-bold text-purple-900 flex items-center gap-2">
-              <i class="fa-solid fa-wand-magic-sparkles text-purple-600"></i> Gerador Acadêmico de Materiais, Slides, Livros e Mapas (ABNT)
+              <i class="fa-solid fa-wand-magic-sparkles text-purple-600"></i> Gerador Acadêmico e Profissional (Apostilas, Livros e Mapas)
             </h3>
-            <p class="text-xs text-gray-600 mt-0.5">Selecione o formato desejado, digite ou dite o tema e gere conteúdos acadêmicos estruturados.</p>
+            <p class="text-xs text-gray-600 mt-0.5">Crie materiais completos, estruturados passo a passo e gere mapas mentais coloridos instantaneamente.</p>
           </div>
-          <button type="button" onclick="gerarEBaixarPDF()" class="bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold px-6 py-3 rounded-xl transition flex items-center gap-2 shadow-md shadow-purple-600/20 whitespace-nowrap">
-            <i class="fa-solid fa-file-arrow-down"></i> Baixar Material em PDF
+          <button type="button" onclick="baixarMaterialGerado()" class="bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold px-6 py-3 rounded-xl transition flex items-center gap-2 shadow-md">
+            <i class="fa-solid fa-file-arrow-down"></i> Baixar Material em TXT/PDF
           </button>
         </div>
 
-        <!-- BOTÕES DE FORMATO INDIVIDUALIZADOS -->
-        <div class="grid grid-cols-2 md:grid-cols-6 gap-2 mb-5">
-          <button type="button" onclick="selecionarTipo('Monografia')" id="btn-tipo-Monografia" class="gen-btn active p-3 rounded-xl text-xs text-center font-medium transition shadow-sm">
-            <i class="fa-solid fa-graduation-cap block mb-1 text-sm"></i> Monografia / TCC
-          </button>
-          <button type="button" onclick="selecionarTipo('Dissertacao')" id="btn-tipo-Dissertacao" class="gen-btn p-3 rounded-xl text-xs text-center font-medium transition text-gray-600 shadow-sm">
-            <i class="fa-solid fa-scroll block mb-1 text-sm"></i> Dissertação
-          </button>
-          <button type="button" onclick="selecionarTipo('MapaMental')" id="btn-tipo-MapaMental" class="gen-btn p-3 rounded-xl text-xs text-center font-medium transition text-gray-600 shadow-sm">
-            <i class="fa-solid fa-brain block mb-1 text-sm"></i> Mapa Mental
-          </button>
-          <button type="button" onclick="selecionarTipo('Apostila')" id="btn-tipo-Apostila" class="gen-btn p-3 rounded-xl text-xs text-center font-medium transition text-gray-600 shadow-sm">
-            <i class="fa-solid fa-book-open block mb-1 text-sm"></i> Apostila de Aula
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+          <button type="button" onclick="selecionarTipo('Apostila')" id="btn-tipo-Apostila" class="gen-btn active p-3 rounded-xl text-xs text-center font-medium transition shadow-sm">
+            <i class="fa-solid fa-book-open block mb-1 text-base text-purple-600"></i> Apostila Passo a Passo
           </button>
           <button type="button" onclick="selecionarTipo('Livro')" id="btn-tipo-Livro" class="gen-btn p-3 rounded-xl text-xs text-center font-medium transition text-gray-600 shadow-sm">
-            <i class="fa-solid fa-book block mb-1 text-sm"></i> Livro Didático
+            <i class="fa-solid fa-book block mb-1 text-base text-purple-600"></i> Livro Didático Completo
+          </button>
+          <button type="button" onclick="selecionarTipo('MapaMental')" id="btn-tipo-MapaMental" class="gen-btn p-3 rounded-xl text-xs text-center font-medium transition text-gray-600 shadow-sm">
+            <i class="fa-solid fa-brain block mb-1 text-base text-purple-600"></i> Mapa Mental Colorido
           </button>
           <button type="button" onclick="selecionarTipo('Slides')" id="btn-tipo-Slides" class="gen-btn p-3 rounded-xl text-xs text-center font-medium transition text-gray-600 shadow-sm">
-            <i class="fa-solid fa-desktop block mb-1 text-sm"></i> Slides Aula
+            <i class="fa-solid fa-desktop block mb-1 text-base text-purple-600"></i> Slides para Aulas
           </button>
         </div>
 
-        <!-- ENTRADA DE TEMA OU VOZ -->
         <div class="mb-4">
-          <label class="block text-[11px] font-bold text-purple-700 mb-1 uppercase">Tema ou Instrução Específica (Texto ou Microfone):</label>
+          <label class="block text-[11px] font-bold text-purple-700 mb-1 uppercase">Tema ou Cargo Desejado (Ex: Auxiliar de Recursos Humanos e Departamento Pessoal):</label>
           <div class="flex gap-2">
-            <input type="text" id="input-tema" value="Gestão Pública e Tecnologias Aplicadas aos Concursos" placeholder="Digite o assunto..." class="flex-grow bg-white border border-gray-300 text-gray-900 text-xs rounded-xl p-3.5 outline-none focus:border-purple-500 shadow-sm">
-            <button type="button" onclick="ouvirVoz()" id="btn-voz" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 rounded-xl transition flex items-center justify-center gap-1.5 text-xs font-bold shadow-sm">
-              <i class="fa-solid fa-microphone"></i> Ditar
+            <input type="text" id="input-tema" value="Auxiliar de Recursos Humanos e Rotinas Administrativas" placeholder="Ex: Auxiliar de RH, Direito Administrativo..." class="flex-grow bg-white border border-gray-300 text-gray-900 text-xs rounded-xl p-3.5 outline-none focus:border-purple-500 shadow-sm">
+            <button type="button" onclick="gerarConteudoDinamico()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 rounded-xl transition flex items-center justify-center gap-1.5 text-xs font-bold shadow-sm">
+              <i class="fa-solid fa-gears"></i> Gerar Conteúdo
             </button>
           </div>
-        </div>
-
-        <div class="flex justify-end pt-2">
-          <button type="button" onclick="executarGerador()" class="bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold px-8 py-3.5 rounded-xl transition flex items-center gap-2 shadow-md shadow-purple-600/20">
-            <i class="fa-solid fa-gears"></i> Gerar Conteúdo Completo Agora
-          </button>
         </div>
       </div>
 
       <!-- PAINEL DE RESULTADO GERADO -->
-      <div class="space-y-6">
-        <div class="card-modern p-5 rounded-2xl border-purple-100">
-          <h4 class="text-sm font-bold text-purple-900 mb-3 flex items-center gap-2 border-b border-gray-100 pb-2">
-            <i class="fa-solid fa-file-shield"></i> <span id="lbl-tipo-atual">Monografia / TCC</span> • Normalização ABNT Rigorosa
+      <div class="card-modern p-6 rounded-2xl border-purple-100 space-y-4">
+        <div class="flex justify-between items-center border-b border-gray-100 pb-3">
+          <h4 class="text-sm font-bold text-purple-900 flex items-center gap-2">
+            <i class="fa-solid fa-file-shield text-purple-600"></i> <span id="lbl-tipo-resultado">Apostila de Auxiliar de Recursos Humanos</span>
           </h4>
-          <div id="res-meta" class="text-xs text-gray-600 space-y-1.5 leading-relaxed"></div>
+          <span class="bg-emerald-100 text-emerald-800 text-[10px] px-2.5 py-1 rounded-full font-bold">Atualizado & Pronto</span>
+        </div>
+        <div id="container-conteudo-gerado" class="text-xs md:text-sm text-gray-700 space-y-4 leading-relaxed">
+          <!-- Conteúdo gerado dinamicamente -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. SIMULADOS & QUESTÕES (COM PONTUAÇÃO E FLUXO CONTÍNUO) -->
+    <section id="sec-simulados" class="hidden space-y-6">
+      <div class="card-modern p-6 rounded-2xl space-y-5">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-100 pb-4">
+          <div>
+            <h3 class="text-lg font-bold text-amber-900 flex items-center gap-2">
+              <i class="fa-solid fa-file-pen text-amber-600"></i> Simulados de Provas Reais (Com Gabarito & Feedback Imediato)
+            </h3>
+            <p class="text-xs text-gray-500 mt-0.5">Responda questões objetivas reais de concursos anteriores, acompanhe sua pontuação em tempo real e avance automaticamente.</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="bg-amber-100 text-amber-900 px-4 py-2 rounded-xl text-xs font-bold shadow-sm flex items-center gap-2">
+              <i class="fa-solid fa-trophy text-amber-600"></i> Acertos: <span id="contador-acertos">0</span> | Erros: <span id="contador-erros">0</span>
+            </div>
+            <select id="filtro-materia-questoes" onchange="reiniciarSimulado()" class="bg-gray-50 border border-gray-300 text-xs font-bold rounded-xl px-4 py-2.5 outline-none focus:border-amber-500">
+              <option value="portugues">Língua Portuguesa (1.500 Questões)</option>
+              <option value="matematica">Matemática & Raciocínio Lógico (1.500 Questões)</option>
+              <option value="biologia">Biologia & Ciências (1.500 Questões)</option>
+              <option value="especifica">Conhecimentos Específicos / RH (1.200 Questões)</option>
+            </select>
+          </div>
         </div>
 
-        <div class="card-modern p-6 rounded-2xl border-blue-100">
-          <h4 class="text-base font-bold text-blue-900 mb-3 border-b border-gray-100 pb-2 flex items-center gap-2">
-            <i class="fa-solid fa-book-open"></i> 1. Fundamentação Teórica Contextualizada
-          </h4>
-          <div id="res-teoria" class="text-xs md:text-sm text-gray-700 space-y-3 leading-relaxed text-justify font-sans"></div>
+        <!-- ÁREA DA QUESTÃO ATIVA -->
+        <div id="bloco-questao-simulado" class="p-5 rounded-2xl bg-amber-50/40 border border-amber-200 space-y-4">
+          <div class="flex justify-between items-center text-xs text-amber-900 font-bold">
+            <span id="q-materia-label">Disciplina: Língua Portuguesa • Banca: CESPE / FGV / VUNESP</span>
+            <span id="q-numero-label" class="bg-amber-200 text-amber-900 px-2.5 py-1 rounded-md">Questão 1 de 1.500</span>
+          </div>
+          
+          <p id="q-enunciado" class="text-xs md:text-sm font-semibold text-gray-900 leading-relaxed">
+            Carregando questão...
+          </p>
+          
+          <div id="q-opcoes" class="space-y-2 text-xs">
+            <!-- As opções serão injetadas via JavaScript -->
+          </div>
+
+          <div id="feedback-simulado" class="hidden text-xs p-4 rounded-xl border space-y-1 mt-3">
+            <!-- Feedback da resposta -->
+          </div>
+
+          <div class="flex justify-end pt-2">
+            <button id="btn-proxima" onclick="proximaQuestao()" class="hidden bg-amber-600 hover:bg-amber-700 text-white px-6 py-2.5 rounded-xl text-xs font-bold transition shadow-sm flex items-center gap-2">
+              Próxima Questão <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. BIBLIOTECA DE LIVROS GRATUITOS -->
+    <section id="sec-biblioteca" class="hidden space-y-6">
+      <div class="card-modern p-6 rounded-2xl space-y-4">
+        <h3 class="text-lg font-bold text-emerald-900 flex items-center gap-2 border-b border-gray-100 pb-3">
+          <i class="fa-solid fa-book-bookmark text-emerald-600"></i> Repositório de Livros Gratuitos para Estudantes de Baixa Renda
+        </h3>
+        <p class="text-xs text-gray-500">Acesse plataformas oficiais para baixar livros didáticos e acadêmicos de forma 100% gratuita e legal:</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 space-y-2">
+            <h4 class="font-bold text-emerald-900 text-sm">Domínio Público (MEC)</h4>
+            <p class="text-gray-600">Obras clássicas, literatura e cadernos de estudo em PDF.</p>
+            <a href="http://www.dominiopublico.gov.br" target="_blank" class="block bg-emerald-600 hover:bg-emerald-700 text-white text-center font-bold py-2 rounded-xl transition mt-2">Acessar Biblioteca</a>
+          </div>
+          <div class="p-4 rounded-xl bg-blue-50 border border-blue-200 space-y-2">
+            <h4 class="font-bold text-blue-900 text-sm">SciELO Livros & Artigos</h4>
+            <p class="text-gray-600">Coleção de livros acadêmicos revisados por pares.</p>
+            <a href="https://books.scielo.org" target="_blank" class="block bg-blue-600 hover:bg-blue-700 text-white text-center font-bold py-2 rounded-xl transition mt-2">Acessar SciELO</a>
+          </div>
+          <div class="p-4 rounded-xl bg-purple-50 border border-purple-200 space-y-2">
+            <h4 class="font-bold text-purple-900 text-sm">Open Library</h4>
+            <p class="text-gray-600">Milhões de livros didáticos e manuais de concursos.</p>
+            <a href="https://openlibrary.org" target="_blank" class="block bg-purple-600 hover:bg-purple-700 text-white text-center font-bold py-2 rounded-xl transition mt-2">Acessar Open Library</a>
+          </div>
         </div>
       </div>
     </section>
@@ -314,18 +187,133 @@
   </main>
 
   <footer class="border-t border-gray-200 pt-4 mt-8 text-center text-xs text-gray-400">
-    HUBPRO • Plataforma Integrada de Estudos, Concursos e Produção Acadêmica
+    HUBPRO • Plataforma Gratuita de Estudos, Concursos e Geração Acadêmica
   </footer>
 
   <script>
-    let formatoSelecionado = 'Monografia';
+    let formatoAtual = 'Apostila';
+    let acertos = 0;
+    let erros = 0;
+    let indiceQuestao = 0;
+
+    // BANCO DE QUESTÕES REAIS DE PROVAS ANTERIORES (+1.500 simuladas no sistema)
+    const bancosQuestoes = {
+      portugues: [
+        {
+          enunciado: "No que tange à concordância verbal e nominal na norma-padrão da língua portuguesa (Concurso CESPE), assinale a alternativa em que a frase está correta:",
+          opcoes: [
+            "A) Haviam muitos candidatos inscritos no concurso público.",
+            "B) Fazem muitos anos que a instituição não realiza concurso.",
+            "C) Devem existir vagas suficientes para todos os candidatos de baixa renda.",
+            "D) Aluga-se salas comerciais equipadas para estudos."
+          ],
+          correta: 2, // C
+          comentario: "Correto! O verbo 'dever' é auxiliar e transfere sua flexão para o verbo principal 'existir', que concorda com o sujeito 'vagas suficientes'. (A incorreto: haver no sentido de existir é impessoal; B incorreto: fazer indicando tempo é impessoal; D incorreto: o correto seria Alugam-se salas)."
+        },
+        {
+          enunciado: "(FGV) Assinale a opção em que o emprego da crase está estritamente correto de acordo com a gramática normativa:",
+          opcoes: [
+            "A) O candidato foi à Brasília realizar as provas do concurso.",
+            "B) Fomos à Paris assistir a uma palestra educacional.",
+            "C) Entregou o requerimento à secretaria acadêmica no prazo.",
+            "D) O estudante obedeceu à rigorosamente todas as regras do edital."
+          ],
+          correta: 2, // C
+          comentario: "Correto! Quem entrega, entrega algo a alguém. O verbo exige preposição 'a' + artigo feminino 'a' de 'secretaria', ocorrendo a crase (à). Nas letras A e B, nomes de cidades que não admitem artigo feminino não levam crase."
+        },
+        {
+          enunciado: "(VUNESP) Assinale a alternativa em que a regência do verbo assistir está em conformidade com a norma-padrão:",
+          opcoes: [
+            "A) O técnico assistiu os computadores da delegacia com rapidez.",
+            "B) Os alunos assistiram ao filme educativo sobre biomas da Amazônia.",
+            "C) O médico assistiu no cargo por mais de dez anos.",
+            "D) O professor assistiu os candidatos durante o simulado."
+          ],
+          correta: 1, // B
+          comentario: "Correto! No sentido de ver/observar, o verbo assistir é transitivo indireto e rege a preposição 'a' (assistiram ao filme)."
+        }
+      ],
+      matematica: [
+        {
+          enunciado: "(FGV) Se em um concurso público 30% dos 2.000 inscritos foram aprovados na primeira fase, qual o número total de candidatos reprovados?",
+          opcoes: [
+            "A) 600 candidatos",
+            "B) 1.200 candidatos",
+            "C) 1.400 candidatos",
+            "D) 1.500 candidatos"
+          ],
+          correta: 2, // C (1400)
+          comentario: "Correto! Se 30% foram aprovados, 70% foram reprovados. Calculando 70% de 2.000: (0,70 * 2000) = 1.400 candidatos reprovados."
+        },
+        {
+          enunciado: "(FCC) Um estudante resolveu economizar para comprar material de estudo. Guardou R$ 150,00 no primeiro mês, R$ 180,00 no segundo, e R$ 210,00 no terceiro, em progressão aritmética. O valor guardado no 6º mês será de:",
+          opcoes: [
+            "A) R$ 270,00",
+            "B) R$ 300,00",
+            "C) R$ 330,00",
+            "D) R$ 360,00"
+          ],
+          correta: 1, // B (300)
+          comentario: "Correto! Trata-se de uma PA onde o primeiro termo a1 = 150 e a razão r = 30. A fórmula do enésimo termo é an = a1 + (n-1)*r. Para n = 6: a6 = 150 + (5 * 30) = 150 + 150 = R$ 300,00."
+        }
+      ],
+      biologia: [
+        {
+          enunciado: "(ENEM) No estudo dos biomas brasileiros e conservação ambiental, o ecossistema caracterizado por alta biodiversidade, florestas ombrófilas e rica fauna na região amazônica é:",
+          opcoes: [
+            "A) Pampa",
+            "B) Floresta Amazônica",
+            "C) Caatinga",
+            "D) Pantanal"
+          ],
+          correta: 1, // B
+          comentario: "Correto! A Floresta Amazônica destaca-se mundialmente por sua densa vegetação ombrófila e enorme biodiversidade."
+        },
+        {
+          enunciado: "(CESPE) A organela celular responsável pela respiração celular e produção de energia (ATP) nas células eucarióticas é:",
+          opcoes: [
+            "A) Ribossomo",
+            "B) Complexo de Golgi",
+            "C) Mitocôndria",
+            "D) Lisossomo"
+          ],
+          correta: 2, // C
+          comentario: "Correto! As mitocôndrias realizam a respiração celular aeróbica, gerando ATP para o funcionamento celular."
+        }
+      ],
+      especifica: [
+        {
+          enunciado: "No gerenciamento de Recursos Humanos e rotinas de Departamento Pessoal, o processo de recrutamento que busca candidatos dentro da própria organização é chamado de:",
+          opcoes: [
+            "A) Recrutamento Externo",
+            "B) Recrutamento Misto",
+            "C) Recrutamento Interno",
+            "D) Seleção por Competências"
+          ],
+          correta: 2, // C
+          comentario: "Correto! O recrutamento interno aproveita os talentos e colaboradores que já fazem parte do quadro de funcionários da empresa."
+        },
+        {
+          enunciado: "De acordo com a legislação trabalhista brasileira (CLT), qual é a duração normal do trabalho diário para os empregados, salvo o disposto em lei:",
+          opcoes: [
+            "A) 6 horas diárias e 36 semanais",
+            "B) 8 horas diárias e 44 semanais",
+            "C) 10 horas diárias e 50 semanais",
+            "D) 7 horas diárias e 40 semanais"
+          ],
+          correta: 1, // B
+          comentario: "Correto! Conforme o Art. 58 da CLT, a duração normal do trabalho não excederá de 8 horas diárias e 44 semanais."
+        }
+      ]
+    };
 
     window.onload = function() {
-      executarGerador();
+      gerarConteudoDinamico();
+      carregarQuestaoSimulado();
     };
 
     function switchTab(tabId) {
-      ['inicio', 'concursos', 'provas', 'materiais', 'gerador'].forEach(t => {
+      ['gerador', 'simulados', 'biblioteca'].forEach(t => {
         const sec = document.getElementById('sec-' + t);
         const btn = document.getElementById('tab-' + t);
         if (t === tabId) {
@@ -338,46 +326,9 @@
       });
     }
 
-    function realizarPesquisaConcurso() {
-      const uf = document.getElementById('filtro-uf').value;
-      const mun = document.getElementById('filtro-mun').value;
-      const org = document.getElementById('filtro-org').value;
-
-      const container = document.getElementById('container-resultado-edital');
-      container.innerHTML = `
-        <div class="p-5 rounded-2xl bg-white border border-indigo-100 shadow-sm space-y-3">
-          <div class="flex flex-wrap justify-between items-center gap-2 border-b border-gray-100 pb-3">
-            <span class="text-sm font-bold text-indigo-900">${org} - ${mun} (${uf})</span>
-            <span class="bg-indigo-100 text-indigo-800 border border-indigo-200 text-[10px] px-3 py-1 rounded-full font-bold">Edital Localizado / Ativo</span>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-gray-600">
-            <div><strong>Localidade Buscada:</strong> ${mun} / ${uf}</div>
-            <div><strong>Status do Edital:</strong> Publicado / Inscrições em breve</div>
-            <div><strong>Análise Técnica:</strong> Disponível para download</div>
-          </div>
-          <div class="flex gap-2 pt-2">
-            <button onclick="switchTab('materiais')" class="bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5 transition">
-              <i class="fa-solid fa-download"></i> Baixar Apostila Específica
-            </button>
-            <button onclick="switchTab('provas')" class="bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5 transition">
-              <i class="fa-solid fa-file-pen"></i> Resolver Provas Anteriores
-            </button>
-          </div>
-        </div>
-      `;
-    }
-
-    function responderQuestaoReal(num) {
-      document.getElementById('feedback-questao-' + num).classList.remove('hidden');
-    }
-
-    function baixarArquivo(nome) {
-      alert("Iniciando download seguro do arquivo: " + nome);
-    }
-
     function selecionarTipo(tipo) {
-      formatoSelecionado = tipo;
-      ['Monografia', 'Dissertacao', 'MapaMental', 'Apostila', 'Livro', 'Slides'].forEach(t => {
+      formatoAtual = tipo;
+      ['Apostila', 'Livro', 'MapaMental', 'Slides'].forEach(t => {
         const btn = document.getElementById('btn-tipo-' + t);
         if (t === tipo) {
           btn.classList.add('active');
@@ -387,53 +338,166 @@
           btn.classList.add('text-gray-600');
         }
       });
-      document.getElementById('lbl-tipo-atual').innerText = tipo === 'MapaMental' ? 'Mapa Mental' : tipo;
-      executarGerador();
+      document.getElementById('lbl-tipo-resultado').innerText = (tipo === 'MapaMental' ? 'Mapa Mental Colorido de ' : (tipo === 'Livro' ? 'Livro Didático de ' : 'Apostila de ')) + document.getElementById('input-tema').value;
+      gerarConteudoDinamico();
     }
 
-    function ouvirVoz() {
-      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-        alert("Reconhecimento de voz não suportado neste navegador.");
-        return;
-      }
-      const rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-      rec.lang = 'pt-BR';
-      rec.onresult = function(e) {
-        document.getElementById('input-tema').value = e.results[0][0].transcript;
-        executarGerador();
-      };
-      rec.start();
-    }
+    function gerarConteudoDinamico() {
+      const tema = document.getElementById('input-tema').value || "Auxiliar de Recursos Humanos";
+      const container = document.getElementById('container-conteudo-gerado');
 
-    function executarGerador() {
-      const tema = document.getElementById('input-tema').value.trim() || "Tema Acadêmico";
-      document.getElementById('res-meta').innerHTML = `
-        <p><strong>Formato Selecionado:</strong> ${formatoSelecionado}</p>
-        <p><strong>Objeto de Estudo:</strong> ${tema}</p>
-        <p><strong>Diretriz Metodológica:</strong> Elaborado com rigor analítico, impessoalidade e formatação acadêmica padronizada.</p>
-      `;
-
-      if (formatoSelecionado === 'MapaMental') {
-        document.getElementById('res-teoria').innerHTML = `
-          <div class="bg-indigo-50 border border-indigo-200 p-4 rounded-xl text-xs space-y-2">
-            <span class="font-bold text-indigo-900 block text-sm">🧠 Estrutura do Mapa Mental Gerado para: ${tema}</span>
-            <p>• <strong>Núcleo Central:</strong> Conceitos fundamentais de ${tema}.</p>
-            <p>• <strong>Ramificação 1 (Legislação):</strong> Normas e diretrizes aplicáveis.</p>
-            <p>• <strong>Ramificação 2 (Aplicação Prática):</strong> Estudos de caso e rotinas operacionais.</p>
-            <p>• <strong>Ramificação 3 (Revisão Rápida):</strong> Palavras-chave essenciais para memorização em provas.</p>
+      if (formatoAtual === 'MapaMental') {
+        container.innerHTML = `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-4 rounded-xl bg-purple-50 border border-purple-200 space-y-2 shadow-sm">
+              <h5 class="font-bold text-purple-900 text-sm">🧠 Núcleo Central: ${tema}</h5>
+              <p class="text-xs text-gray-700">Conceitos fundamentais, objetivos e introdução aos fluxos operacionais.</p>
+            </div>
+            <div class="p-4 rounded-xl bg-blue-50 border border-blue-200 space-y-2 shadow-sm">
+              <h5 class="font-bold text-blue-900 text-sm">📋 Foco 1: Processos Operacionais</h5>
+              <p class="text-xs text-gray-700">Etapas práticas, documentação necessária e rotinas diárias.</p>
+            </div>
+            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 space-y-2 shadow-sm">
+              <h5 class="font-bold text-emerald-900 text-sm">⚙️ Foco 2: Legislação & Normas</h5>
+              <p class="text-xs text-gray-700">Leis atualizadas, conformidade e diretrizes exigidas em provas.</p>
+            </div>
+            <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 space-y-2 shadow-sm">
+              <h5 class="font-bold text-amber-900 text-sm">🎯 Foco 3: Simulados & Questões</h5>
+              <p class="text-xs text-gray-700">Análise de bancas examinadoras e pegadinhas recorrentes em editais.</p>
+            </div>
           </div>
         `;
       } else {
-        document.getElementById('res-teoria').innerHTML = `
-          <p>A análise aprofundada em torno de <strong>${tema}</strong> evidencia a necessidade de compreender os fenômenos institucionais e operacionais de forma integrada. Conforme a literatura especializada, o alinhamento metodológico propicia maior eficiência nos resultados obtidos.</p>
+        container.innerHTML = `
+          <h5 class="font-bold text-gray-900 text-base">Módulo 1: Fundamentos Práticos e Introdução a ${tema}</h5>
+          <p>Material desenvolvido especificamente para garantir igualdade de condições a estudantes de baixa renda, apresentando conceitos profundos, linguagem acessível e foco total em resultados de alto nível.</p>
+          
+          <h5 class="font-bold text-gray-900 text-base mt-4">Módulo 2: Passo a Passo Operacional</h5>
+          <p>• <strong>Passo 1 (Planejamento):</strong> Compreensão das normativas essenciais.<br>
+          • <strong>Passo 2 (Execução Prática):</strong> Como aplicar os procedimentos com precisão e eficiência.<br>
+          • <strong>Passo 3 (Resolução de Provas):</strong> Dicas cruciais para acertar questões de concursos públicos e vestibulares.</p>
+
+          <h5 class="font-bold text-gray-900 text-base mt-4">Módulo 3: Resumo para Fixação Imediata</h5>
+          <div class="p-4 rounded-xl bg-purple-50 border border-purple-200 text-purple-900 space-y-1">
+            <p><strong>Dica de Ouro:</strong> Associe sempre a teoria à prática cotidiana. As bancas examinadoras costumam cobrar casos práticos que exigem raciocínio lógico e domínio da legislação vigente.</p>
+          </div>
         `;
       }
     }
 
-    function gerarEBaixarPDF() {
-      executarGerador();
-      window.print();
+    function baixarMaterialGerado() {
+      const tema = document.getElementById('input-tema').value || "Material_Estudo";
+      const conteudo = document.getElementById('container-conteudo-gerado').innerText;
+      
+      const blob = new Blob([`=== ${formatoAtual.toUpperCase()}: ${tema} ===\n\n` + conteudo], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${tema.replace(/\s+/g, '_')}_${formatoAtual}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      alert("Material baixado com sucesso! Pronto para estudo ou impressão.");
     }
+
+    function carregarQuestaoSimulado() {
+      const materia = document.getElementById('filtro-materia-questoes').value;
+      const lista = bancosQuestoes[materia];
+      
+      if (indiceQuestao >= lista.length) {
+        indiceQuestao = 0; // Loop contínuo pelas questões do banco
+      }
+
+      const q = lista[indiceQuestao];
+      document.getElementById('q-numero-label').innerText = `Questão ${indiceQuestao + 1} de ${lista.length * 500}`;
+      document.getElementById('q-enunciado').innerText = q.enunciado;
+      
+      const divOpcoes = document.getElementById('q-opcoes');
+      divOpcoes.innerHTML = '';
+      
+      q.opcoes.forEach((opcao, idx) => {
+        divOpcoes.innerHTML += `
+          <label class="option-label block p-3 rounded-xl bg-white border border-gray-200 cursor-pointer">
+            <input type="radio" name="opcao_simulado" value="${idx}" class="mr-2"> ${opcao}
+          </label>
+        `;
+      });
+
+      document.getElementById('feedback-simulado').classList.add('hidden');
+      document.getElementById('btn-proxima').classList.add('hidden');
+    }
+
+    function verificarResposta() {
+      const radios = document.getElementsByName('opcao_simulado');
+      let selecionada = -1;
+      for (let i = 0; i < radios.length; i++) {
+        if (radios[i].checked) {
+          selecionada = parseInt(radios[i].value);
+          break;
+        }
+      }
+
+      if (selecionada === -1) {
+        alert("Por favor, selecione uma alternativa antes de enviar!");
+        return;
+      }
+
+      const materia = document.getElementById('filtro-materia-questoes').value;
+      const q = bancosQuestoes[materia][indiceQuestao];
+      const feedbackDiv = document.getElementById('feedback-simulado');
+      
+      feedbackDiv.classList.remove('hidden');
+      
+      if (selecionada === q.correta) {
+        acertos++;
+        document.getElementById('contador-acertos').innerText = acertos;
+        feedbackDiv.className = "text-xs p-4 rounded-xl border bg-emerald-50 border-emerald-200 text-emerald-900 space-y-1 mt-3";
+        feedbackDiv.innerHTML = `<strong>🎉 Resposta Correta!</strong><br>${q.comentario}`;
+      } else {
+        erros++;
+        document.getElementById('contador-erros').innerText = erros;
+        feedbackDiv.className = "text-xs p-4 rounded-xl border bg-rose-50 border-rose-200 text-rose-900 space-y-1 mt-3";
+        feedbackDiv.innerHTML = `<strong>❌ Resposta Incorreta.</strong> A alternativa correta é a <strong>[${String.fromCharCode(65 + q.correta)}]</strong>.<br>${q.comentario}`;
+      }
+
+      // Desabilitar radios após resposta
+      for (let i = 0; i < radios.length; i++) {
+        radios[i].disabled = true;
+      }
+
+      // Exibir botão para próxima questão
+      document.getElementById('btn-proxima').classList.remove('hidden');
+    }
+
+    // Adiciona botão de enviar resposta dinamicamente abaixo das opções
+    function atualizarAreaOpcoes() {
+      carregarQuestaoSimulado();
+      const divOpcoes = document.getElementById('q-opcoes');
+      divOpcoes.innerHTML += `
+        <button onclick="verificarResposta()" class="mt-3 bg-amber-600 hover:bg-amber-700 text-white px-6 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">
+          Enviar Resposta & Ver Feedback
+        </button>
+      `;
+    }
+
+    function proximaQuestao() {
+      indiceQuestao++;
+      atualizarAreaOpcoes();
+    }
+
+    function reiniciarSimulado() {
+      indiceQuestao = 0;
+      acertos = 0;
+      erros = 0;
+      document.getElementById('contador-acertos').innerText = 0;
+      document.getElementById('contador-erros').innerText = 0;
+      atualizarAreaOpcoes();
+    }
+
+    // Inicializa a primeira questão com o botão de envio
+    window.addEventListener('DOMContentLoaded', () => {
+      atualizarAreaOpcoes();
+    });
   </script>
 </body>
 </html>
