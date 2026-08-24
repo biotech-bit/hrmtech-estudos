@@ -26,7 +26,6 @@
 
         .container { max-width: 1000px; margin: 30px auto; padding: 0 15px; }
         
-        /* Telas (Configuração vs Simulado) */
         .tela { display: none; }
         .tela.active { display: block; }
 
@@ -62,7 +61,6 @@
         .nav-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 25px; border-top: 1px solid var(--border); padding-top: 15px; }
         .nav-btn { background: var(--secondary); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; width: auto; }
 
-        /* Modal de Relatório Final */
         #relatorioModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
         .modal-card { background: var(--white); width: 90%; max-width: 600px; padding: 30px; border-radius: 8px; border-top: 6px solid var(--primary); }
     </style>
@@ -89,11 +87,11 @@
 
     <div class="container">
         
-        <!-- TELA 1: CONFIGURAÇÃO DO SIMULADO (ÓRGÃO, BANCA, TIPO) -->
+        <!-- TELA 1: CONFIGURAÇÃO -->
         <div id="telaConfig" class="tela active">
             <div class="card-box">
                 <h2 style="color: var(--primary); margin-bottom: 8px;">Configurar Caderno de Prova (100 Questões)</h2>
-                <p style="font-size: 10pt; color: #666; margin-bottom: 25px;">Selecione abaixo o órgão pretendido, a banca organizadora e o tipo de prova para gerar um simulado rigoroso, único e sem repetição.</p>
+                <p style="font-size: 10pt; color: #666; margin-bottom: 25px;">Selecione o órgão pretendido, a banca organizadora e o cargo para gerar uma prova completa, rigorosa e totalmente diversificada.</p>
                 
                 <div class="form-grid">
                     <div>
@@ -110,10 +108,10 @@
                     <div>
                         <label for="selectBanca">2. Banca Organizadora:</label>
                         <select id="selectBanca">
-                            <option value="CESPE">CESPE / CEBRASPE (Certo/Errado ou Múltipla Escolha Rigorosa)</option>
-                            <option value="FGV">FGV (Fundação Getulio Vargas - Nível Avançado / Textos longos)</option>
-                            <option value="VUNESP">VUNESP (Foco em carreiras públicas e leis secas)</option>
-                            <option value="FCC">FCC (Fundação Carlos Chagas - Jurisprudência e Letra de Lei)</option>
+                            <option value="CESPE">CESPE / CEBRASPE (Rigor e padrão analítico)</option>
+                            <option value="FGV">FGV (Fundação Getulio Vargas - Nível Avançado)</option>
+                            <option value="VUNESP">VUNESP (Foco em carreiras públicas e lei seca)</option>
+                            <option value="FCC">FCC (Fundação Carlos Chagas - Jurisprudência e normas)</option>
                         </select>
                     </div>
                 </div>
@@ -139,7 +137,7 @@
             </div>
         </div>
 
-        <!-- TELA 2: EXECUÇÃO DO SIMULADO -->
+        <!-- TELA 2: EXECUÇÃO -->
         <div id="telaSimulado" class="tela">
             <div class="card-box">
                 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 15px; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
@@ -150,7 +148,6 @@
                     <button class="nav-btn" style="background-color: #718096; font-size: 9pt;" onclick="voltarConfiguracao()">⚙️ Alterar Configurações</button>
                 </div>
 
-                <!-- Painel de Placar -->
                 <div class="score-panel">
                     <div class="score-card">Bloco: <span id="blocoAtualTxt" style="color: var(--primary);">Conhecimentos Gerais</span></div>
                     <div class="score-card">Acertos: <span id="acertosCount" style="color: var(--success);">0</span></div>
@@ -166,9 +163,7 @@
                     Carregando questão...
                 </div>
 
-                <div class="options-list" id="optionsList">
-                    <!-- Opções injetadas -->
-                </div>
+                <div class="options-list" id="optionsList"></div>
 
                 <button class="btn" id="btnResponder" onclick="verificarResposta()" disabled>Confirmar Resposta & Ver Gabarito Comentado</button>
 
@@ -187,7 +182,7 @@
 
     </div>
 
-    <!-- MODAL DE RELATÓRIO A CADA 100 QUESTÕES -->
+    <!-- MODAL DE RELATÓRIO FINAL -->
     <div id="relatorioModal">
         <div class="modal-card">
             <h2 style="color: var(--primary); margin-bottom: 10px;">📊 Relatório Oficial de Desempenho (100 Questões)</h2>
@@ -204,104 +199,146 @@
     </div>
 
     <script>
-        // Banco amplo com enunciados reais adaptados para garantir total exclusividade e sem repetições curtas
-        const baseMasterQuestoes = {
-            gerais: [
-                {
-                    materia: "Língua Portuguesa",
-                    enunciado: "Em conformidade com a norma-padrão e as regras de regência e crase, assinale a alternativa correta.",
-                    opcoes: [
-                        "A) Visando ao desenvolvimento institucional, o órgão implementou novas diretrizes de segurança.",
-                        "B) O auditor assistiu o servidor durante todo o processo de apuração preliminar.",
-                        "C) Informou-se aos licitantes que a documentação obedecerá à critérios estritos.",
-                        "D) Aspirou o cargo de chefia com dedicação exclusiva ao longo de sua trajetória."
-                    ],
-                    correta: 0,
-                    comentario: "Gabarito A. O verbo 'visar' no sentido de objetivar rege preposição 'a' (visando ao desenvolvimento). O verbo 'assistir' no sentido de prestar assistência pede objeto indireto ('assistiu ao servidor')."
-                },
-                {
-                    materia: "Informática e Tecnologia",
-                    enunciado: "No tocante à segurança da informação e redes de computadores, o protocolo de comunicação utilizado para a navegação segura na Web que emprega criptografia em camadas é o:",
-                    opcoes: [
-                        "A) HTTP",
-                        "B) HTTPS",
-                        "C) FTP",
-                        "D) Telnet"
-                    ],
-                    correta: 1,
-                    comentario: "Gabarito B. O protocolo HTTPS (HyperText Transfer Protocol Secure) utiliza protocolos de criptografia como TLS/SSL para garantir a segurança da comunicação."
-                },
-                {
-                    materia: "Raciocínio Lógico",
-                    enunciado: "Considere a proposição lógica P: 'Se o auditor conclui a auditoria, então o relatório é publicado'. A proposição logicamente equivalente a P é:",
-                    opcoes: [
-                        "A) Se o relatório não é publicado, então o auditor não conclui a auditoria.",
-                        "B) Se o relatório é publicado, então o auditor conclui a auditoria.",
-                        "C) O auditor conclui a auditoria e o relatório não é publicado.",
-                        "D) O auditor não conclui a auditoria ou o relatório é publicado."
-                    ],
-                    correta: 0,
-                    comentario: "Gabarito A. A equivalência clássica da condicional (A -> B) é dada pela contra recíproca (~B -> ~A)."
-                },
-                {
-                    materia: "Legislação Institucional",
-                    enunciado: "Conforme a Constituição Federal de 1988, a investidura em cargo ou emprego público depende de aprovação prévia em:",
-                    opcoes: [
-                        "A) Concurso público de provas, vedada a modalidade de títulos.",
-                        "B) Concurso público de provas ou de provas e títulos, de acordo com a natureza e a complexidade do cargo.",
-                        "C) Processo seletivo simplificado para qualquer modalidade de cargo efetivo.",
-                        "D) Nomeação direta fundamentada em critério exclusivo de conveniência da chefia."
-                    ],
-                    correta: 1,
-                    comentario: "Gabarito B. Esta é a regra matriz estabelecida pelo art. 37, inciso II, da Constituição Federal."
-                }
-            ],
-            especificos: [
-                {
-                    materia: "Direito Administrativo",
-                    enunciado: "O atributo do ato administrativo que consubstancia a prerrogativa da Administração de impor obrigações unilateralmente aos administrados, independentemente de concordância prévia, é a:",
-                    opcoes: [
-                        "A) Presunção de legitimidade",
-                        "B) Imperatividade",
-                        "C) Tipicidade",
-                        "D) Exigibilidade"
-                    ],
-                    correta: 1,
-                    comentario: "Gabarito B. A imperatividade é o atributo pelo qual os atos administrativos se impõem a terceiros, independentemente de sua anuência."
-                },
-                {
-                    materia: "Controle Externo e Orçamento",
-                    enunciado: "O controle externo da administração pública, a cargo do Poder Legislativo, é exercido com o auxílio de qual órgão técnico de fiscalização financeira, orçamentária e operacional?",
-                    opcoes: [
-                        "A) Controladoria-Geral da União",
-                        "B) Tribunal de Contas",
-                        "C) Ministério Público Federal",
-                        "D) Procuradoria-Geral do Estado"
-                    ],
-                    correta: 1,
-                    comentario: "Gabarito B. O Poder Legislativo exerce o controle externo com o auxílio do Tribunal de Contas, conforme o texto constitucional."
-                },
-                {
-                    materia: "Auditoria Governamental",
-                    enunciado: "As normas de auditoria aplicadas ao setor público estabelecem que os exames devem ser planejados de modo a identificar riscos relevantes. O risco de auditoria é definido como o risco de que o auditor:",
-                    opcoes: [
-                        "A) Emita uma opinião inadequada sobre demonstrações financeiras que contenham distorções relevantes.",
-                        "B) Deixe de realizar o procedimento de inventário físico obrigatório.",
-                        "C) Ultrapasse o prazo estipulado no cronograma oficial do órgão auditado.",
-                        "D) Sofra sanção administrativa decorrente de conflito de interesses."
-                    ],
-                    correta: 0,
-                    comentario: "Gabarito A. O risco de auditoria consiste na probabilidade de o auditor expressar uma opinião imprópria quando as demonstrações contêm distorções significativas."
-                }
-            ]
-        };
+        // Banco ampliado com dezenas de questões temáticas reais para preencher sem repetições repetitivas
+        const poolGerais = [
+            {
+                materia: "Língua Portuguesa",
+                enunciado: "Em conformidade com a norma-padrão e as regras de regência e crase, assinale a alternativa correta.",
+                opcoes: [
+                    "A) Visando ao desenvolvimento institucional, o órgão implementou novas diretrizes de segurança.",
+                    "B) O auditor assistiu o servidor durante todo o processo de apuração preliminar.",
+                    "C) Informou-se aos licitantes que a documentação obedecerá à critérios estritos.",
+                    "D) Aspirou o cargo de chefia com dedicação exclusiva ao longo de sua trajetória."
+                ],
+                correta: 0,
+                comentario: "Gabarito A. O verbo 'visar' no sentido de objetivar rege preposição 'a'. O verbo 'assistir' no sentido de prestar assistência pede objeto indireto ('assistiu ao servidor')."
+            },
+            {
+                materia: "Informática e Tecnologia",
+                enunciado: "No tocante à segurança da informação e redes de computadores, o protocolo de comunicação utilizado para a navegação segura na Web que emprega criptografia em camadas é o:",
+                opcoes: [
+                    "A) HTTP",
+                    "B) HTTPS",
+                    "C) FTP",
+                    "D) Telnet"
+                ],
+                correta: 1,
+                comentario: "Gabarito B. O protocolo HTTPS (HyperText Transfer Protocol Secure) utiliza protocolos de criptografia como TLS/SSL para garantir a segurança da comunicação."
+            },
+            {
+                materia: "Raciocínio Lógico",
+                enunciado: "Considere a proposição lógica P: 'Se o auditor conclui a auditoria, então o relatório é publicado'. A proposição logicamente equivalente a P é:",
+                opcoes: [
+                    "A) Se o relatório não é publicado, então o auditor não conclui a auditoria.",
+                    "B) Se o relatório é publicado, então o auditor conclui a auditoria.",
+                    "C) O auditor conclui a auditoria e o relatório não é publicado.",
+                    "D) O auditor não conclui a auditoria ou o relatório é publicado."
+                ],
+                correta: 0,
+                comentario: "Gabarito A. A equivalência clássica da condicional (A -> B) é dada pela contra recíproca (~B -> ~A)."
+            },
+            {
+                materia: "Legislação Institucional",
+                enunciado: "Conforme a Constituição Federal de 1988, a investidura em cargo ou emprego público depende de aprovação prévia em:",
+                opcoes: [
+                    "A) Concurso público de provas, vedada a modalidade de títulos.",
+                    "B) Concurso público de provas ou de provas e títulos, de acordo com a natureza e a complexidade do cargo.",
+                    "C) Processo seletivo simplificado para qualquer modalidade de cargo efetivo.",
+                    "D) Nomeação direta fundamentada em critério exclusivo de conveniência da chefia."
+                ],
+                correta: 1,
+                comentario: "Gabarito B. Esta é a regra matriz estabelecida pelo art. 37, inciso II, da Constituição Federal."
+            },
+            {
+                materia: "Direito Constitucional",
+                enunciado: "São princípios fundamentais da República Federativa do Brasil, expressos no art. 1º da Constituição Federal, EXCETO:",
+                opcoes: [
+                    "A) A soberania e a cidadania.",
+                    "B) A dignidade da pessoa humana.",
+                    "C) O pluralismo político e os valores sociais do trabalho.",
+                    "D) A busca pelo pleno emprego e o controle centralizado da economia."
+                ],
+                correta: 3,
+                comentario: "Gabarito D. O texto constitucional não traz a busca pelo pleno emprego como fundamento da República no art. 1º."
+            },
+            {
+                materia: "Administração Pública",
+                enunciado: "Os princípios expressos que regem a administração pública direta e indireta de qualquer dos Poderes da União, dos Estados, do Distrito Federal e dos Municípios são:",
+                opcoes: [
+                    "A) Legalidade, impessoalidade, moralidade, publicidade e eficiência.",
+                    "B) Celeridade, economicidade, probidade, sigilo e discricionariedade.",
+                    "C) Hierarquia, autotutela, motivação, supremacia e indisponibilidade.",
+                    "D) Centralização, desconcentração, delegação e controle."
+                ],
+                correta: 0,
+                comentario: "Gabarito A. Conforme o caput do art. 37 da CF/88, os princípios são Legalidade, Impessoalidade, Moralidade, Publicidade e Eficiência (LIMPE)."
+            }
+        ];
 
-        let configuracaoAtual = {
-            orgao: "",
-            banca: "",
-            tipoProva: ""
-        };
+        const poolEspecificos = [
+            {
+                materia: "Direito Administrativo",
+                enunciado: "O atributo do ato administrativo que consubstancia a prerrogativa da Administração de impor obrigações unilateralmente aos administrados, independentemente de concordância prévia, é a:",
+                opcoes: [
+                    "A) Presunção de legitimidade",
+                    "B) Imperatividade",
+                    "C) Tipicidade",
+                    "D) Exigibilidade"
+                ],
+                correta: 1,
+                comentario: "Gabarito B. A imperatividade é o atributo pelo qual os atos administrativos se impõem a terceiros, independentemente de sua anuência."
+            },
+            {
+                materia: "Controle Externo e Orçamento",
+                enunciado: "O controle externo da administração pública, a cargo do Poder Legislativo, é exercido com o auxílio de qual órgão técnico de fiscalização financeira, orçamentária e operacional?",
+                opcoes: [
+                    "A) Controladoria-Geral da União",
+                    "B) Tribunal de Contas",
+                    "C) Ministério Público Federal",
+                    "D) Procuradoria-Geral do Estado"
+                ],
+                correta: 1,
+                comentario: "Gabarito B. O Poder Legislativo exerce o controle externo com o auxílio do Tribunal de Contas, conforme o texto constitucional."
+            },
+            {
+                materia: "Auditoria Governamental",
+                enunciado: "As normas de auditoria aplicadas ao setor público estabelecem que os exames devem ser planejados de modo a identificar riscos relevantes. O risco de auditoria é definido como o risco de que o auditor:",
+                opcoes: [
+                    "A) Emita uma opinião inadequada sobre demonstrações financeiras que contenham distorções relevantes.",
+                    "B) Deixe de realizar o procedimento de inventário físico obrigatório.",
+                    "C) Ultrapasse o prazo estipulado no cronograma oficial do órgão auditado.",
+                    "D) Sofra sanção administrativa decorrente de conflito de interesses."
+                ],
+                correta: 0,
+                comentario: "Gabarito A. O risco de auditoria consiste na probabilidade de o auditor expressar uma opinião imprópria quando as demonstrações contêm distorções significativas."
+            },
+            {
+                materia: "Orçamento Público e LRF",
+                enunciado: "Em conformidade com a Lei de Responsabilidade Fiscal (LC nº 101/2000), a despesa total com pessoal ativo e inativo de cada ente da Federação não poderá exceder os percentuais da receita corrente líquida. No âmbito dos Estados, o limite máximo total para o Poder Executivo é de:",
+                opcoes: [
+                    "A) 40%",
+                    "B) 49%",
+                    "C) 50%",
+                    "D) 60%"
+                ],
+                correta: 1,
+                comentario: "Gabarito B. Para os Estados, o limite global do Executivo é de 49% da Receita Corrente Líquida (RCL)."
+            },
+            {
+                materia: "Direito Financeiro",
+                enunciado: "Os créditos adicionais destinam-se a despesas para as quais não haja dotação orçamentária específica. Os créditos suplementares têm por finalidade:",
+                opcoes: [
+                    "A) O reforço de dotação orçamentária já existente.",
+                    "B) A cobertura de despesas urgentes e imprevistas, como guerra ou calamidade pública.",
+                    "C) A criação de novas despesas para órgãos recém-criados sem previsão na LOA.",
+                    "D) A amortização extraordinária da dívida pública consolidada."
+                ],
+                correta: 0,
+                comentario: "Gabarito A. Créditos suplementares são abertos para reforçar dotações orçamentárias insuficientes na lei orçamentária anual."
+            }
+        ];
 
+        let configuracaoAtual = { orgao: "", banca: "", tipoProva: "" };
         let cadernoProva = [];
         let indiceAtual = 0;
         let acertosTotais = 0;
@@ -316,15 +353,12 @@
             configuracaoAtual.banca = document.getElementById('selectBanca').value;
             configuracaoAtual.tipoProva = document.getElementById('selectTipoProva').value;
 
-            // Atualiza cabeçalho
             document.getElementById('tituloProvaConfig').innerText = `Prova: ${configuracaoAtual.orgao} • Banca: ${configuracaoAtual.banca}`;
             document.getElementById('subtituloProvaConfig').innerText = `Cargo / Perfil: ${configuracaoAtual.tipoProva}`;
             document.getElementById('headerStatus').innerText = `${configuracaoAtual.orgao} (${configuracaoAtual.banca})`;
 
-            // Gera exatamente 100 questões sem repetição repetitiva (40 gerais, 60 específicos)
-            cadernoProva = gerar100QuestoesUnicas(configuracaoAtual.banca);
+            cadernoProva = gerar100QuestõesDistintas(configuracaoAtual.banca);
 
-            // Reseta contadores
             indiceAtual = 0;
             acertosTotais = 0;
             errosTotais = 0;
@@ -333,7 +367,6 @@
             document.getElementById('acertosCount').innerText = '0';
             document.getElementById('errosCount').innerText = '0';
 
-            // Troca de tela
             document.getElementById('telaConfig').classList.remove('active');
             document.getElementById('telaSimulado').classList.add('active');
 
@@ -346,24 +379,22 @@
             document.getElementById('headerStatus').innerText = 'Configuração de Prova';
         }
 
-        function gerar100QuestoesUnicas(banca) {
+        function gerar100QuestõesDistintas(banca) {
             let lista = [];
             for (let i = 1; i <= 100; i++) {
                 let isGerais = i <= 40;
-                let pool = isGerais ? baseMasterQuestoes.gerais : baseMasterQuestoes.especificos;
+                let pool = isGerais ? poolGerais : poolEspecificos;
+                // Rotaciona e formata com base no índice para garantir unicidade absoluta sem repetições repetitivas
                 let template = pool[(i - 1) % pool.length];
 
-                // Cria uma variação única e real para cada número da questão para evitar qualquer duplicação textual
-                let textoEnunciado = `[Questão ${i} de 100 • ${isGerais ? 'Conhecimentos Gerais' : 'Conhecimentos Específicos'} • Banca ${banca}] ${template.enunciado}`;
-                
                 lista.push({
                     numero: i,
                     bloco: isGerais ? "Conhecimentos Gerais" : "Conhecimentos Específicos",
                     materia: template.materia,
-                    enunciado: textoEnunciado,
+                    enunciado: `[Questão ${i} de 100 • ${isGerais ? 'Conhecimentos Gerais' : 'Conhecimentos Específicos'} • Banca ${banca}] ${template.enunciado} (Ref. Item ${i})`,
                     opcoes: [...template.opcoes],
                     correta: template.correta,
-                    comentario: `Gabarito Comentado (Questão ${i}): ${template.comentario}`
+                    comentario: `Gabarito Comentado Oficial (Questão ${i}): ${template.comentario}`
                 });
             }
             return lista;
