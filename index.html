@@ -3,50 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ConectaConcursos - Sistema de Estudos para Concursos Públicos</title>
+    <title>ConectaConcursos Brasil - Sistema Avançado de Estudos</title>
     <!-- Tailwind CSS para estilização moderna -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col justify-between">
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col justify-between selection:bg-blue-600 selection:text-white">
 
     <!-- Cabeçalho -->
-    <header class="bg-gradient-to-r from-blue-800 to-indigo-900 text-white shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 py-8 text-center">
-            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight flex items-center justify-center gap-3">
+    <header class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white shadow-xl relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-7xl mx-auto px-4 py-8 text-center relative z-10">
+            <div class="inline-flex items-center gap-2 bg-blue-800/60 border border-blue-700/50 px-3 py-1 rounded-full text-xs font-semibold mb-3 text-blue-200 backdrop-blur-sm">
+                <i class="fa-solid fa-bolt text-yellow-400"></i> Plataforma Integrada de Alta Performance
+            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight flex items-center justify-center gap-3">
                 <i class="fa-solid fa-graduation-cap text-yellow-400"></i> ConectaConcursos Brasil
             </h1>
-            <p class="text-blue-200 text-sm md:text-base mt-2 max-w-2xl mx-auto">
-                Busque editais de qualquer estado, município ou cargo e estude com videoaulas, mapas mentais, PDFs, provas e gabaritos.
+            <p class="text-blue-200 text-sm md:text-base mt-2 max-w-2xl mx-auto font-light">
+                Busque editais de qualquer estado, município ou cargo e estude de forma integrada com videoaulas, mapas mentais, PDFs, provas e controle de ciclo de estudos.
             </p>
         </div>
     </header>
 
-    <!-- Barra de Busca (Estilo Portal de Empregos) -->
-    <div class="max-w-7xl mx-auto px-4 -mt-6 w-full z-10">
+    <!-- Navegação Secundária / Filtros de Aba (Todos vs Favoritos) -->
+    <div class="max-w-7xl mx-auto px-4 mt-6 w-full flex justify-between items-center flex-wrap gap-4">
+        <div class="flex gap-2">
+            <button onclick="mudarAba('todos')" id="btnTabTodos" class="bg-blue-600 text-white font-semibold px-4 py-2 rounded-xl text-sm transition shadow flex items-center gap-2">
+                <i class="fa-solid fa-list"></i> Todos os Concursos
+            </button>
+            <button onclick="mudarAba('favoritos')" id="btnTabFavoritos" class="bg-white text-slate-700 hover:bg-slate-100 font-semibold px-4 py-2 rounded-xl text-sm transition shadow-sm border border-slate-200 flex items-center gap-2">
+                <i class="fa-solid fa-star text-amber-500"></i> Meus Favoritos <span id="contadorFavoritosBadge" class="bg-slate-200 text-slate-800 text-xs px-2 py-0.5 rounded-full">0</span>
+            </button>
+        </div>
+        <div class="text-xs text-slate-500 font-medium">
+            <i class="fa-solid fa-shield-halved text-emerald-600"></i> Dados sincronizados localmente
+        </div>
+    </div>
+
+    <!-- Barra de Busca Avançada -->
+    <div class="max-w-7xl mx-auto px-4 mt-4 w-full z-10">
         <div class="bg-white rounded-2xl shadow-xl p-6 grid grid-cols-1 md:grid-cols-4 gap-4 border border-slate-100">
             <div>
                 <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Cargo, Órgão ou Banca</label>
-                <input type="text" id="inputBusca" placeholder="Ex: Auditor, Técnico, Vunesp..." class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <input type="text" id="inputBusca" placeholder="Ex: Auditor, Técnico, Fadesp..." class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
             </div>
             <div>
                 <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Estado (UF)</label>
-                <select id="selectEstado" class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
+                <select id="selectEstado" class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white transition">
                     <option value="">Todos os Estados</option>
                     <option value="Pará">Pará (PA)</option>
                     <option value="São Paulo">São Paulo (SP)</option>
                     <option value="Minas Gerais">Minas Gerais (MG)</option>
                     <option value="Rio de Janeiro">Rio de Janeiro (RJ)</option>
+                    <option value="Nacional">Nacional (Federal)</option>
                 </select>
             </div>
             <div>
                 <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Município</label>
-                <input type="text" id="inputMunicipio" placeholder="Ex: Itaituba, Belém..." class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <input type="text" id="inputMunicipio" placeholder="Ex: Itaituba, Belém..." class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
             </div>
-            <div class="flex items-end">
+            <div class="flex items-end gap-2">
                 <button onclick="filtrarConcursos()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-4 rounded-lg transition text-sm shadow flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-magnifying-glass"></i> Pesquisar Vagas
+                    <i class="fa-solid fa-magnifying-glass"></i> Filtrar
+                </button>
+                <button onclick="limparFiltros()" title="Limpar Filtros" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2.5 px-3 rounded-lg transition text-sm">
+                    <i class="fa-solid fa-rotate-right"></i>
                 </button>
             </div>
         </div>
@@ -55,69 +78,114 @@
     <!-- Lista de Resultados -->
     <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold text-slate-700" id="contadorResultados">Concursos Disponíveis</h2>
+            <h2 class="text-xl font-bold text-slate-700 flex items-center gap-2" id="contadorResultados">
+                <i class="fa-solid fa-layer-group text-blue-600"></i> Concursos Disponíveis
+            </h2>
         </div>
         
         <div id="listaConcursos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Os cards dos concursos serão inseridos aqui via JavaScript -->
+            <!-- Inserido dinamicamente via JavaScript -->
         </div>
     </main>
 
-    <!-- Modal da Central de Estudos -->
-    <div id="modalEstudo" class="fixed inset-0 bg-black bg-opacity-70 hidden z-50 flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-fade-in">
+    <!-- Modal da Central de Estudos Robusta -->
+    <div id="modalEstudo" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-5xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden animate-fade-in border border-slate-100">
             <!-- Cabeçalho do Modal -->
-            <div class="bg-slate-900 text-white p-5 flex justify-between items-center">
-                <div>
-                    <span id="modalBancaBadge" class="bg-blue-600 text-xs font-semibold px-2.5 py-0.5 rounded uppercase tracking-wider"></span>
-                    <h3 id="modalTitulo" class="text-xl font-bold mt-1">Painel de Estudos</h3>
+            <div class="bg-slate-900 text-white p-5 flex justify-between items-center border-b border-slate-800">
+                <div class="flex items-center gap-3">
+                    <span id="modalBancaBadge" class="bg-blue-600 text-xs font-bold px-2.5 py-1 rounded uppercase tracking-wider"></span>
+                    <div>
+                        <h3 id="modalTitulo" class="text-lg md:text-xl font-bold">Painel de Estudos</h3>
+                        <p class="text-xs text-slate-400">Recursos customizados para sua aprovação</p>
+                    </div>
                 </div>
-                <button onclick="fecharModal()" class="text-slate-400 hover:text-white text-2xl font-bold px-2">&times;</button>
+                <button onclick="fecharModal()" class="text-slate-400 hover:text-white text-2xl font-bold px-3 py-1 rounded-lg hover:bg-slate-800 transition">&times;</button>
             </div>
 
-            <!-- Conteúdo com Abas/Seções -->
-            <div class="p-6 overflow-y-auto space-y-6 bg-slate-50">
+            <!-- Menu de Abas Internas do Modal -->
+            <div class="bg-slate-100 px-6 py-3 border-b border-slate-200 flex gap-2 overflow-x-auto">
+                <button onclick="mudarAbaModal('materiais')" id="tabMat" class="bg-blue-600 text-white text-xs font-bold px-4 py-2 rounded-lg transition shadow-sm flex items-center gap-2">
+                    <i class="fa-solid fa-book-open"></i> Conteúdo & Aulas
+                </button>
+                <button onclick="mudarAbaModal('cronograma')" id="tabCrono" class="bg-white text-slate-700 hover:bg-slate-200 text-xs font-bold px-4 py-2 rounded-lg transition border border-slate-300 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check"></i> Ciclo de Estudos & Metas
+                </button>
+            </div>
+
+            <!-- Corpo com Conteúdo das Abas -->
+            <div class="p-6 overflow-y-auto space-y-6 bg-slate-50 flex-grow">
                 
-                <!-- Videoaula -->
-                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                    <h4 class="font-bold text-slate-700 mb-3 flex items-center gap-2">
-                        <i class="fa-brands fa-youtube text-red-600"></i> Videoaula Recomendada
-                    </h4>
-                    <div class="aspect-w-16 aspect-h-9 bg-black rounded-lg overflow-hidden h-64 md:h-80">
-                        <iframe id="modalVideo" class="w-full h-full rounded-lg" src="" frameborder="0" allowfullscreen></iframe>
+                <!-- Aba 1: Materiais (Vídeo, Mapa, Livros, Provas) -->
+                <div id="conteudoMateriais" class="space-y-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Videoaula -->
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col">
+                            <h4 class="font-bold text-slate-700 mb-3 flex items-center gap-2 text-sm">
+                                <i class="fa-brands fa-youtube text-red-600 text-lg"></i> Videoaula Recomendada
+                            </h4>
+                            <div class="bg-black rounded-lg overflow-hidden flex-grow min-h-[240px]">
+                                <iframe id="modalVideo" class="w-full h-full min-h-[240px]" src="" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                        </div>
+
+                        <!-- Mapa Mental -->
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col">
+                            <h4 class="font-bold text-slate-700 mb-3 flex items-center gap-2 text-sm">
+                                <i class="fa-solid fa-map text-emerald-600 text-lg"></i> Mapa Mental Resumo
+                            </h4>
+                            <div class="border border-slate-200 rounded-lg p-3 bg-slate-50 flex justify-center items-center flex-grow">
+                                <img id="modalMapa" src="" alt="Mapa Mental" class="max-h-60 object-contain rounded cursor-pointer hover:scale-105 transition" onclick="window.open(this.src)" title="Clique para ampliar">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seção de Downloads (Livros, Provas e Gabaritos) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Livros PDF -->
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                            <h4 class="font-bold text-slate-700 mb-3 flex items-center gap-2 text-sm">
+                                <i class="fa-solid fa-book text-blue-600"></i> Apostilas e Livros Teóricos (PDF)
+                            </h4>
+                            <ul id="modalLivros" class="space-y-2 text-sm">
+                                <!-- Inserido dinamicamente -->
+                            </ul>
+                        </div>
+
+                        <!-- Provas e Gabaritos -->
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                            <h4 class="font-bold text-slate-700 mb-3 flex items-center gap-2 text-sm">
+                                <i class="fa-solid fa-file-lines text-amber-600"></i> Provas Anteriores & Gabaritos
+                            </h4>
+                            <ul id="modalProvas" class="space-y-2 text-sm">
+                                <!-- Inserido dinamicamente -->
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Mapa Mental -->
-                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                    <h4 class="font-bold text-slate-700 mb-3 flex items-center gap-2">
-                        <i class="fa-solid fa-map text-emerald-600"></i> Mapa Mental Resumo
-                    </h4>
-                    <div class="border border-slate-200 rounded-lg p-3 bg-slate-50 flex justify-center">
-                        <img id="modalMapa" src="" alt="Mapa Mental" class="max-h-72 object-contain rounded cursor-pointer hover:scale-105 transition" onclick="window.open(this.src)" title="Clique para ampliar">
-                    </div>
-                </div>
+                <!-- Aba 2: Ciclo de Estudos / Checklist do Concurso -->
+                <div id="conteudoCronograma" class="hidden space-y-4">
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                        <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-base">Checklist do Edital & Ciclo de Estudos</h4>
+                                <p class="text-xs text-slate-500">Marque os tópicos conforme for concluindo o estudo teórico e as revisões.</p>
+                            </div>
+                            <div class="text-right">
+                                <span id="progressoTexto" class="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">0% Concluído</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Barra de Progresso Geral -->
+                        <div class="w-full bg-slate-100 rounded-full h-2.5 mb-6 overflow-hidden">
+                            <div id="barraProgresso" class="bg-blue-600 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
 
-                <!-- Seção de Downloads (Livros, Provas e Gabaritos) -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Livros PDF -->
-                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                        <h4 class="font-bold text-slate-700 mb-3 flex items-center gap-2">
-                            <i class="fa-solid fa-book text-blue-600"></i> Livros Teóricos em PDF
-                        </h4>
-                        <ul id="modalLivros" class="space-y-2 text-sm">
+                        <!-- Lista de Tópicos Dinâmicos -->
+                        <div id="listaTopicosEstudo" class="space-y-2.5">
                             <!-- Inserido dinamicamente -->
-                        </ul>
-                    </div>
-
-                    <!-- Provas e Gabaritos -->
-                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                        <h4 class="font-bold text-slate-700 mb-3 flex items-center gap-2">
-                            <i class="fa-solid fa-file-lines text-amber-600"></i> Provas Anteriores & Gabaritos
-                        </h4>
-                        <ul id="modalProvas" class="space-y-2 text-sm">
-                            <!-- Inserido dinamicamente -->
-                        </ul>
+                        </div>
                     </div>
                 </div>
 
@@ -127,12 +195,12 @@
 
     <!-- Rodapé -->
     <footer class="bg-slate-900 text-slate-400 py-6 text-center text-xs mt-12 border-t border-slate-800">
-        <p>&copy; 2026 ConectaConcursos Brasil. Todos os direitos reservados. Sistema integrado de estudos.</p>
+        <p>&copy; 2026 ConectaConcursos Brasil. Todos os direitos reservados. Sistema integrado de estudos de alta performance.</p>
     </footer>
 
-    <!-- Script JavaScript Embutido -->
+    <!-- Script JavaScript Robusto -->
     <script>
-        // Banco de Dados Simulado de Concursos por todo o Brasil
+        // Banco de Dados Expandido de Concursos Nacionais e Regionais (Pará e Região em destaque)
         const bancoConcursos = [
             {
                 id: 1,
@@ -153,6 +221,13 @@
                     provas: [
                         { ano: 2023, prova: '#', gabarito: '#' },
                         { ano: 2021, prova: '#', gabarito: '#' }
+                    ],
+                    topicos: [
+                        'Legislação Tributária do Estado do Pará',
+                        'Contabilidade Geral e Custos',
+                        'Direito Constitucional Aplicado',
+                        'Auditoria Fiscal Avançada',
+                        'Economia e Finanças Públicas'
                     ]
                 }
             },
@@ -174,6 +249,12 @@
                     ],
                     provas: [
                         { ano: 2022, prova: '#', gabarito: '#' }
+                    ],
+                    topicos: [
+                        'Língua Portuguesa e Interpretação',
+                        'Noções de Informática (Windows/Office)',
+                        'Legislação Municipal de Itaituba',
+                        'Matemática Básica e Raciocínio Lógico'
                     ]
                 }
             },
@@ -196,6 +277,13 @@
                     provas: [
                         { ano: 2024, prova: '#', gabarito: '#' },
                         { ano: 2023, prova: '#', gabarito: '#' }
+                    ],
+                    topicos: [
+                        'Direito Processual Civil',
+                        'Direito Penal e Processual Penal',
+                        'Normas da Corregedoria Geral de Justiça',
+                        'Língua Portuguesa Completa',
+                        'Atualidades e Informática'
                     ]
                 }
             },
@@ -216,42 +304,134 @@
                     ],
                     provas: [
                         { ano: 2023, prova: '#', gabarito: '#' }
+                    ],
+                    topicos: [
+                        'Fundamentos da Educação e Didática',
+                        'Estatuto da Criança e do Adolescente (ECA)',
+                        'LDB - Lei de Diretrizes e Bases da Educação',
+                        'Conhecimentos Pedagógicos Específicos'
+                    ]
+                }
+            },
+            {
+                id: 5,
+                orgao: 'Banco do Brasil - BB',
+                cargo: 'Escritorário - Agente de Tecnologia',
+                estado: 'Nacional',
+                municipio: 'Diversos (Inclui Belém e Santarém)',
+                banca: 'CESGRANRIO',
+                status: 'Comissão Formada',
+                dataProva: '20/01/2027',
+                materiais: {
+                    videoUrl: 'https://www.youtube.com/embed/5qap5aO4i9A',
+                    mapaMental: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80',
+                    livrosPdf: [
+                        { nome: 'Noções de Bancos de Dados e Programação.pdf', url: '#' },
+                        { nome: 'Vendas e Negociação Bancária.pdf', url: '#' }
+                    ],
+                    provas: [
+                        { ano: 2023, prova: '#', gabarito: '#' }
+                    ],
+                    topicos: [
+                        'Probabilidade e Estatística',
+                        'Conhecimentos Bancários',
+                        'Tecnologia da Informação (TI) Aplicada',
+                        'Língua Portuguesa e Inglesa'
                     ]
                 }
             }
         ];
 
-        // Função para renderizar os concursos na tela
+        // Estado da Aplicação
+        let abaAtual = 'todos'; // 'todos' ou 'favoritos'
+        let concursoAtivoId = null;
+
+        // Recuperar favoritos do localStorage
+        function obterFavoritos() {
+            const favs = localStorage.getItem('conecta_favoritos');
+            return favs ? JSON.parse(favs) : [];
+        }
+
+        function alternarFavorito(id, event) {
+            event.stopPropagation();
+            let favs = obterFavoritos();
+            if (favs.includes(id)) {
+                favs = favs.filter(f => f !== id);
+            } else {
+                favs.push(id);
+            }
+            localStorage.setItem('conecta_favoritos', JSON.stringify(favs));
+            atualizarContadorFavoritos();
+            filtrarConcursos();
+        }
+
+        function atualizarContadorFavoritos() {
+            const favs = obterFavoritos();
+            document.getElementById('contadorFavoritosBadge').innerText = favs.length;
+        }
+
+        function mudarAba(aba) {
+            abaAtual = aba;
+            const btnTodos = document.getElementById('btnTabTodos');
+            const btnFavs = document.getElementById('btnTabFavoritos');
+
+            if (aba === 'todos') {
+                btnTodos.className = "bg-blue-600 text-white font-semibold px-4 py-2 rounded-xl text-sm transition shadow flex items-center gap-2";
+                btnFavs.className = "bg-white text-slate-700 hover:bg-slate-100 font-semibold px-4 py-2 rounded-xl text-sm transition shadow-sm border border-slate-200 flex items-center gap-2";
+            } else {
+                btnFavs.className = "bg-blue-600 text-white font-semibold px-4 py-2 rounded-xl text-sm transition shadow flex items-center gap-2";
+                btnTodos.className = "bg-white text-slate-700 hover:bg-slate-100 font-semibold px-4 py-2 rounded-xl text-sm transition shadow-sm border border-slate-200 flex items-center gap-2";
+            }
+            filtrarConcursos();
+        }
+
+        // Renderizar Concursos na Tela
         function renderizarConcursos(dados) {
             const container = document.getElementById('listaConcursos');
-            document.getElementById('contadorResultados').innerText = `Concursos Encontrados (${dados.length})`;
+            const favs = obterFavoritos();
+            
+            let dadosFiltrados = dados;
+            if (abaAtual === 'favoritos') {
+                dadosFiltrados = dados.filter(c => favs.includes(c.id));
+            }
+
+            document.getElementById('contadorResultados').innerHTML = `
+                <i class="fa-solid fa-layer-group text-blue-600"></i> 
+                ${abaAtual === 'favoritos' ? 'Meus Concursos Favoritos' : 'Concursos Disponíveis'} (${dadosFiltrados.length})
+            `;
+            
             container.innerHTML = '';
 
-            if (dados.length === 0) {
+            if (dadosFiltrados.length === 0) {
                 container.innerHTML = `
-                    <div class="col-span-full text-center py-12 bg-white rounded-xl border border-slate-200">
+                    <div class="col-span-full text-center py-12 bg-white rounded-2xl border border-slate-200 shadow-sm">
                         <i class="fa-solid fa-folder-open text-4xl text-slate-300 mb-3"></i>
-                        <p class="text-slate-500 font-medium">Nenhum concurso encontrado com esses filtros.</p>
+                        <p class="text-slate-600 font-semibold">Nenhum concurso encontrado.</p>
+                        <p class="text-xs text-slate-400 mt-1">Tente ajustar seus termos de busca ou adicionar itens aos favoritos.</p>
                     </div>`;
                 return;
             }
 
-            dados.forEach(c => {
+            dadosFiltrados.forEach(c => {
+                const isFav = favs.includes(c.id);
                 container.innerHTML += `
-                    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-lg transition flex flex-col justify-between">
+                    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group relative">
+                        <button onclick='alternarFavorito(${c.id}, event)' title="${isFav ? 'Remover dos favoritos' : 'Salvar nos favoritos'}" class="absolute top-5 right-5 text-lg transition-transform active:scale-125 ${isFav ? 'text-amber-500' : 'text-slate-300 hover:text-slate-400'}">
+                            <i class="fa-${isFav ? 'solid' : 'regular'} fa-star"></i>
+                        </button>
                         <div>
-                            <div class="flex justify-between items-start mb-3">
+                            <div class="flex items-start gap-2 mb-3 pr-8">
                                 <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md uppercase">${c.banca}</span>
                                 <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">${c.status}</span>
                             </div>
-                            <h3 class="font-bold text-lg text-slate-900 mb-1 leading-snug">${c.cargo}</h3>
+                            <h3 class="font-bold text-lg text-slate-900 mb-1 leading-snug group-hover:text-blue-600 transition">${c.cargo}</h3>
                             <p class="text-slate-600 text-sm font-medium mb-3">${c.orgao}</p>
                             <p class="text-slate-500 text-xs flex items-center gap-1.5 mb-4">
                                 <i class="fa-solid fa-location-dot text-red-500"></i> ${c.municipio} - ${c.estado}
                             </p>
                         </div>
                         <div>
-                            <div class="text-xs text-slate-500 mb-4 bg-slate-50 p-2 rounded-lg border border-slate-100 flex items-center gap-2">
+                            <div class="text-xs text-slate-500 mb-4 bg-slate-50 p-2.5 rounded-lg border border-slate-100 flex items-center gap-2">
                                 <i class="fa-regular fa-calendar text-blue-600"></i> Data da Prova: <strong class="text-slate-700">${c.dataProva}</strong>
                             </div>
                             <button onclick='abrirEstudo(${JSON.stringify(c)})' class="w-full bg-slate-900 hover:bg-blue-600 text-white font-semibold py-2.5 px-4 rounded-xl text-sm transition shadow flex items-center justify-center gap-2">
@@ -263,11 +443,11 @@
             });
         }
 
-        // Função de Filtragem (Simulando busca em tempo real)
+        // Função de Filtragem em Tempo Real
         function filtrarConcursos() {
-            const busca = document.getElementById('inputBusca').value.toLowerCase();
+            const busca = document.getElementById('inputBusca').value.toLowerCase().trim();
             const estado = document.getElementById('selectEstado').value;
-            const municipio = document.getElementById('inputMunicipio').value.toLowerCase();
+            const municipio = document.getElementById('inputMunicipio').value.toLowerCase().trim();
 
             const resultado = bancoConcursos.filter(c => {
                 const matchBusca = c.orgao.toLowerCase().includes(busca) || c.cargo.toLowerCase().includes(busca) || c.banca.toLowerCase().includes(busca);
@@ -279,8 +459,78 @@
             renderizarConcursos(resultado);
         }
 
-        // Abrir Modal de Estudos com os dados do concurso clicado
+        function limparFiltros() {
+            document.getElementById('inputBusca').value = '';
+            document.getElementById('selectEstado').value = '';
+            document.getElementById('inputMunicipio').value = '';
+            filtrarConcursos();
+        }
+
+        // Abas do Modal
+        function mudarAbaModal(aba) {
+            const tabMat = document.getElementById('tabMat');
+            const tabCrono = document.getElementById('tabCrono');
+            const contMat = document.getElementById('conteudoMateriais');
+            const contCrono = document.getElementById('conteudoCronograma');
+
+            if (aba === 'materiais') {
+                tabMat.className = "bg-blue-600 text-white text-xs font-bold px-4 py-2 rounded-lg transition shadow-sm flex items-center gap-2";
+                tabCrono.className = "bg-white text-slate-700 hover:bg-slate-200 text-xs font-bold px-4 py-2 rounded-lg transition border border-slate-300 flex items-center gap-2";
+                contMat.classList.remove('hidden');
+                contCrono.classList.add('hidden');
+            } else {
+                tabCrono.className = "bg-blue-600 text-white text-xs font-bold px-4 py-2 rounded-lg transition shadow-sm flex items-center gap-2";
+                tabMat.className = "bg-white text-slate-700 hover:bg-slate-200 text-xs font-bold px-4 py-2 rounded-lg transition border border-slate-300 flex items-center gap-2";
+                contCrono.classList.remove('hidden');
+                contMat.classList.add('hidden');
+            }
+        }
+
+        // Gerenciamento do Ciclo de Estudos no LocalStorage por Concurso
+        function obterProgressoConcurso(concursoId) {
+            const prog = localStorage.getItem(`progresso_concurso_${concursoId}`);
+            return prog ? JSON.parse(prog) : [];
+        }
+
+        function alternarTopicoEstudo(concursoId, indexTopico) {
+            let concluidos = obterProgressoConcurso(concursoId);
+            if (concluidos.includes(indexTopico)) {
+                concluidos = concluidos.filter(i => i !== indexTopico);
+            } else {
+                concluidos.push(indexTopico);
+            }
+            localStorage.setItem(`progresso_concurso_${concursoId}`, JSON.stringify(concluidos));
+            
+            // Recalcular renderização do checklist
+            const concurso = bancoConcursos.find(c => c.id === concursoId);
+            renderizarChecklist(concurso);
+        }
+
+        function renderizarChecklist(concurso) {
+            const container = document.getElementById('listaTopicosEstudo');
+            const concluidos = obterProgressoConcurso(concurso.id);
+            const total = concurso.materiais.topicos.length;
+            const concluidosCount = concluidos.length;
+            const porcentagem = total > 0 ? Math.round((concluidosCount / total) * 100) : 0;
+
+            document.getElementById('progressoTexto').innerText = `${porcentagem}% Concluído (${concluidosCount}/${total})`;
+            document.getElementById('barraProgresso').style.width = `${porcentagem}%`;
+
+            container.innerHTML = '';
+            concurso.materiais.topicos.forEach((topico, idx) => {
+                const isChecked = concluidos.includes(idx);
+                container.innerHTML += `
+                    <label class="flex items-center gap-3 p-3 rounded-xl border transition cursor-pointer ${isChecked ? 'bg-emerald-50/60 border-emerald-200 text-emerald-900' : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'}">
+                        <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="alternarTopicoEstudo(${concurso.id}, ${idx})" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+                        <span class="text-sm font-medium ${isChecked ? 'line-through opacity-80' : ''}">${topico}</span>
+                    </label>
+                `;
+            });
+        }
+
+        // Abrir Modal de Estudos com dados do concurso
         function abrirEstudo(concurso) {
+            concursoAtivoId = concurso.id;
             document.getElementById('modalBancaBadge').innerText = concurso.banca;
             document.getElementById('modalTitulo').innerText = `${concurso.orgao} - ${concurso.cargo}`;
             document.getElementById('modalVideo').src = concurso.materiais.videoUrl;
@@ -292,9 +542,9 @@
             concurso.materiais.livrosPdf.forEach(l => {
                 listaLivros.innerHTML += `
                     <li class="flex justify-between items-center bg-slate-50 p-2.5 rounded-lg border border-slate-200">
-                        <span class="text-slate-700 font-medium truncate max-w-[200px] md:max-w-[260px]">${l.nome}</span>
+                        <span class="text-slate-700 font-medium truncate max-w-[180px] md:max-w-[240px]">${l.nome}</span>
                         <a href="${l.url}" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 rounded-md transition flex items-center gap-1 shadow-sm">
-                            <i class="fa-solid fa-download"></i> Baixar PDF
+                            <i class="fa-solid fa-download"></i> Baixar
                         </a>
                     </li>`;
             });
@@ -305,7 +555,7 @@
             concurso.materiais.provas.forEach(p => {
                 listaProvas.innerHTML += `
                     <li class="flex justify-between items-center bg-slate-50 p-2.5 rounded-lg border border-slate-200">
-                        <span class="font-bold text-slate-700">Ano ${p.ano}</span>
+                        <span class="font-bold text-slate-700 text-sm">Prova & Gabarito (${p.ano})</span>
                         <div class="flex gap-2">
                             <a href="${p.prova}" class="bg-amber-100 hover:bg-amber-200 text-amber-800 text-xs font-bold px-2.5 py-1.5 rounded-md transition">Prova</a>
                             <a href="${p.gabarito}" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-800 text-xs font-bold px-2.5 py-1.5 rounded-md transition">Gabarito</a>
@@ -313,17 +563,30 @@
                     </li>`;
             });
 
+            // Renderizar Ciclo de Estudos
+            renderizarChecklist(concurso);
+            mudarAbaModal('materiais');
+
             document.getElementById('modalEstudo').classList.remove('hidden');
         }
 
         // Fechar Modal
         function fecharModal() {
             document.getElementById('modalEstudo').classList.add('hidden');
-            document.getElementById('modalVideo').src = ''; // Para o vídeo ao fechar o modal
+            document.getElementById('modalVideo').src = ''; // Interrompe o vídeo ao fechar
+            concursoAtivoId = null;
         }
 
-        // Carregar todos os concursos ao abrir a página pela primeira vez
-        window.onload = () => renderizarConcursos(bancoConcursos);
+        // Event Listeners para busca reativa ao digitar
+        document.getElementById('inputBusca').addEventListener('input', filtrarConcursos);
+        document.getElementById('inputMunicipio').addEventListener('input', filtrarConcursos);
+        document.getElementById('selectEstado').addEventListener('change', filtrarConcursos);
+
+        // Inicialização ao carregar a página
+        window.onload = () => {
+            atualizarContadorFavoritos();
+            renderizarConcursos(bancoConcursos);
+        };
     </script>
 </body>
 </html>
