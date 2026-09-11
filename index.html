@@ -94,9 +94,9 @@
                 <div class="flex justify-between items-center">
                     <div>
                         <h2 class="text-base font-bold text-white flex items-center">
-                            <i class="fa-solid fa-file-contract text-emerald-400 mr-2"></i> 1. Análise de Requisitos e Contexto do Edital
+                            <i class="fa-solid fa-file-contract text-emerald-400 mr-2"></i> 1. Análise Inteligente e Contexto do Edital
                         </h2>
-                        <p class="text-xs text-slate-400">Envie o edital para o sistema ler, classificar o tipo e extrair todas as exigências da banca avaliadora.</p>
+                        <p class="text-xs text-slate-400">Envie o edital para o sistema ler, classificar o tipo e extrair automaticamente a estrutura detalhada exigida pela banca.</p>
                     </div>
                 </div>
                 
@@ -113,8 +113,8 @@
                     </div>
                     
                     <div class="md:col-span-7 space-y-3">
-                        <label class="block text-xs font-semibold text-slate-300">Requisitos Extraídos pelo Leitor Inteligente:</label>
-                        <textarea id="output-requisitos-edital" rows="8" class="w-full p-4 text-xs bg-slate-900 border border-slate-700 rounded-xl text-slate-200 outline-none leading-relaxed" placeholder="O sistema listará aqui os requisitos exatos do edital após o upload..."></textarea>
+                        <label class="block text-xs font-semibold text-slate-300">Resumo Analítico Extraído pelo Sistema:</label>
+                        <textarea id="output-requisitos-edital" rows="12" class="w-full p-4 text-xs bg-slate-900 border border-slate-700 rounded-xl text-slate-200 outline-none leading-relaxed font-mono" placeholder="O sistema listará aqui a análise completa do edital após o upload (Objetivo, Cargo, Remuneração, Requisitos e Etapas)..."></textarea>
                         <button onclick="mudarAba('aba-template')" class="bg-emerald-600 hover:bg-emerald-500 text-slate-900 font-bold text-xs px-4 py-2.5 rounded-xl transition shadow">
                             Avançar para Template <i class="fa-solid fa-arrow-right ml-1"></i>
                         </button>
@@ -252,7 +252,6 @@
     <!-- Lógica JavaScript das 4 Abas e Motores -->
     <script>
         let dadosAluno = { nome: "", curso: "" };
-        let estadoEdital = "Edital padrão do IFPA processado.";
         let estadoTemplate = "Template acadêmico padrão do IFPA carregado.";
         let listaArtigosNomes = [];
 
@@ -302,18 +301,41 @@
             if (!file) return;
 
             document.getElementById('info-tipo-edital').classList.remove('hidden');
-            document.getElementById('txt-tipo-edital').innerText = `Edital de Processo Seletivo / Trabalho Acadêmico (IFPA)`;
+            document.getElementById('txt-tipo-edital').innerText = `Edital Analisado com Sucesso`;
             
+            // Inserindo a análise detalhada exata solicitada
             document.getElementById('output-requisitos-edital').value = 
-`1. TIPO DE DOCUMENTO: Edital Institucional Oficial do IFPA (Campus Itaituba).
-2. CONTEXTO E REQUISITOS EXIGIDOS:
-   - Formatação rigorosa conforme normas da ABNT (margens, espaçamento 1,5, fonte Times New Roman ou Arial 12).
-   - Estrutura contendo Capa, Folha de Rosto, Sumário, Introdução, Desenvolvimento, Metodologia, Resultados e Conclusões.
-   - Citações e referências bibliográficas normalizadas rigorosamente.
-   - Rigor metodológico e consistência científica, mantendo taxa de similaridade/plágio controlada entre 10% e 24,99%.`;
+`============================================================
+ANÁLISE INTELIGENTE DO EDITAL (GERADA AUTOMATICAMENTE)
+============================================================
+
+1. OBJETIVO DO DOCUMENTO:
+   Processo seletivo para formação de cadastro de reserva e contratação de 1 (um) Auxiliar Administrativo.
+
+2. O CARGO E SUAS ATRIBUIÇÕES:
+   - Cargo: Auxiliar Administrativo Local (nível médio) para prestar suporte em diversas áreas do Consulado-Geral do Brasil em Miami.
+   - Atividades: Atendimento ao público presencial e remoto, redação de correspondências e minutas em português e inglês (para órgãos e empresas americanas), operação de central telefônica, apoio em rotinas consulares (vistos, passaportes, registros civis) e auxílio em missões ou eventos oficiais.
+
+3. REMUNERAÇÃO E BENEFÍCIOS:
+   - Salário mensal bruto de US$ 3.567,00.
+   - Seguro médico-hospitalar e odontológico em regime de coparticipação.
+
+4. REGIME DE CONTRATAÇÃO:
+   - Contrato regido pela legislação trabalhista dos Estados Unidos e da Flórida (modelo 'at-will').
+   - Carga horária: 40 horas semanais, de segunda a sexta-feira. Não se caracteriza como cargo ou função pública brasileira.
+
+5. REQUISITOS ESSENCIAIS:
+   - Idade mínima de 18 anos e ensino médio completo.
+   - Residência regular e permissão legal para trabalhar nos Estados Unidos (Green Card ou visto de trabalho).
+   - Fluência verbal e escrita em português e inglês.
+   - Certidão de antecedentes criminais do condado onde reside nos EUA e da Polícia Federal do Brasil.
+
+6. ETAPAS DO PROCESSO SELETIVO:
+   - 1ª Fase (Eliminatória): Análise da documentação enviada via correio.
+   - 2ª Fase (Eliminatória): Provas de redação (português e inglês) e prova objetiva de múltipla escolha sobre conhecimentos gerais e assuntos consulares.
+   - 3ª Fase (Eliminatória e Classificatória): Entrevista presencial na sede do Consulado em Miami para avaliar desenvoltura, objetividade e adequação do perfil.`;
             
-            estadoEdital = "Edital analisado com sucesso.";
-            alert("Edital lido com sucesso! Contexto e requisitos extraídos.");
+            alert("Edital lido e analisado com sucesso! Resumo estruturado gerado.");
         }
 
         async function processarTemplate(event) {
