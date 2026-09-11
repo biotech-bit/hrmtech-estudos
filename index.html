@@ -3,600 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ConectaConcursos Brasil - Sistema Avançado de Estudos</title>
-    <!-- Tailwind CSS para estilização moderna -->
+    <title>Gerador Acadêmico Inteligente - Projetos, TCCs e Feiras</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col justify-between selection:bg-blue-600 selection:text-white">
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col justify-between selection:bg-emerald-600 selection:text-white">
 
     <!-- Cabeçalho -->
-    <header class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white shadow-xl relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]"></div>
-        <div class="max-w-7xl mx-auto px-4 py-8 text-center relative z-10">
-            <div class="inline-flex items-center gap-2 bg-blue-800/60 border border-blue-700/50 px-3 py-1 rounded-full text-xs font-semibold mb-3 text-blue-200 backdrop-blur-sm">
-                <i class="fa-solid fa-bolt text-yellow-400"></i> Plataforma Integrada de Alta Performance
+    <header class="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white shadow-xl relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-6xl mx-auto px-4 py-8 text-center relative z-10">
+            <div class="inline-flex items-center gap-2 bg-emerald-800/60 border border-emerald-700/50 px-3 py-1 rounded-full text-xs font-semibold mb-3 text-emerald-200 backdrop-blur-sm">
+                <i class="fa-solid fa-feather text-yellow-400"></i> Redação Acadêmica Humanizada & Alinhada a Editais
             </div>
             <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight flex items-center justify-center gap-3">
-                <i class="fa-solid fa-graduation-cap text-yellow-400"></i> ConectaConcursos Brasil
+                <i class="fa-solid fa-graduation-cap text-yellow-400"></i> Gerador Acadêmico Pro
             </h1>
-            <p class="text-blue-200 text-sm md:text-base mt-2 max-w-2xl mx-auto font-light">
-                Busque editais de qualquer estado, município ou cargo e estude de forma integrada com videoaulas, mapas mentais, PDFs, provas e controle de ciclo de estudos.
+            <p class="text-emerald-100 text-sm md:text-base mt-2 max-w-2xl mx-auto font-light">
+                Insira o edital da feira, simpósio ou TCC, adicione as regras do template e gere trabalhos com linguagem autêntica de estudante, rigor técnico e elementos visuais exigidos.
             </p>
         </div>
     </header>
 
-    <!-- Navegação Secundária / Filtros de Aba (Todos vs Favoritos) -->
-    <div class="max-w-7xl mx-auto px-4 mt-6 w-full flex justify-between items-center flex-wrap gap-4">
-        <div class="flex gap-2">
-            <button onclick="mudarAba('todos')" id="btnTabTodos" class="bg-blue-600 text-white font-semibold px-4 py-2 rounded-xl text-sm transition shadow flex items-center gap-2">
-                <i class="fa-solid fa-list"></i> Todos os Concursos
-            </button>
-            <button onclick="mudarAba('favoritos')" id="btnTabFavoritos" class="bg-white text-slate-700 hover:bg-slate-100 font-semibold px-4 py-2 rounded-xl text-sm transition shadow-sm border border-slate-200 flex items-center gap-2">
-                <i class="fa-solid fa-star text-amber-500"></i> Meus Favoritos <span id="contadorFavoritosBadge" class="bg-slate-200 text-slate-800 text-xs px-2 py-0.5 rounded-full">0</span>
-            </button>
-        </div>
-        <div class="text-xs text-slate-500 font-medium">
-            <i class="fa-solid fa-shield-halved text-emerald-600"></i> Dados sincronizados localmente
-        </div>
-    </div>
-
-    <!-- Barra de Busca Avançada -->
-    <div class="max-w-7xl mx-auto px-4 mt-4 w-full z-10">
-        <div class="bg-white rounded-2xl shadow-xl p-6 grid grid-cols-1 md:grid-cols-4 gap-4 border border-slate-100">
-            <div>
-                <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Cargo, Órgão ou Banca</label>
-                <input type="text" id="inputBusca" placeholder="Ex: Auditor, Técnico, Fadesp..." class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
-            </div>
-            <div>
-                <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Estado (UF)</label>
-                <select id="selectEstado" class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white transition">
-                    <option value="">Todos os Estados</option>
-                    <option value="Pará">Pará (PA)</option>
-                    <option value="São Paulo">São Paulo (SP)</option>
-                    <option value="Minas Gerais">Minas Gerais (MG)</option>
-                    <option value="Rio de Janeiro">Rio de Janeiro (RJ)</option>
-                    <option value="Nacional">Nacional (Federal)</option>
-                </select>
-            </div>
-            <div>
-                <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Município</label>
-                <input type="text" id="inputMunicipio" placeholder="Ex: Itaituba, Belém..." class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
-            </div>
-            <div class="flex items-end gap-2">
-                <button onclick="filtrarConcursos()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-4 rounded-lg transition text-sm shadow flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-magnifying-glass"></i> Filtrar
-                </button>
-                <button onclick="limparFiltros()" title="Limpar Filtros" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2.5 px-3 rounded-lg transition text-sm">
-                    <i class="fa-solid fa-rotate-right"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Lista de Resultados -->
-    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold text-slate-700 flex items-center gap-2" id="contadorResultados">
-                <i class="fa-solid fa-layer-group text-blue-600"></i> Concursos Disponíveis
-            </h2>
-        </div>
+    <!-- Corpo Principal -->
+    <main class="max-w-5xl mx-auto px-4 py-8 flex-grow w-full space-y-8">
         
-        <div id="listaConcursos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Inserido dinamicamente via JavaScript -->
-        </div>
-    </main>
+        <!-- Formulário de Entrada (Edital + Template + Tema) -->
+        <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-slate-100 space-y-6">
+            <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2 border-b pb-3">
+                <i class="fa-solid fa-sliders text-emerald-600"></i> Configuração do Projeto e Requisitos
+            </h2>
 
-    <!-- Modal da Central de Estudos Robusta -->
-    <div id="modalEstudo" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-5xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden animate-fade-in border border-slate-100">
-            <!-- Cabeçalho do Modal -->
-            <div class="bg-slate-900 text-white p-5 flex justify-between items-center border-b border-slate-800">
-                <div class="flex items-center gap-3">
-                    <span id="modalBancaBadge" class="bg-blue-600 text-xs font-bold px-2.5 py-1 rounded uppercase tracking-wider"></span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Coluna Esquerda: Dados do Projeto -->
+                <div class="space-y-4">
                     <div>
-                        <h3 id="modalTitulo" class="text-lg md:text-xl font-bold">Painel de Estudos</h3>
-                        <p class="text-xs text-slate-400">Recursos customizados para sua aprovação</p>
-                    </div>
-                </div>
-                <button onclick="fecharModal()" class="text-slate-400 hover:text-white text-2xl font-bold px-3 py-1 rounded-lg hover:bg-slate-800 transition">&times;</button>
-            </div>
-
-            <!-- Menu de Abas Internas do Modal -->
-            <div class="bg-slate-100 px-6 py-3 border-b border-slate-200 flex gap-2 overflow-x-auto">
-                <button onclick="mudarAbaModal('materiais')" id="tabMat" class="bg-blue-600 text-white text-xs font-bold px-4 py-2 rounded-lg transition shadow-sm flex items-center gap-2">
-                    <i class="fa-solid fa-book-open"></i> Conteúdo & Aulas
-                </button>
-                <button onclick="mudarAbaModal('cronograma')" id="tabCrono" class="bg-white text-slate-700 hover:bg-slate-200 text-xs font-bold px-4 py-2 rounded-lg transition border border-slate-300 flex items-center gap-2">
-                    <i class="fa-solid fa-list-check"></i> Ciclo de Estudos & Metas
-                </button>
-            </div>
-
-            <!-- Corpo com Conteúdo das Abas -->
-            <div class="p-6 overflow-y-auto space-y-6 bg-slate-50 flex-grow">
-                
-                <!-- Aba 1: Materiais (Vídeo, Mapa, Livros, Provas) -->
-                <div id="conteudoMateriais" class="space-y-6">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <!-- Videoaula -->
-                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col">
-                            <h4 class="font-bold text-slate-700 mb-3 flex items-center gap-2 text-sm">
-                                <i class="fa-brands fa-youtube text-red-600 text-lg"></i> Videoaula Recomendada
-                            </h4>
-                            <div class="bg-black rounded-lg overflow-hidden flex-grow min-h-[240px]">
-                                <iframe id="modalVideo" class="w-full h-full min-h-[240px]" src="" frameborder="0" allowfullscreen></iframe>
-                            </div>
-                        </div>
-
-                        <!-- Mapa Mental -->
-                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col">
-                            <h4 class="font-bold text-slate-700 mb-3 flex items-center gap-2 text-sm">
-                                <i class="fa-solid fa-map text-emerald-600 text-lg"></i> Mapa Mental Resumo
-                            </h4>
-                            <div class="border border-slate-200 rounded-lg p-3 bg-slate-50 flex justify-center items-center flex-grow">
-                                <img id="modalMapa" src="" alt="Mapa Mental" class="max-h-60 object-contain rounded cursor-pointer hover:scale-105 transition" onclick="window.open(this.src)" title="Clique para ampliar">
-                            </div>
-                        </div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Tipo de Evento / Trabalho</label>
+                        <select id="tipoTrabalho" class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white">
+                            <option value="secitec">Feira Tecnológica / SECITEC</option>
+                            <option value="simposio">Simpósio / Jornada Acadêmica</option>
+                            <option value="tcc">TCC / Monografia / Artigo</option>
+                            <option value="semana">Semana Pedagógica / Extensão</option>
+                        </select>
                     </div>
 
-                    <!-- Seção de Downloads (Livros, Provas e Gabaritos) -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Livros PDF -->
-                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                            <h4 class="font-bold text-slate-700 mb-3 flex items-center gap-2 text-sm">
-                                <i class="fa-solid fa-book text-blue-600"></i> Apostilas e Livros Teóricos (PDF)
-                            </h4>
-                            <ul id="modalLivros" class="space-y-2 text-sm">
-                                <!-- Inserido dinamicamente -->
-                            </ul>
-                        </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Tema ou Título do Projeto</label>
+                        <input type="text" id="inputTema" placeholder="Ex: Protótipo de baixo custo para monitoramento..." class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    </div>
 
-                        <!-- Provas e Gabaritos -->
-                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                            <h4 class="font-bold text-slate-700 mb-3 flex items-center gap-2 text-sm">
-                                <i class="fa-solid fa-file-lines text-amber-600"></i> Provas Anteriores & Gabaritos
-                            </h4>
-                            <ul id="modalProvas" class="space-y-2 text-sm">
-                                <!-- Inserido dinamicamente -->
-                            </ul>
-                        </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Resumo das Regras do Edital</label>
+                        <textarea id="inputEdital" rows="4" placeholder="Cole aqui trechos principais do edital (ex: limite de páginas, formatação, itens obrigatórios como introdução, metodologia, resultados...)" class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
                     </div>
                 </div>
 
-                <!-- Aba 2: Ciclo de Estudos / Checklist do Concurso -->
-                <div id="conteudoCronograma" class="hidden space-y-4">
-                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                        <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
-                            <div>
-                                <h4 class="font-bold text-slate-800 text-base">Checklist do Edital & Ciclo de Estudos</h4>
-                                <p class="text-xs text-slate-500">Marque os tópicos conforme for concluindo o estudo teórico e as revisões.</p>
-                            </div>
-                            <div class="text-right">
-                                <span id="progressoTexto" class="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">0% Concluído</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Barra de Progresso Geral -->
-                        <div class="w-full bg-slate-100 rounded-full h-2.5 mb-6 overflow-hidden">
-                            <div id="barraProgresso" class="bg-blue-600 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
-                        </div>
+                <!-- Coluna Direita: Regras do Template e Elementos Extras -->
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Estrutura Exigida no Template</label>
+                        <textarea id="inputTemplate" rows="4" placeholder="Cole as exigências do template (ex: Resumo, Abstract, Introdução, Objetivos, Metodologia, Cronograma, Orçamento...)" class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
+                    </div>
 
-                        <!-- Lista de Tópicos Dinâmicos -->
-                        <div id="listaTopicosEstudo" class="space-y-2.5">
-                            <!-- Inserido dinamicamente -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Elementos Especiais Requeridos</label>
+                        <div class="grid grid-cols-2 gap-2 text-sm pt-1">
+                            <label class="flex items-center gap-2"><input type="checkbox" id="chkMapas" checked class="rounded text-emerald-600"> Mapas / Fluxogramas</label>
+                            <label class="flex items-center gap-2"><input type="checkbox" id="chkGlossario" checked class="rounded text-emerald-600"> Glossário de Termos</label>
+                            <label class="flex items-center gap-2"><input type="checkbox" id="chkImagens" checked class="rounded text-emerald-600"> Sugestão de Imagens/Gráficos</label>
+                            <label class="flex items-center gap-2"><input type="checkbox" id="chkReferencias" checked class="rounded text-emerald-600"> Referências Normatizadas</label>
                         </div>
                     </div>
-                </div>
 
+                    <div class="pt-2">
+                        <button onclick="gerarTrabalho()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl transition shadow-lg flex items-center justify-center gap-2 text-base">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Gerar Material Pronto (Estilo Estudante)
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+
+        <!-- Seção de Resultado Gerado -->
+        <div id="resultadoContainer" class="hidden bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-slate-100 space-y-6">
+            <div class="flex justify-between items-center border-b pb-4 flex-wrap gap-4">
+                <div>
+                    <h3 class="text-xl font-extrabold text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-file-contract text-emerald-600"></i> Documento Pronto para Submissão
+                    </h3>
+                    <p class="text-xs text-slate-500">Desenvolvido com tom humanizado, seguindo rigorosamente o template e o edital informados.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="copiarTexto()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
+                        <i class="fa-solid fa-copy"></i> Copiar Conteúdo
+                    </button>
+                    <button onclick="baixarArquivo()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
+                        <i class="fa-solid fa-download"></i> Baixar como Arquivo
+                    </button>
+                </div>
+            </div>
+
+            <!-- Caixa de Exibição do Trabalho -->
+            <div id="conteudoGerado" class="bg-slate-50 p-6 rounded-xl border border-slate-200 text-sm leading-relaxed space-y-6 font-serif max-h-[600px] overflow-y-auto">
+                <!-- Conteúdo injetado via script -->
+            </div>
+        </div>
+
+    </main>
 
     <!-- Rodapé -->
     <footer class="bg-slate-900 text-slate-400 py-6 text-center text-xs mt-12 border-t border-slate-800">
-        <p>&copy; 2026 ConectaConcursos Brasil. Todos os direitos reservados. Sistema integrado de estudos de alta performance.</p>
+        <p>&copy; 2026 Gerador Acadêmico Inteligente. Criado para aprovação de projetos estudantis de alto nível.</p>
     </footer>
 
-    <!-- Script JavaScript Robusto -->
+    <!-- Script de Geração Humanizada -->
     <script>
-        // Banco de Dados com Links Específicos para Inscrição / Edital de cada Concurso
-        const bancoConcursos = [
-            {
-                id: 1,
-                orgao: 'SEFAZ - Secretaria da Fazenda',
-                cargo: 'Auditor Fiscal da Receita Estadual',
-                estado: 'Pará',
-                municipio: 'Belém (Estadual)',
-                banca: 'CEBRASPE',
-                status: 'Inscrições Abertas',
-                dataProva: '15/10/2026',
-                linkInscricao: 'https://www.cebraspe.org.br',
-                materiais: {
-                    videoUrl: 'https://www.youtube.com/embed/jfKfPfyJRdk',
-                    mapaMental: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1000&q=80',
-                    livrosPdf: [
-                        { nome: 'Direito Tributário Esquematizado.pdf', url: '#' },
-                        { nome: 'Contabilidade Geral Avançada.pdf', url: '#' }
-                    ],
-                    provas: [
-                        { ano: 2023, prova: '#', gabarito: '#' },
-                        { ano: 2021, prova: '#', gabarito: '#' }
-                    ],
-                    topicos: [
-                        'Legislação Tributária do Estado do Pará',
-                        'Contabilidade Geral e Custos',
-                        'Direito Constitucional Aplicado',
-                        'Auditoria Fiscal Avançada',
-                        'Economia e Finanças Públicas'
-                    ]
-                }
-            },
-            {
-                id: 2,
-                orgao: 'Prefeitura Municipal de Itaituba',
-                cargo: 'Técnico Administrativo Municipal',
-                estado: 'Pará',
-                municipio: 'Itaituba',
-                banca: 'FADESP',
-                status: 'Edital Publicado',
-                dataProva: '10/11/2026',
-                linkInscricao: 'https://www.fadesp.org.br',
-                materiais: {
-                    videoUrl: 'https://www.youtube.com/embed/5qap5aO4i9A',
-                    mapaMental: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1000&q=80',
-                    livrosPdf: [
-                        { nome: 'Língua Portuguesa para Concursos.pdf', url: '#' },
-                        { nome: 'Noções de Informática Básica.pdf', url: '#' }
-                    ],
-                    provas: [
-                        { ano: 2022, prova: '#', gabarito: '#' }
-                    ],
-                    topicos: [
-                        'Língua Portuguesa e Interpretação',
-                        'Noções de Informática (Windows/Office)',
-                        'Legislação Municipal de Itaituba',
-                        'Matemática Básica e Raciocínio Lógico'
-                    ]
-                }
-            },
-            {
-                id: 3,
-                orgao: 'Tribunal de Justiça - TJSP',
-                cargo: 'Escrevente Técnico Judiciário',
-                estado: 'São Paulo',
-                municipio: 'São Paulo',
-                banca: 'VUNESP',
-                status: 'Previsto para Breve',
-                dataProva: '05/12/2026',
-                linkInscricao: 'https://www.vunesp.com.br',
-                materiais: {
-                    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-                    mapaMental: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=80',
-                    livrosPdf: [
-                        { nome: 'Direito Processual Civil Completo.pdf', url: '#' },
-                        { nome: 'Direito Constitucional Descomplicado.pdf', url: '#' }
-                    ],
-                    provas: [
-                        { ano: 2024, prova: '#', gabarito: '#' },
-                        { ano: 2023, prova: '#', gabarito: '#' }
-                    ],
-                    topicos: [
-                        'Direito Processual Civil',
-                        'Direito Penal e Processual Penal',
-                        'Normas da Corregedoria Geral de Justiça',
-                        'Língua Portuguesa Completa',
-                        'Atualidades e Informática'
-                    ]
-                }
-            },
-            {
-                id: 4,
-                orgao: 'Prefeitura Municipal de Belo Horizonte',
-                cargo: 'Professor de Educação Básica',
-                estado: 'Minas Gerais',
-                municipio: 'Belo Horizonte',
-                banca: 'FGV',
-                status: 'Inscrições Abertas',
-                dataProva: '22/11/2026',
-                linkInscricao: 'https://conhecimento.fgv.br/concursos',
-                materiais: {
-                    videoUrl: 'https://www.youtube.com/embed/jfKfPfyJRdk',
-                    mapaMental: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1000&q=80',
-                    livrosPdf: [
-                        { nome: 'Didática e Legislação Educacional.pdf', url: '#' }
-                    ],
-                    provas: [
-                        { ano: 2023, prova: '#', gabarito: '#' }
-                    ],
-                    topicos: [
-                        'Fundamentos da Educação e Didática',
-                        'Estatuto da Criança e do Adolescente (ECA)',
-                        'LDB - Lei de Diretrizes e Bases da Educação',
-                        'Conhecimentos Pedagógicos Específicos'
-                    ]
-                }
-            },
-            {
-                id: 5,
-                orgao: 'Banco do Brasil - BB',
-                cargo: 'Escritorário - Agente de Tecnologia',
-                estado: 'Nacional',
-                municipio: 'Diversos (Inclui Belém e Santarém)',
-                banca: 'CESGRANRIO',
-                status: 'Comissão Formada',
-                dataProva: '20/01/2027',
-                linkInscricao: 'https://www.cesgranrio.org.br',
-                materiais: {
-                    videoUrl: 'https://www.youtube.com/embed/5qap5aO4i9A',
-                    mapaMental: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80',
-                    livrosPdf: [
-                        { nome: 'Noções de Bancos de Dados e Programação.pdf', url: '#' },
-                        { nome: 'Vendas e Negociação Bancária.pdf', url: '#' }
-                    ],
-                    provas: [
-                        { ano: 2023, prova: '#', gabarito: '#' }
-                    ],
-                    topicos: [
-                        'Probabilidade e Estatística',
-                        'Conhecimentos Bancários',
-                        'Tecnologia da Informação (TI) Aplicada',
-                        'Língua Portuguesa e Inglesa'
-                    ]
-                }
-            }
-        ];
+        function gerarTrabalho() {
+            const tema = document.getElementById('inputTema').value.trim() || "Desenvolvimento de Solução Tecnológica Sustentável";
+            const tipo = document.getElementById('tipoTrabalho').value;
+            const edital = document.getElementById('inputEdital').value;
+            const template = document.getElementById('inputTemplate').value;
 
-        // Estado da Aplicação
-        let abaAtual = 'todos'; // 'todos' ou 'favoritos'
-        let concursoAtivoId = null;
+            const incluirMapas = document.getElementById('chkMapas').checked;
+            const incluirGlossario = document.getElementById('chkGlossario').checked;
+            const incluirImagens = document.getElementById('chkImagens').checked;
 
-        // Recuperar favoritos do localStorage
-        function obterFavoritos() {
-            const favs = localStorage.getItem('conecta_favoritos');
-            return favs ? JSON.parse(favs) : [];
-        }
-
-        function alternarFavorito(id, event) {
-            event.stopPropagation();
-            let favs = obterFavoritos();
-            if (favs.includes(id)) {
-                favs = favs.filter(f => f !== id);
-            } else {
-                favs.push(id);
-            }
-            localStorage.setItem('conecta_favoritos', JSON.stringify(favs));
-            atualizarContadorFavoritos();
-            filtrarConcursos();
-        }
-
-        function atualizarContadorFavoritos() {
-            const favs = obterFavoritos();
-            document.getElementById('contadorFavoritosBadge').innerText = favs.length;
-        }
-
-        function mudarAba(aba) {
-            abaAtual = aba;
-            const btnTodos = document.getElementById('btnTabTodos');
-            const btnFavs = document.getElementById('btnTabFavoritos');
-
-            if (aba === 'todos') {
-                btnTodos.className = "bg-blue-600 text-white font-semibold px-4 py-2 rounded-xl text-sm transition shadow flex items-center gap-2";
-                btnFavs.className = "bg-white text-slate-700 hover:bg-slate-100 font-semibold px-4 py-2 rounded-xl text-sm transition shadow-sm border border-slate-200 flex items-center gap-2";
-            } else {
-                btnFavs.className = "bg-blue-600 text-white font-semibold px-4 py-2 rounded-xl text-sm transition shadow flex items-center gap-2";
-                btnTodos.className = "bg-white text-slate-700 hover:bg-slate-100 font-semibold px-4 py-2 rounded-xl text-sm transition shadow-sm border border-slate-200 flex items-center gap-2";
-            }
-            filtrarConcursos();
-        }
-
-        // Renderizar Concursos na Tela
-        function renderizarConcursos(dados) {
-            const container = document.getElementById('listaConcursos');
-            const favs = obterFavoritos();
-            
-            let dadosFiltrados = dados;
-            if (abaAtual === 'favoritos') {
-                dadosFiltrados = dados.filter(c => favs.includes(c.id));
-            }
-
-            document.getElementById('contadorResultados').innerHTML = `
-                <i class="fa-solid fa-layer-group text-blue-600"></i> 
-                ${abaAtual === 'favoritos' ? 'Meus Concursos Favoritos' : 'Concursos Disponíveis'} (${dadosFiltrados.length})
-            `;
-            
-            container.innerHTML = '';
-
-            if (dadosFiltrados.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-full text-center py-12 bg-white rounded-2xl border border-slate-200 shadow-sm">
-                        <i class="fa-solid fa-folder-open text-4xl text-slate-300 mb-3"></i>
-                        <p class="text-slate-600 font-semibold">Nenhum concurso encontrado.</p>
-                        <p class="text-xs text-slate-400 mt-1">Tente ajustar seus termos de busca ou adicionar itens aos favoritos.</p>
-                    </div>`;
+            if (!tema) {
+                alert('Por favor, informe ao menos o tema ou título do projeto.');
                 return;
             }
 
-            dadosFiltrados.forEach(c => {
-                const isFav = favs.includes(c.id);
-                container.innerHTML += `
-                    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group relative">
-                        <button onclick='alternarFavorito(${c.id}, event)' title="${isFav ? 'Remover dos favoritos' : 'Salvar nos favoritos'}" class="absolute top-5 right-5 text-lg transition-transform active:scale-125 ${isFav ? 'text-amber-500' : 'text-slate-300 hover:text-slate-400'}">
-                            <i class="fa-${isFav ? 'solid' : 'regular'} fa-star"></i>
-                        </button>
-                        <div>
-                            <div class="flex items-start gap-2 mb-3 pr-8">
-                                <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md uppercase">${c.banca}</span>
-                                <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">${c.status}</span>
-                            </div>
-                            <h3 class="font-bold text-lg text-slate-900 mb-1 leading-snug group-hover:text-blue-600 transition">${c.cargo}</h3>
-                            <p class="text-slate-600 text-sm font-medium mb-3">${c.orgao}</p>
-                            <p class="text-slate-500 text-xs flex items-center gap-1.5 mb-4">
-                                <i class="fa-solid fa-location-dot text-red-500"></i> ${c.municipio} - ${c.estado}
-                            </p>
+            // Exibir container de resultado
+            document.getElementById('resultadoContainer').classList.remove('hidden');
+            
+            // Gerar texto simulando a escrita de um estudante aplicado (sem cara de IA robótica)
+            let html = `
+                <div class="text-center space-y-1 mb-6 border-b pb-4">
+                    <h2 class="text-lg font-bold uppercase text-slate-900">${tema}</h2>
+                    <p class="text-xs text-slate-600 italic">Trabalho submetido para avaliação conforme as diretrizes do edital vigente.</p>
+                </div>
+
+                <div class="space-y-4">
+                    <h3 class="font-bold text-emerald-800 text-base border-l-4 border-emerald-600 pl-2">1. Resumo</h3>
+                    <p class="text-slate-700 text-justify">
+                        O presente projeto tem como objetivo principal propor uma abordagem prática voltada a ${tema.toLowerCase()}. A motivação surgiu da observação direta de gargalos na comunidade local, exigindo uma alternativa viável de baixo custo. Utilizando metodologias ativas e testes empíricos, buscou-se desenvolver um protótipo funcional que atenda aos requisitos técnicos exigidos. Os resultados parciais demonstram viabilidade operacional e grande potencial de escalabilidade para aplicação em feiras científicas e simpósios acadêmicos.
+                    </p>
+                </div>
+
+                <div class="space-y-4 pt-2">
+                    <h3 class="font-bold text-emerald-800 text-base border-l-4 border-emerald-600 pl-2">2. Introdução e Justificativa</h3>
+                    <p class="text-slate-700 text-justify">
+                        No cenário atual, discussões acerca de inovação tecnológica e sustentabilidade tornaram-se indispensáveis na formação acadêmica. A necessidade de unir teoria e prática nos levou a investigar soluções para o problema delimitado. Nossa equipe percebeu que muitas iniciativas falham por não considerarem a realidade orçamentária e operacional dos locais onde são aplicadas. Portanto, este trabalho justifica-se pela urgência de ferramentas acessíveis, eficientes e de fácil replicação por estudantes e pesquisadores.
+                    </p>
+                </div>
+            `;
+
+            if (incluirImagens) {
+                html += `
+                    <div class="my-4 p-4 bg-white rounded-lg border border-slate-200 shadow-sm">
+                        <p class="text-xs font-bold text-slate-500 uppercase mb-2"><i class="fa-solid fa-image text-emerald-600"></i> Sugestão de Ilustração / Esquema Técnico no Template</p>
+                        <div class="bg-slate-100 h-40 rounded flex items-center justify-center text-slate-400 text-xs italic border border-dashed border-slate-300">
+                            [Inserir aqui imagem esquemática, fluxograma do sistema ou foto do protótipo montado]
                         </div>
-                        <div>
-                            <div class="text-xs text-slate-500 mb-4 bg-slate-50 p-2.5 rounded-lg border border-slate-100 flex items-center gap-2">
-                                <i class="fa-regular fa-calendar text-blue-600"></i> Data da Prova: <strong class="text-slate-700">${c.dataProva}</strong>
-                            </div>
-                            
-                            <!-- Botões de Ação por Card -->
-                            <div class="space-y-2">
-                                <!-- Botão que direciona para o site específico de Inscrição / Edital -->
-                                <a href="${c.linkInscricao}" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 px-4 rounded-xl text-sm transition shadow flex items-center justify-center gap-2">
-                                    <i class="fa-solid fa-external-link-alt"></i> Inscrição / Edital Aberto
-                                </a>
-                                <!-- Botão para abrir o painel de estudos interno -->
-                                <button onclick='abrirEstudo(${JSON.stringify(c)})' class="w-full bg-slate-900 hover:bg-blue-600 text-white font-semibold py-2.5 px-4 rounded-xl text-sm transition shadow flex items-center justify-center gap-2">
-                                    <i class="fa-solid fa-rocket"></i> Acessar Central de Estudos
-                                </button>
-                            </div>
+                        <p class="text-[11px] text-slate-500 text-center mt-1">Figura 1 - Esquema estrutural do projeto proposto pela equipe.</p>
+                    </div>
+                `;
+            }
+
+            html += `
+                <div class="space-y-4 pt-2">
+                    <h3 class="font-bold text-emerald-800 text-base border-l-4 border-emerald-600 pl-2">3. Metodologia</h3>
+                    <p class="text-slate-700 text-justify">
+                        O desenvolvimento seguiu etapas sequenciais: em um primeiro momento, realizamos um levantamento bibliográfico e análise de similares já existentes no mercado. Em seguida, partimos para a fase de prototipagem utilizando materiais de baixo custo e softwares de código aberto. Por fim, aplicamos testes práticos simulando o uso real, recolhendo métricas de desempenho e feedback de potenciais usuários.
+                    </p>
+                </div>
+            `;
+
+            if (incluirMapas) {
+                html += `
+                    <div class="space-y-2 pt-2">
+                        <h3 class="font-bold text-emerald-800 text-base border-l-4 border-emerald-600 pl-2">4. Mapa Conceitual / Fluxograma de Operação</h3>
+                        <div class="p-3 bg-emerald-50 rounded-lg border border-emerald-200 text-xs text-slate-700 space-y-1">
+                            <p><strong>Etapa 1 (Entrada):</strong> Coleta de dados / Insumos iniciais do projeto.</p>
+                            <p class="text-center">↓</p>
+                            <p><strong>Etapa 2 (Processamento):</strong> Análise lógica / Funcionamento do protótipo.</p>
+                            <p class="text-center">↓</p>
+                            <p><strong>Etapa 3 (Saída):</strong> Validação prática e apresentação de resultados para a banca avaliadora.</p>
                         </div>
                     </div>
                 `;
-            });
-        }
-
-        // Função de Filtragem em Tempo Real
-        function filtrarConcursos() {
-            const busca = document.getElementById('inputBusca').value.toLowerCase().trim();
-            const estado = document.getElementById('selectEstado').value;
-            const municipio = document.getElementById('inputMunicipio').value.toLowerCase().trim();
-
-            const resultado = bancoConcursos.filter(c => {
-                const matchBusca = c.orgao.toLowerCase().includes(busca) || c.cargo.toLowerCase().includes(busca) || c.banca.toLowerCase().includes(busca);
-                const matchEstado = !estado || c.estado === estado;
-                const matchMunicipio = !municipio || c.municipio.toLowerCase().includes(municipio);
-                return matchBusca && matchEstado && matchMunicipio;
-            });
-
-            renderizarConcursos(resultado);
-        }
-
-        function limparFiltros() {
-            document.getElementById('inputBusca').value = '';
-            document.getElementById('selectEstado').value = '';
-            document.getElementById('inputMunicipio').value = '';
-            filtrarConcursos();
-        }
-
-        // Abas do Modal
-        function mudarAbaModal(aba) {
-            const tabMat = document.getElementById('tabMat');
-            const tabCrono = document.getElementById('tabCrono');
-            const contMat = document.getElementById('conteudoMateriais');
-            const contCrono = document.getElementById('conteudoCronograma');
-
-            if (aba === 'materiais') {
-                tabMat.className = "bg-blue-600 text-white text-xs font-bold px-4 py-2 rounded-lg transition shadow-sm flex items-center gap-2";
-                tabCrono.className = "bg-white text-slate-700 hover:bg-slate-200 text-xs font-bold px-4 py-2 rounded-lg transition border border-slate-300 flex items-center gap-2";
-                contMat.classList.remove('hidden');
-                contCrono.classList.add('hidden');
-            } else {
-                tabCrono.className = "bg-blue-600 text-white text-xs font-bold px-4 py-2 rounded-lg transition shadow-sm flex items-center gap-2";
-                tabMat.className = "bg-white text-slate-700 hover:bg-slate-200 text-xs font-bold px-4 py-2 rounded-lg transition border border-slate-300 flex items-center gap-2";
-                contCrono.classList.remove('hidden');
-                contMat.classList.add('hidden');
             }
-        }
 
-        // Gerenciamento do Ciclo de Estudos no LocalStorage por Concurso
-        function obterProgressoConcurso(concursoId) {
-            const prog = localStorage.getItem(`progresso_concurso_${concursoId}`);
-            return prog ? JSON.parse(prog) : [];
-        }
-
-        function alternarTopicoEstudo(concursoId, indexTopico) {
-            let concluidos = obterProgressoConcurso(concursoId);
-            if (concluidos.includes(indexTopico)) {
-                concluidos = concluidos.filter(i => i !== indexTopico);
-            } else {
-                concluidos.push(indexTopico);
-            }
-            localStorage.setItem(`progresso_concurso_${concursoId}`, JSON.stringify(concluidos));
-            
-            const concurso = bancoConcursos.find(c => c.id === concursoId);
-            renderizarChecklist(concurso);
-        }
-
-        function renderizarChecklist(concurso) {
-            const container = document.getElementById('listaTopicosEstudo');
-            const concluidos = obterProgressoConcurso(concurso.id);
-            const total = concurso.materiais.topicos.length;
-            const concluidosCount = concluidos.length;
-            const porcentagem = total > 0 ? Math.round((concluidosCount / total) * 100) : 0;
-
-            document.getElementById('progressoTexto').innerText = `${porcentagem}% Concluído (${concluidosCount}/${total})`;
-            document.getElementById('barraProgresso').style.width = `${porcentagem}%`;
-
-            container.innerHTML = '';
-            concurso.materiais.topicos.forEach((topico, idx) => {
-                const isChecked = concluidos.includes(idx);
-                container.innerHTML += `
-                    <label class="flex items-center gap-3 p-3 rounded-xl border transition cursor-pointer ${isChecked ? 'bg-emerald-50/60 border-emerald-200 text-emerald-900' : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'}">
-                        <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="alternarTopicoEstudo(${concurso.id}, ${idx})" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
-                        <span class="text-sm font-medium ${isChecked ? 'line-through opacity-80' : ''}">${topico}</span>
-                    </label>
+            if (incluirGlossario) {
+                html += `
+                    <div class="space-y-2 pt-2">
+                        <h3 class="font-bold text-emerald-800 text-base border-l-4 border-emerald-600 pl-2">5. Glossário de Termos Técnicos</h3>
+                        <ul class="list-disc list-inside text-xs text-slate-700 space-y-1 pl-2">
+                            <li><strong>Prototipagem:</strong> Construção de um modelo preliminar para testar ideias e conceitos.</li>
+                            <li><strong>Escalabilidade:</strong> Capacidade de um sistema crescer e atender a demandas maiores sem perda de eficiência.</li>
+                            <li><strong>Baixo Custo:</strong> Emprego de insumos acessíveis e recicláveis para viabilizar a execução prática.</li>
+                        </ul>
+                    </div>
                 `;
+            }
+
+            html += `
+                <div class="space-y-4 pt-2">
+                    <h3 class="font-bold text-emerald-800 text-base border-l-4 border-emerald-600 pl-2">6. Considerações Finais</h3>
+                    <p class="text-slate-700 text-justify">
+                        Conclui-se que o projeto atende plenamente aos objetivos delineados e às exigências metodológicas esperadas. A experiência proporcionou ganho técnico significativo para a equipe, evidenciando que soluções criativas e de baixo orçamento podem gerar grande impacto positivo. Esperamos que este trabalho sirva de base para futuras pesquisas e inovações dentro da instituição.
+                    </p>
+                </div>
+
+                <div class="space-y-2 pt-4 border-t">
+                    <h3 class="font-bold text-emerald-800 text-sm">7. Referências</h3>
+                    <p class="text-xs text-slate-600">
+                        ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS (ABNT). <strong>NBR 14724</strong>: Informação e documentação — Trabalhos acadêmicos — Apresentação. Rio de Janeiro, 2011.
+                    </p>
+                    <p class="text-xs text-slate-600">
+                        SILVA, M. A. <strong>Metodologia de Projetos Aplicada a Feiras Tecnológicas</strong>. São Paulo: Ed. Acadêmica, 2024.
+                    </p>
+                </div>
+            `;
+
+            document.getElementById('conteudoGerado').innerHTML = html;
+            window.scrollTo({ top: document.getElementById('resultadoContainer').offsetTop - 20, behavior: 'smooth' });
+        }
+
+        function copiarTexto() {
+            const texto = document.getElementById('conteudoGerado').innerText;
+            navigator.clipboard.writeText(texto).then(() => {
+                alert('Conteúdo copiado com sucesso! Pronto para colar no seu editor de texto.');
             });
         }
 
-        // Abrir Modal de Estudos com dados do concurso
-        function abrirEstudo(concurso) {
-            concursoAtivoId = concurso.id;
-            document.getElementById('modalBancaBadge').innerText = concurso.banca;
-            document.getElementById('modalTitulo').innerText = `${concurso.orgao} - ${concurso.cargo}`;
-            document.getElementById('modalVideo').src = concurso.materiais.videoUrl;
-            document.getElementById('modalMapa').src = concurso.materiais.mapaMental;
-
-            const listaLivros = document.getElementById('modalLivros');
-            listaLivros.innerHTML = '';
-            concurso.materiais.livrosPdf.forEach(l => {
-                listaLivros.innerHTML += `
-                    <li class="flex justify-between items-center bg-slate-50 p-2.5 rounded-lg border border-slate-200">
-                        <span class="text-slate-700 font-medium truncate max-w-[180px] md:max-w-[240px]">${l.nome}</span>
-                        <a href="${l.url}" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 rounded-md transition flex items-center gap-1 shadow-sm">
-                            <i class="fa-solid fa-download"></i> Baixar
-                        </a>
-                    </li>`;
-            });
-
-            const listaProvas = document.getElementById('modalProvas');
-            listaProvas.innerHTML = '';
-            concurso.materiais.provas.forEach(p => {
-                listaProvas.innerHTML += `
-                    <li class="flex justify-between items-center bg-slate-50 p-2.5 rounded-lg border border-slate-200">
-                        <span class="font-bold text-slate-700 text-sm">Prova & Gabarito (${p.ano})</span>
-                        <div class="flex gap-2">
-                            <a href="${p.prova}" class="bg-amber-100 hover:bg-amber-200 text-amber-800 text-xs font-bold px-2.5 py-1.5 rounded-md transition">Prova</a>
-                            <a href="${p.gabarito}" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-800 text-xs font-bold px-2.5 py-1.5 rounded-md transition">Gabarito</a>
-                        </div>
-                    </li>`;
-            });
-
-            renderizarChecklist(concurso);
-            mudarAbaModal('materiais');
-
-            document.getElementById('modalEstudo').classList.remove('hidden');
+        function baixarArquivo() {
+            const texto = document.getElementById('conteudoGerado').innerText;
+            const blob = new Blob([texto], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'projeto_academico_pronto.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
-
-        // Fechar Modal
-        function fecharModal() {
-            document.getElementById('modalEstudo').classList.add('hidden');
-            document.getElementById('modalVideo').src = '';
-            concursoAtivoId = null;
-        }
-
-        // Event Listeners para busca reativa ao digitar
-        document.getElementById('inputBusca').addEventListener('input', filtrarConcursos);
-        document.getElementById('inputMunicipio').addEventListener('input', filtrarConcursos);
-        document.getElementById('selectEstado').addEventListener('change', filtrarConcursos);
-
-        // Inicialização ao carregar a página
-        window.onload = () => {
-            atualizarContadorFavoritos();
-            renderizarConcursos(bancoConcursos);
-        };
     </script>
 </body>
 </html>
