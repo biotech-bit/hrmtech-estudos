@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escritor Digital Acadêmico - Normas ABNT & Multi-PDF</title>
+    <title>Escritor Digital Acadêmico - Histórico Salvo & IA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -19,8 +19,8 @@
             <div class="flex items-center space-x-3">
                 <i class="fa-solid fa-pen-nib text-emerald-400 text-3xl"></i>
                 <div>
-                    <h1 class="text-2xl font-bold tracking-tight">Escritor Digital e Gerador ABNT</h1>
-                    <p class="text-xs text-slate-400">Sistema Inteligente para Submissão de Trabalhos, TCCs e Monografias</p>
+                    <h1 class="text-2xl font-bold tracking-tight">Escritor Digital Acadêmico</h1>
+                    <p class="text-xs text-slate-400">Sistema com Histórico Permanente, Geração IA e Normas ABNT</p>
                 </div>
             </div>
             <div id="user-badge" class="hidden bg-slate-800 border border-slate-700 px-4 py-2 rounded-lg flex items-center space-x-3">
@@ -46,7 +46,7 @@
                     <i class="fa-solid fa-id-card"></i>
                 </div>
                 <h2 class="text-xl font-bold text-slate-900">Identificação do Aluno</h2>
-                <p class="text-xs text-slate-500 mt-1">Insira seus dados para puxar automaticamente seu perfil acadêmico.</p>
+                <p class="text-xs text-slate-500 mt-1">Insira seus dados para acessar seus trabalhos salvos.</p>
             </div>
             <form id="form-login" onsubmit="fazerLogin(event)" class="space-y-4">
                 <div>
@@ -58,56 +58,62 @@
                     <input type="text" id="input-curso" required placeholder="Ex: Licenciatura em Ciências Biológicas" class="w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
                 </div>
                 <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-lg text-sm transition shadow-md">
-                    Entrar no Sistema <i class="fa-solid fa-arrow-right ml-2"></i>
+                    Entrar e Ver Meus Trabalhos <i class="fa-solid fa-arrow-right ml-2"></i>
                 </button>
             </form>
         </section>
 
-        <!-- Passo 2: Workspace Principal (Oculto até o login) -->
+        <!-- Passo 2: Workspace Principal com Histórico e Editor -->
         <section id="step-workspace" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            <!-- Coluna Esquerda: Referências & Configurações -->
+            <!-- Coluna Esquerda: Histórico Salvo & Referências -->
             <div class="space-y-6">
-                <!-- Upload de PDFs -->
+                <!-- Meus Trabalhos Salvos (Histórico Permanente) -->
                 <div class="bg-white rounded-xl shadow-md p-5 border border-slate-200">
-                    <h3 class="text-sm font-bold text-slate-900 mb-2 flex items-center">
-                        <i class="fa-solid fa-file-arrow-up text-emerald-600 mr-2"></i> Base de Referências (PDF / TXT)
-                    </h3>
-                    <p class="text-xs text-slate-500 mb-4">Envie artigos, editais ou livros para a IA analisar e basear a escrita.</p>
-                    
-                    <div class="border-2 border-dashed border-slate-300 rounded-xl p-4 text-center hover:border-emerald-500 transition cursor-pointer relative" onclick="document.getElementById('file-input').click()">
-                        <i class="fa-solid cloud-arrow-up text-slate-400 text-2xl mb-1 fa-solid fa-cloud-arrow-up"></i>
-                        <p class="text-xs text-slate-600 font-medium">Clique para selecionar arquivos</p>
-                        <input type="file" id="file-input" multiple accept=".pdf,.txt" class="hidden" onchange="processarArquivos(event)">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="text-sm font-bold text-slate-900 flex items-center">
+                            <i class="fa-solid fa-box-archive text-emerald-600 mr-2"></i> Trabalhos Salvos
+                        </h3>
+                        <button onclick="novoTrabalho()" class="text-[10px] bg-emerald-100 text-emerald-700 hover:bg-emerald-200 font-bold px-2 py-1 rounded transition">+ Novo</button>
                     </div>
+                    <p class="text-xs text-slate-500 mb-3">Seus artigos e monografias ficam salvos permanentemente aqui.</p>
                     
-                    <div id="lista-arquivos" class="mt-3 space-y-2 max-h-40 overflow-y-auto text-xs">
-                        <!-- Arquivos carregados aparecem aqui -->
+                    <div id="lista-trabalhos-salvos" class="space-y-2 max-h-56 overflow-y-auto text-xs">
+                        <!-- Itens do histórico injetados via script -->
                     </div>
                 </div>
 
-                <!-- Sugestão de Títulos (RAG) -->
+                <!-- Upload de Referências & Modelos -->
                 <div class="bg-white rounded-xl shadow-md p-5 border border-slate-200">
                     <h3 class="text-sm font-bold text-slate-900 mb-2 flex items-center">
-                        <i class="fa-solid fa-lightbulb text-amber-500 mr-2"></i> Sugestão de Títulos (IA)
+                        <i class="fa-solid fa-file-arrow-up text-indigo-600 mr-2"></i> Base de Referências (PDF)
                     </h3>
-                    <p class="text-xs text-slate-500 mb-3">Gere títulos alinhados às referências enviadas.</p>
-                    <button onclick="gerarTitulos()" class="w-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold py-2 rounded-lg transition mb-3">
-                        Sugerir Títulos com IA
-                    </button>
-                    <div id="box-titulos" class="space-y-2 text-xs">
-                        <span class="text-slate-400 italic">Envie referências e clique para gerar opções.</span>
+                    <div class="border-2 border-dashed border-slate-300 rounded-xl p-3 text-center hover:border-indigo-500 transition cursor-pointer relative" onclick="document.getElementById('file-input').click()">
+                        <p class="text-xs text-slate-600 font-medium"><i class="fa-solid fa-cloud-arrow-up mr-1"></i> Enviar PDFs de apoio</p>
+                        <input type="file" id="file-input" multiple accept=".pdf,.txt" class="hidden" onchange="processarArquivos(event)">
                     </div>
+                    <div id="lista-arquivos" class="mt-2 space-y-1 max-h-24 overflow-y-auto text-[11px] text-slate-600"></div>
+                </div>
+
+                <!-- Correções da Professora -->
+                <div class="bg-white rounded-xl shadow-md p-5 border border-slate-200">
+                    <h3 class="text-sm font-bold text-slate-900 mb-2 flex items-center">
+                        <i class="fa-solid fa-clipboard-check text-amber-600 mr-2"></i> Ajustar por Feedback
+                    </h3>
+                    <textarea id="input-correcao" rows="2" placeholder="Ex: Corrigir introdução..." class="w-full p-2 text-xs border rounded-lg focus:ring-2 focus:ring-amber-500 outline-none resize-none bg-slate-50 mb-2"></textarea>
+                    <button onclick="aplicarCorrecaoProfessora()" class="w-full bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold py-1.5 rounded-lg transition">
+                        Aplicar Correção IA
+                    </button>
                 </div>
             </div>
 
-            <!-- Coluna Direita: Editor Inteligente e Verificadores -->
+            <!-- Coluna Direita: Editor Inteligente e Salvamento Automático -->
             <div class="lg:col-span-2 space-y-6">
                 <div class="bg-white rounded-xl shadow-md p-6 border border-slate-200">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
                         <div>
-                            <h3 class="text-base font-bold text-slate-900">Editor Acadêmico Guiado por Seções</h3>
-                            <p class="text-xs text-slate-500">Normas ABNT aplicadas automaticamente em tempo real.</p>
+                            <input type="text" id="input-titulo-trabalho" placeholder="Título do Trabalho (Ex: Artigo Científico - Tema X)" class="text-base font-bold text-slate-900 border-b border-transparent hover:border-slate-300 focus:border-emerald-500 outline-none w-full max-w-md bg-transparent">
+                            <p class="text-xs text-slate-500">O sistema salva suas alterações automaticamente.</p>
                         </div>
                         <div class="flex items-center space-x-2">
                             <select id="select-secao" class="text-xs border rounded-lg px-3 py-1.5 bg-slate-50 font-medium">
@@ -119,46 +125,31 @@
                         </div>
                     </div>
 
+                    <!-- Botão de Geração Automática -->
+                    <div class="mb-4">
+                        <button onclick="gerarTextoCompletoSecao()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold py-2.5 rounded-xl transition shadow-md flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-robot"></i>
+                            <span>Gerar Texto Completo da Seção via IA</span>
+                        </button>
+                    </div>
+
                     <!-- Área de Texto Principal -->
-                    <textarea id="editor-texto" rows="8" placeholder="Digite ou gere o conteúdo da seção aqui. O sistema validará automaticamente a coesão e as normas..." class="w-full p-4 text-sm border rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none resize-y font-normal leading-relaxed bg-slate-50/50" oninput="analisarEmTempoReal()"></textarea>
+                    <textarea id="editor-texto" rows="10" placeholder="Digite ou gere o conteúdo acadêmico aqui..." class="w-full p-4 text-sm border rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none resize-y font-normal leading-relaxed bg-slate-50/50" oninput="salvarAlteracoesNoHistorico()"></textarea>
 
-                    <!-- Barra de Status de Segurança e Antiplágio / Anti-IA -->
+                    <!-- Barra de Ações Inferior -->
                     <div class="mt-4 pt-4 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
-                        <div class="flex items-center space-x-4 w-full sm:w-auto">
-                            <!-- Indicador Antiplágio -->
-                            <div class="flex items-center space-x-1.5 text-xs">
-                                <span class="font-semibold text-slate-600">Plágio:</span>
-                                <span id="badge-plagio" class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-bold">0.0% (Seguro)</span>
-                            </div>
-                            <!-- Indicador Anti-IA -->
-                            <div class="flex items-center space-x-1.5 text-xs">
-                                <span class="font-semibold text-slate-600">Detecção IA:</span>
-                                <span id="badge-ia" class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-bold">Autêntico</span>
-                            </div>
+                        <div class="flex items-center space-x-3 text-xs text-slate-600 font-medium">
+                            <span><i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> Salvo no Histórico</span>
                         </div>
-
-                        <div class="flex space-x-2 w-full sm:w-auto justify-end">
-                            <button onclick="otimizarTexto()" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-4 py-2 rounded-lg transition border border-indigo-200">
-                                <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Humanizar & Ajustar ABNT
+                        <div class="flex space-x-2">
+                            <button onclick="salvarTrabalhoAtualManual()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold px-4 py-2 rounded-lg transition">
+                                Salvar Versão
                             </button>
-                            <button onclick="exportarTrabalho()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition shadow-sm">
-                                <i class="fa-solid fa-download mr-1"></i> Exportar Trabalho Completo
+                            <button onclick="exportarTrabalhoCompleto()" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold px-4 py-2 rounded-lg transition shadow-sm">
+                                <i class="fa-solid fa-file-arrow-down mr-1"></i> Baixar Trabalho Pronto (.txt / .doc)
                             </button>
                         </div>
                     </div>
-                </div>
-
-                <!-- Painel de Capa e Pré-Textuais Automáticos -->
-                <div class="bg-slate-900 text-slate-200 rounded-xl shadow-md p-5 flex justify-between items-center">
-                    <div>
-                        <h4 class="text-sm font-bold text-white flex items-center">
-                            <i class="fa-solid fa-book-bookmark text-emerald-400 mr-2"></i> Elementos Pré-Textuais
-                        </h4>
-                        <p class="text-xs text-slate-400">Capa, Folha de Rosto e Sumário gerados automaticamente nos padrões institucionais.</p>
-                    </div>
-                    <button onclick="alert('Elementos pré-textuais sincronizados com sucesso!')" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-slate-700 text-xs font-semibold px-3 py-2 rounded-lg transition">
-                        Visualizar Estrutura
-                    </button>
                 </div>
             </div>
 
@@ -168,13 +159,15 @@
     <!-- Rodapé -->
     <footer class="bg-white border-t border-slate-200 py-4 mt-auto">
         <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
-            Escritor Digital Acadêmico &bull; Integrado com Normas ABNT e Proteção Anti-IA de Alta Precisão.
+            Escritor Digital Acadêmico &bull; Histórico Seguro e Permanente na Nuvem Local.
         </div>
     </footer>
 
-    <!-- Scripts de Lógica do Sistema -->
+    <!-- Scripts de Gerenciamento de Histórico LocalStorage -->
     <script>
         let usuarioAtual = { nome: "", curso: "" };
+        let trabalhosSalvos = [];
+        let trabalhoAtivoId = null;
         let arquivosBase = [];
 
         function fazerLogin(event) {
@@ -192,6 +185,8 @@
             document.getElementById('step-login').classList.add('hidden');
             document.getElementById('step-workspace').classList.remove('hidden');
             document.getElementById('user-badge').classList.remove('hidden');
+
+            carregarHistoricoDoUsuario();
         }
 
         function logout() {
@@ -202,81 +197,157 @@
             document.getElementById('form-login').reset();
         }
 
+        function carregarHistoricoDoUsuario() {
+            const chaveStorage = `trabalhos_${usuarioAtual.nome.toLowerCase().replace(/\s+/g, '_')}`;
+            const dadosSalvos = localStorage.getItem(chaveStorage);
+            
+            if (dadosSalvos) {
+                trabalhosSalvos = JSON.parse(dadosSalvos);
+            } else {
+                trabalhosSalvos = [
+                    {
+                        id: Date.now(),
+                        titulo: "Projeto Inicial - Monografia Acadêmica",
+                        secao: "introducao",
+                        conteudo: "A presente pesquisa contextualiza o tema com base na literatura científica atualizada, abordando os desafios acadêmicos...",
+                        data: new Date().toLocaleDateString()
+                    }
+                ];
+                salvarLocalStorage();
+            }
+
+            renderizarListaHistorico();
+            carregarTrabalho(trabalhosSalvos[0].id);
+        }
+
+        function salvarLocalStorage() {
+            const chaveStorage = `trabalhos_${usuarioAtual.nome.toLowerCase().replace(/\s+/g, '_')}`;
+            localStorage.setItem(chaveStorage, JSON.stringify(trabalhosSalvos));
+        }
+
+        function renderizarListaHistorico() {
+            const container = document.getElementById('lista-trabalhos-salvos');
+            container.innerHTML = '';
+
+            trabalhosSalvos.forEach(trab => {
+                const div = document.createElement('div');
+                div.className = `p-2.5 rounded-lg border cursor-pointer transition flex items-center justify-between ${trab.id === trabalhoAtivoId ? 'bg-emerald-50 border-emerald-300' : 'bg-slate-50 border-slate-200 hover:bg-slate-100'}`;
+                div.onclick = () => carregarTrabalho(trab.id);
+                div.innerHTML = `
+                    <div class="truncate pr-2">
+                        <p class="font-bold text-slate-800 text-xs truncate">${trab.titulo}</p>
+                        <p class="text-[10px] text-slate-500">Atualizado em: ${trab.data}</p>
+                    </div>
+                    <button onclick="event.stopPropagation(); excluirTrabalho(${trab.id})" class="text-slate-400 hover:text-red-600 p-1"><i class="fa-solid fa-trash-can text-xs"></i></button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function carregarTrabalho(id) {
+            const trab = trabalhosSalvos.find(t => t.id === id);
+            if (!trab) return;
+
+            trabalhoAtivoId = trab.id;
+            document.getElementById('input-titulo-trabalho').value = trab.titulo;
+            document.getElementById('editor-texto').value = trab.conteudo;
+            document.getElementById('select-secao').value = trab.secao || 'introducao';
+            renderizarListaHistorico();
+        }
+
+        function novoTrabalho() {
+            const novo = {
+                id: Date.now(),
+                titulo: `Novo Trabalho - ${new Date().toLocaleDateString()}`,
+                secao: "introducao",
+                conteudo: "Insira aqui o conteúdo ou utilize o gerador de IA para iniciar...",
+                data: new Date().toLocaleDateString()
+            };
+            trabalhosSalvos.unshift(novo);
+            salvarLocalStorage();
+            carregarTrabalho(novo.id);
+        }
+
+        function salvarAlteracoesNoHistorico() {
+            if (!trabalhoAtivoId) return;
+            const trab = trabalhosSalvos.find(t => t.id === trabalhoAtivoId);
+            if (trab) {
+                trab.titulo = document.getElementById('input-titulo-trabalho').value || "Sem Título";
+                trab.conteudo = document.getElementById('editor-texto').value;
+                trab.secao = document.getElementById('select-secao').value;
+                trab.data = new Date().toLocaleDateString();
+                salvarLocalStorage();
+            }
+        }
+
+        function salvarTrabalhoAtualManual() {
+            salvarAlteracoesNoHistorico();
+            renderizarListaHistorico();
+            alert("Trabalho salvo com sucesso no seu histórico pessoal!");
+        }
+
+        function excluirTrabalho(id) {
+            if (trabalhosSalvos.length <= 1) {
+                alert("Você precisa manter pelo menos um trabalho no histórico.");
+                return;
+            }
+            if (confirm("Tem certeza que deseja excluir este trabalho do seu histórico?")) {
+                trabalhosSalvos = trabalhosSalvos.filter(t => t.id !== id);
+                salvarLocalStorage();
+                carregarTrabalho(trabalhosSalvos[0].id);
+            }
+        }
+
         async function processarArquivos(event) {
             const files = event.target.files;
             const container = document.getElementById('lista-arquivos');
-            
             for (let file of files) {
                 arquivosBase.push(file.name);
                 const div = document.createElement('div');
-                div.className = "flex items-center justify-between bg-slate-50 p-2 rounded border border-slate-200 text-slate-700";
-                div.innerHTML = `
-                    <span class="truncate max-w-[200px]"><i class="fa-solid fa-file-pdf text-red-500 mr-1.5"></i> ${file.name}</span>
-                    <span class="text-emerald-600 font-semibold text-[10px]">Indexado</span>
-                `;
+                div.className = "truncate text-slate-700 flex items-center";
+                div.innerHTML = `<i class="fa-solid fa-file-pdf text-red-500 mr-1"></i> ${file.name}`;
                 container.appendChild(div);
             }
         }
 
-        function gerarTitulos() {
-            const box = document.getElementById('box-titulos');
-            if (arquivosBase.length === 0) {
-                box.innerHTML = `<span class="text-red-500 italic">Envie pelo menos um PDF de referência primeiro.</span>`;
-                return;
-            }
-
-            box.innerHTML = `
-                <div class="p-2 bg-emerald-50 border border-emerald-200 rounded cursor-pointer hover:bg-emerald-100 transition" onclick="selecionarTitulo(this)">
-                    <p class="font-bold text-emerald-900">1. Aplicação de Metodologias Ativas e Tecnologias no Âmbito Acadêmico</p>
-                    <p class="text-[10px] text-emerald-700 mt-0.5">Baseado na alta frequência de termos nos arquivos enviados.</p>
-                </div>
-                <div class="p-2 bg-slate-50 border border-slate-200 rounded cursor-pointer hover:bg-slate-100 transition mt-2" onclick="selecionarTitulo(this)">
-                    <p class="font-bold text-slate-800">2. Diretrizes e Práticas Inovadoras: Um Estudo Baseado em Evidências</p>
-                    <p class="text-[10px] text-slate-500 mt-0.5">Alinhado às lacunas encontradas nas referências bibliográficas.</p>
-                </div>
-            `;
-        }
-
-        function selecionarTitulo(elemento) {
-            const tituloText = elemento.querySelector('p').innerText.replace(/^\d+\.\s*/, '');
-            alert(`Título selecionado para o projeto:\n"${tituloText}"`);
-        }
-
-        function analisarEmTempoReal() {
-            const texto = document.getElementById('editor-texto').value;
-            const badgePlagio = document.getElementById('badge-plagio');
-            const badgeIa = document.getElementById('badge-ia');
-
-            // Simulação dinâmica baseada no tamanho e características do texto digitado
-            let similaridade = (texto.length % 7).toFixed(1);
-            if (similaridade > 10) similaridade = "4.2";
-
-            badgePlagio.innerText = `${similaridade}% (Seguro)`;
-            badgePlagio.className = "px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-bold";
-
-            if (texto.length > 50) {
-                badgeIa.innerText = "Estilo Discente Natural";
-                badgeIa.className = "px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-bold";
-            } else {
-                badgeIa.innerText = "Aguardando Conteúdo";
-                badgeIa.className = "px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-bold";
-            }
-        }
-
-        function otimizarTexto() {
+        function gerarTextoCompletoSecao() {
+            const secao = document.getElementById('select-secao').value;
             const editor = document.getElementById('editor-texto');
-            if (!editor.value.trim()) {
-                alert("Escreva algo no editor antes de otimizar.");
-                return;
-            }
-            editor.value = "Conforme apontado na literatura recente, " + editor.value + " Dessa forma, os resultados corroboram com as diretrizes metodológicas estabelecidas.";
-            analisarEmTempoReal();
-            alert("Texto humanizado e ajustado às normas ABNT com sucesso!");
+
+            const textos = {
+                introducao: `A presente pesquisa contextualiza o problema investigado com base em referências teóricas recentes, destacando a relevância do tema e os objetivos propostos[cite: 2]. A partir da análise dos documentos anexados, nota-se uma clara necessidade de aprofundamento metodológico para alcançar os resultados esperados.`,
+                metodologia: `O percurso metodológico adotado fundamenta-se em diretrizes de caráter descritivo e analítico, utilizando os parâmetros estabelecidos nos modelos institucionais[cite: 2]. A coleta e o tratamento das informações seguiram rigorosos critérios técnicos.`,
+                resultados: `Os resultados obtidos demonstram consonância com a literatura especializada[cite: 2], evidenciando que a aplicação das estratégias propostas gera impactos positivos e mensuráveis no escopo do estudo.`,
+                conclusao: `Conclui-se que o trabalho atendeu plenamente aos objetivos delineados, contribuindo de forma sólida para a área e abrindo margem para novas investigações científicas.`
+            };
+
+            editor.value = textos[secao] || "Texto gerado com sucesso.";
+            salvarAlteracoesNoHistorico();
+            renderizarListaHistorico();
         }
 
-        function exportarTrabalho() {
-            const nome = usuarioAtual.nome || "Aluno";
-            alert(`Preparando pacote completo do trabalho para ${nome}...\nIncluindo Capa, Folha de Rosto, Sumário e Formatação ABNT.`);
+        function aplicarCorrecaoProfessora() {
+            const editor = document.getElementById('editor-texto');
+            const feedback = document.getElementById('input-correcao').value.trim();
+            if (!feedback) return alert("Digite o feedback da professora.");
+            
+            editor.value += `\n\nAdemais, conforme apontado na revisão orientadora (${feedback}), aprofundou-se a fundamentação teórica para garantir total rigor acadêmico.`;
+            document.getElementById('input-correcao').value = "";
+            salvarAlteracoesNoHistorico();
+            alert("Correção aplicada e salva com sucesso!");
+        }
+
+        function exportarTrabalhoCompleto() {
+            salvarAlteracoesNoHistorico();
+            const titulo = document.getElementById('input-titulo-trabalho').value;
+            const conteudo = document.getElementById('editor-texto').value;
+            
+            const blob = new Blob([`${titulo.toUpperCase()}\n\n${conteudo}`], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${titulo.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.txt`;
+            a.click();
         }
     </script>
 </body>
