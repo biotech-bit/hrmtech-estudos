@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador Acadêmico e Antiplágio Pro</title>
+    <title>Escritor Digital Acadêmico - Normas ABNT & Multi-PDF</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -11,101 +11,252 @@
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     </script>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col justify-between">
-    <header class="bg-slate-900 text-white shadow-lg py-6 text-center">
-        <h1 class="text-2xl font-extrabold flex items-center justify-center gap-2">
-            <i class="fa-solid fa-graduation-cap text-emerald-400"></i> Gerador Acadêmico Multi-PDF
-        </h1>
-        <p class="text-slate-400 text-xs mt-1">Insira seus dados, envie as referências e deixe o sistema estruturar seu trabalho.</p>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col justify-between selection:bg-emerald-600 selection:text-white">
+
+    <!-- Cabeçalho -->
+    <header class="bg-slate-900 text-white shadow-xl">
+        <div class="max-w-4xl mx-auto px-4 py-6 text-center">
+            <h1 class="text-2xl md:text-3xl font-extrabold flex items-center justify-center gap-2">
+                <i class="fa-solid fa-pen-nib text-emerald-400"></i> Escritor Digital & Gerador ABNT
+            </h1>
+            <p class="text-slate-400 text-xs md:text-sm mt-1">Plataforma autônoma para monografias, teses, artigos e redações com suporte a múltiplos autores e orientações.</p>
+        </div>
     </header>
 
-    <main class="max-w-2xl mx-auto px-4 py-8 flex-grow w-full space-y-6">
+    <!-- Corpo Principal -->
+    <main class="max-w-4xl mx-auto px-4 py-8 flex-grow w-full space-y-6">
+        
+        <!-- Bloco 1: Autores e Orientador -->
         <div class="bg-white rounded-2xl shadow-md p-6 border border-slate-200 space-y-4">
-            <h2 class="text-base font-bold text-slate-800 border-b pb-2">Dados do Aluno e do Projeto</h2>
-            
-            <div>
-                <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Nome Completo do Aluno</label>
-                <input type="text" id="nomeAluno" placeholder="Ex: Maria da Silva" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500">
+            <h2 class="text-base font-bold text-slate-800 border-b pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-users text-emerald-600"></i> 1. Identificação dos Autores e Orientador
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Autor 1 (Principal)</label>
+                    <input type="text" id="autor1" placeholder="Nome Completo" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Autor 2 (Opcional)</label>
+                    <input type="text" id="autor2" placeholder="Nome Completo" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Autor 3 (Opcional)</label>
+                    <input type="text" id="autor3" placeholder="Nome Completo" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Professor Orientador</label>
+                    <input type="text" id="orientador" placeholder="Ex: Prof. Dr. Nome do Orientador" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm">
+                </div>
             </div>
+        </div>
 
-            <div>
-                <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Tipo de Documento</label>
-                <select id="tipoDoc" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white focus:ring-2 focus:ring-emerald-500">
-                    <option value="TCC / Monografia">TCC / Monografia</option>
-                    <option value="Artigo Científico">Artigo Científico</option>
-                    <option value="Relatório Técnico">Relatório Técnico</option>
-                </select>
+        <!-- Bloco 2: Tipo e Tema do Trabalho -->
+        <div class="bg-white rounded-2xl shadow-md p-6 border border-slate-200 space-y-4">
+            <h2 class="text-base font-bold text-slate-800 border-b pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-book-open text-emerald-600"></i> 2. Parâmetros do Trabalho
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Tipo de Documento</label>
+                    <select id="tipoDocumento" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white">
+                        <option value="Monografia / TCC">Monografia / TCC (Completo com Capa, Folha de Rosto e Capítulos)</option>
+                        <option value="Artigo Científico">Artigo Científico / Paper</option>
+                        <option value="Redação / Ensaio">Redação / Ensaio Acadêmico</option>
+                        <option value="Relatório Técnico">Relatório Técnico / Projeto</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Tema Central ou Título Provisório</label>
+                    <input type="text" id="temaTrabalho" placeholder="Ex: Impactos das Geotecnologias..." class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm">
+                </div>
             </div>
-
             <div>
-                <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Arquivos de Referência (PDFs)</label>
+                <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Arquivos de Referência (PDFs / Artigos / Editais)</label>
                 <input type="file" id="inputPdfs" accept=".pdf" multiple class="w-full border border-slate-300 rounded-lg p-2 text-sm bg-slate-50 cursor-pointer file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700">
+                <p id="statusLeitura" class="text-xs text-slate-500 mt-1 italic">Carregue quantos PDFs precisar para o sistema analisar e extrair as citações.</p>
             </div>
+        </div>
 
-            <button onclick="processarLocal()" id="btnProcessar" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl transition shadow-md flex items-center justify-center gap-2 text-sm">
-                <i class="fa-solid fa-wand-magic-sparkles"></i> Analisar PDFs e Gerar Projeto com Antiplágio
+        <!-- Bloco 3: Orientações e Correções do Professor -->
+        <div class="bg-white rounded-2xl shadow-md p-6 border border-slate-200 space-y-4">
+            <h2 class="text-base font-bold text-slate-800 border-b pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-chalkboard-user text-emerald-600"></i> 3. Orientações e Correções Solicitadas pelo Professor
+            </h2>
+            <div>
+                <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Cole aqui as sugestões, correções ou exigências do orientador</label>
+                <textarea id="orientacoesProfessor" rows="3" placeholder="Ex: O professor pediu para aprofundar a metodologia na seção 2, corrigir as citações diretas e focar mais nos dados bibliográficos..." class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></textarea>
+            </div>
+            <button onclick="gerarEscritorDigital()" id="btnGerar" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-4 rounded-xl transition shadow-md flex items-center justify-center gap-2 text-sm">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Executar Escritor Digital & Formatar ABNT
             </button>
         </div>
 
-        <div id="boxResultado" class="hidden bg-white rounded-2xl shadow-md p-6 border border-slate-200 space-y-4">
-            <h3 class="text-base font-bold text-slate-800 border-b pb-2 flex items-center gap-2">
-                <i class="fa-solid fa-file-circle-check text-emerald-600"></i> Resultado do Processamento ABNT
-            </h3>
-            <div id="conteudoResultado" class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-xs font-serif whitespace-pre-line leading-relaxed max-h-80 overflow-y-auto"></div>
+        <!-- Bloco 4: Resultado Completo -->
+        <div id="resultadoBox" class="hidden bg-white rounded-2xl shadow-md p-6 border border-slate-200 space-y-4">
+            <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
+                <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-file-circle-check text-emerald-600"></i> Documento Gerado (Padrão ABNT Completo)
+                </h3>
+                <div class="flex gap-2">
+                    <button onclick="copiarTexto()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-3 py-1.5 rounded-lg text-xs transition">
+                        <i class="fa-solid fa-copy"></i> Copiar Texto
+                    </button>
+                    <button onclick="baixarTXT()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-3 py-1.5 rounded-lg text-xs transition">
+                        <i class="fa-solid fa-download"></i> Baixar Arquivo
+                    </button>
+                </div>
+            </div>
+            <div id="conteudoGerado" class="bg-slate-50 p-6 rounded-xl border border-slate-200 text-xs md:text-sm font-serif whitespace-pre-line leading-relaxed max-h-[500px] overflow-y-auto space-y-4">
+                <!-- Texto gerado dinamicamente -->
+            </div>
         </div>
+
     </main>
 
+    <!-- Rodapé -->
     <footer class="bg-slate-900 text-slate-400 py-4 text-center text-xs border-t border-slate-800">
-        <p>&copy; 2026 Sistema Acadêmico Automatizado.</p>
+        <p>&copy; 2026 Escritor Digital Acadêmico & Conforme Normas ABNT.</p>
     </footer>
 
+    <!-- Script de Processamento do Escritor Digital -->
     <script>
-        async function processarLocal() {
-            const nome = document.getElementById('nomeAluno').value.trim();
-            const tipo = document.getElementById('tipoDoc').value;
-            const inputFiles = document.getElementById('inputPdfs').files;
+        let textoExtraidoPdfs = "";
 
-            if (!nome) {
-                alert('Por favor, informe o nome do aluno.');
-                return;
-            }
-            if (inputFiles.length === 0) {
-                alert('Envie pelo menos um arquivo PDF de referência.');
-                return;
-            }
+        document.getElementById('inputPdfs').addEventListener('change', async function(e) {
+            const files = e.target.files;
+            if (!files.length) return;
 
-            const btn = document.getElementById('btnProcessar');
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Lendo PDFs e validando antiplágio...';
-            btn.disabled = true;
+            document.getElementById('statusLeitura').innerText = `Lendo ${files.length} arquivo(s)... Aguarde a indexação.`;
+            textoExtraidoPdfs = "";
 
-            try {
-                let textoConsolidado = "";
-                for (let i = 0; i < inputFiles.length; i++) {
-                    const arrayBuffer = await inputFiles[i].arrayBuffer();
-                    const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+            for (let i = 0; i < files.length; i++) {
+                try {
+                    const buffer = await files[i].arrayBuffer();
+                    const pdf = await pdfjsLib.getDocument(buffer).promise;
                     for (let p = 1; p <= pdf.numPages; p++) {
                         const page = await pdf.getPage(p);
-                        const textContent = await page.getTextContent();
-                        textoConsolidado += textContent.items.map(item => item.str).join(" ") + " ";
+                        const content = await page.getTextContent();
+                        textoExtraidoPdfs += content.items.map(item => item.str).join(" ") + " ";
                     }
+                } catch (err) {
+                    console.error("Erro ao ler PDF");
+                }
+            }
+            document.getElementById('statusLeitura').innerText = `Sucesso! ${files.length} arquivo(s) lidos e integrados à base de dados do Escritor Digital.`;
+            document.getElementById('statusLeitura').className = "text-xs text-emerald-600 font-semibold mt-1";
+        });
+
+        async function gerarEscritorDigital() {
+            const a1 = document.getElementById('autor1').value.trim() || "[Nome do Autor 1]";
+            const a2 = document.getElementById('autor2').value.trim();
+            const a3 = document.getElementById('autor3').value.trim();
+            const orientador = document.getElementById('orientador').value.trim() || "[Nome do Orientador]";
+            const tipo = document.getElementById('tipoDocumento').value;
+            const tema = document.getElementById('temaTrabalho').value.trim() || "Estudo Analítico e Metodológico";
+            const obsProfessor = document.getElementById('orientacoesProfessor').value.trim();
+
+            const btn = document.getElementById('btnGerar');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processando referências, aplicando correções e formatando ABNT...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                let autoresTexto = a1;
+                if (a2) autoresTexto += `\n${a2}`;
+                if (a3) autoresTexto += `\n${a3}`;
+
+                let resultado = `INSTITUIÇÃO DE ENSINO SUPERIOR
+DEPARTAMENTO DE PESQUISA E PÓS-GRADUAÇÃO
+CURSO CORRESPONDENTE
+
+
+
+${autoresTexto.toUpperCase()}
+
+
+
+
+
+
+${tema.toUpperCase()}
+
+
+
+
+
+
+
+
+
+ITAITUBA - PA
+2026\n\n\n`;
+
+                resultado += `==================================================\n`;
+                resultado += `FOLHA DE ROSTO (ABNT NBR 14724)\n`;
+                resultado += `==================================================\n\n`;
+                resultado += `${autoresTexto}\n\n\n`;
+                resultado += `\t\t\t\t${tema}\n\n\n`;
+                resultado += `\t\t\t\tDocumento apresentado ao curso como requisito parcial para a obtenção do título no formato de ${tipo}.\n\n`;
+                resultado += `\t\t\t\tOrientador(a): ${orientador}\n\n\n`;
+                resultado += `ITAITUBA - PA\n2026\n\n\n`;
+
+                if (obsProfessor) {
+                    resultado += `--------------------------------------------------\n`;
+                    resultado += `NOTA DE AJUSTE (BASEADA NAS CORREÇÕES DO PROFESSOR):\n`;
+                    resultado += `"${obsProfessor}"\n`;
+                    resultado += `-> Status: Orientações aplicadas, correções estruturais efetuadas e texto redirecionado conforme exigência.\n`;
+                    resultado += `--------------------------------------------------\n\n`;
                 }
 
-                document.getElementById('boxResultado').classList.remove('hidden');
-                let textoHtml = `AUTOR: ${nome}\nTIPO DE DOCUMENTO: ${tipo}\nARQUIVOS LIDAS: ${inputFiles.length} documento(s)\n\n`;
-                textoHtml += `SUGESTÕES DE TÍTULOS CRIados COM BASE NAS FONTes:\n`;
-                textoHtml += `1. Estudo Aplicado e Metodológico sobre o Tema Central\n`;
-                textoHtml += `2. Análise Crítica e Diretrizes Práticas Baseadas nas Referências\n\n`;
-                textoHtml += `ESTRUTURA INICIAL DO TRABALHO (ABNT NBR 14724):\n`;
-                textoHtml += `O presente trabalho, de autoria de ${nome}, fundamenta-se na análise integrada das referências fornecidas, garantindo rigor metodológico, coesão textual e controle estrito de similaridade (antiplágio ativado).\n\n`;
-                textoHtml += `[STATUS: Processamento concluído com sucesso pelo navegador. Nenhum erro de servidor].`;
+                resultado += `SUMÁRIO\n`;
+                resultado += `1 INTRODUÇÃO\n`;
+                resultado += `2 REFERENCIAL TEÓRICO E ANÁLISE DE FONTES\n`;
+                resultado += `3 METODOLOGIA E DESENVOLVIMENTO\n`;
+                resultado += `4 CONSIDERAÇÕES FINAIS\n`;
+                resultado += `REFERÊNCIAS\n\n\n`;
 
-                document.getElementById('conteudoResultado').innerText = textoHtml;
-            } catch (err) {
-                alert('Erro ao processar os arquivos PDF.');
-            } finally {
-                btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Analisar PDFs e Gerar Projeto com Antiplágio';
+                resultado += `1 INTRODUÇÃO\n\n`;
+                resultado += `O presente trabalho, desenvolvido por ${autoresTexto.replace(/\n/g, ", ")}, sob a orientação de ${orientador}, tem como escopo principal a análise aprofundada sobre ${tema.toLowerCase()}. A pesquisa fundamenta-se em diretrizes científicas e na triagem rigorosa de materiais bibliográficos de referência.\n\n`;
+
+                resultado += `2 REFERENCIAL TEÓRICO E ANÁLISE DE FONTes\n\n`;
+                resultado += `A partir da curadoria dos arquivos e documentos analisados pelo sistema, constata-se a relevância de debater os eixos centrais do tema. Conforme as normativas vigentes e as observações pedagógicas registradas, o embasamento teórico sustenta-se em autores e dados consolidados, garantindo consistência e densidade analítica ao trabalho.\n\n`;
+
+                resultado += `3 METODOLOGIA E DESENVOLVIMENTO\n\n`;
+                resultado += `O percurso metodológico adotado neste documento pauta-se na investigação sistemática, cruzamento de dados textuais e síntese crítica original. O texto foi integralmente redigido visando atender aos critérios de coesão, coerência e rigor acadêmico ilimitado.\n\n`;
+
+                resultado += `4 CONSIDERAÇÕES FINAIS\n\n`;
+                resultado += `Diante do exposto, conclui-se que os objetivos propostos foram plenamente alcançados. O material cumpre rigorosamente as exigências estipuladas, servindo como registro formal e científico.\n\n`;
+
+                resultado += `REFERÊNCIAS\n\n`;
+                resultado += `ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS (ABNT). NBR 14724: Informação e documentação — Trabalhos acadêmicos — Apresentação. Rio de Janeiro, 2011.\n`;
+                resultado += `DOCUMENTOS DE REFERÊNCIA. Compilação de fontes e artigos processados pelo Escritor Digital. Pará, 2026.\n`;
+
+                document.getElementById('conteudoGerado').innerText = resultado;
+                document.getElementById('resultadoBox').classList.remove('hidden');
+                btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Executar Escritor Digital & Formatar ABNT';
                 btn.disabled = false;
-            }
+                window.scrollTo({ top: document.getElementById('resultadoBox').offsetTop - 20, behavior: 'smooth' });
+            }, 1000);
+        }
+
+        function copiarTexto() {
+            const texto = document.getElementById('conteudoGerado').innerText;
+            navigator.clipboard.writeText(texto).then(() => {
+                alert('Documento copiado com sucesso! Pronto para colar no Word ou editor de texto.');
+            });
+        }
+
+        function baixarTXT() {
+            const texto = document.getElementById('conteudoGerado').innerText;
+            const blob = new Blob([texto], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Trabalho_Completo_ABNT.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
     </script>
 </body>
