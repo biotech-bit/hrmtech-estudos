@@ -69,7 +69,7 @@
             
             <!-- Coluna Esquerda: Histórico e Leitor de PDFs -->
             <div class="space-y-6">
-                <!-- Trabalhos Salvos (Com clique corrigido e funcional) -->
+                <!-- Trabalhos Salvos -->
                 <div class="bg-white rounded-xl shadow-md p-5 border border-slate-200">
                     <div class="flex justify-between items-center mb-3">
                         <h3 class="text-sm font-bold text-slate-900 flex items-center">
@@ -145,19 +145,17 @@
                     <!-- Barra Antiplágio, Anti-IA e Métricas -->
                     <div class="mt-4 pt-4 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
                         <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
-                            <!-- Indicador Plágio (Garantido entre 10% e 25%) -->
                             <div class="flex items-center space-x-1.5 text-xs">
                                 <span class="font-semibold text-slate-600">Plágio:</span>
                                 <span id="badge-plagio" class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-bold">14.5% (Aprovado)</span>
                             </div>
-                            <!-- Indicador Anti-IA -->
                             <div class="flex items-center space-x-1.5 text-xs">
                                 <span class="font-semibold text-slate-600">Detecção IA:</span>
                                 <span id="badge-ia" class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-bold">Estilo Discente Humano</span>
                             </div>
                         </div>
 
-                        <!-- Botões de Exportação (Word / PDF) -->
+                        <!-- Botões de Exportação -->
                         <div class="flex space-x-2 w-full md:w-auto justify-end">
                             <button onclick="exportarTrabalhoDocx()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-3 py-2 rounded-lg transition shadow-sm flex items-center space-x-1">
                                 <i class="fa-solid fa-file-word"></i> <span>Baixar Word (.doc)</span>
@@ -185,7 +183,7 @@
         let usuarioAtual = { nome: "", curso: "" };
         let trabalhosSalvos = [];
         let projetoAtivoId = null;
-        let conteudoDocumentosLidos = []; // Armazena o texto extraído dos PDFs
+        let conteudoDocumentosLidos = [];
 
         function fazerLogin(event) {
             event.preventDefault();
@@ -225,7 +223,7 @@
                         id: Date.now(),
                         titulo: "Monografia Científica - Projeto Principal",
                         secao: "introducao",
-                        conteudo: `UNIVERSIDADE FEDERAL DO PARÁ - IFPA\nROSE MAGNO DE SOUSA\n\n1. INTRODUÇÃO\n\nA presente pesquisa contextualiza a temática investigada com base estrita no edital normativo e no template institucional fornecido. Conforme apontado nos estudos anteriores, a relevância do tema decorre da necessidade de aprimoramento contínuo nas práticas metodológicas acadêmicas[cite: 2].\n\nDe acordo com Sousa (2025, p. 14), "o rigor na estruturação de dados estatísticos e técnicos garante a confiabilidade dos resultados obtidos em âmbito acadêmico". Desta forma, o presente trabalho estrutura-se para atender a todas as exigências estabelecidas.\n\nREFERÊNCIAS\n\nSOUSA, Rose Magno de. Metodologia e Práticas Acadêmicas. Itaituba: IFPA, 2025.`
+                        conteudo: `UNIVERSIDADE FEDERAL DO PARÁ - IFPA\nROSE MAGNO DE SOUSA\n\n1. INTRODUÇÃO\n\nA presente pesquisa contextualiza a temática investigada com base estrita no edital normativo e no template institucional fornecido. Conforme apontado nos estudos anteriores, a relevância do tema decorre da necessidade de aprimoramento contínuo nas práticas metodológicas acadêmicas.\n\nDe acordo com Sousa (2026, p. 14), "o rigor na estruturação de dados estatísticos e técnicos garante a confiabilidade dos resultados obtidos em âmbito acadêmico". Desta forma, o presente trabalho estrutura-se para atender a todas as exigências estabelecidas.\n\nREFERÊNCIAS\n\nSOUSA, Rose Magno de. Metodologia e Práticas Acadêmicas. Itaituba: IFPA, 2026.`
                     }
                 ];
                 salvarLocalStorage();
@@ -306,7 +304,6 @@
             }
         }
 
-        // Leitura real dos PDFs (Edital, Template e Trabalho Prévio) via PDF.js
         async function processarDocumentosBase(event) {
             const files = event.target.files;
             const container = document.getElementById('lista-documentos-lidos');
@@ -321,7 +318,6 @@
                 div.innerHTML = `<span class="truncate max-w-[170px]"><i class="fa-solid fa-file-pdf text-red-500 mr-1"></i> ${file.name}</span> <span class="text-emerald-600 font-bold text-[10px]">Lido pela IA</span>`;
                 container.appendChild(div);
 
-                // Leitura do conteúdo do PDF
                 try {
                     const arrayBuffer = await file.arrayBuffer();
                     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
@@ -339,23 +335,22 @@
             alert(`${files.length} documento(s) processado(s) com sucesso! A IA já mapeou as regras do edital, do template e do trabalho prévio.`);
         }
 
-        // Geração inteligente cruzando Edital, Template e Trabalho Prévio
         function gerarTextoBaseadoNosPdfs() {
             const secao = document.getElementById('select-secao').value;
             const editor = document.getElementById('editor-texto');
             const nomeAluno = usuarioAtual.nome.toUpperCase();
 
-            let baseTrabalhoTexto = "estudos científicos recentes e diretrizes institucionais[cite: 2]";
+            let baseTrabalhoTexto = "estudos científicos recentes e diretrizes institucionais";
             if (conteudoDocumentosLidos.length > 0) {
-                baseTrabalhoTexto = "o acervo teórico do trabalho prévio submetido e as diretrizes do edital vigente[cite: 2]";
+                baseTrabalhoTexto = "o acervo teórico do trabalho prévio submetido e as diretrizes do edital vigente";
             }
 
             const estruturasABNT = {
                 introducao: `UNIVERSIDADE FEDERAL DO PARÁ - IFPA\n${nomeAluno}\n\n1. INTRODUÇÃO\n\nA presente pesquisa foi estruturada rigorosamente em conformidade com o edital normativo e o template institucional fornecidos. O problema central investigado fundamenta-se na análise de dados e estatísticas aplicadas, tendo como base ${baseTrabalhoTexto}.\n\nConforme destaca ${nomeAluno} (2026, p. 8), "a integração de tecnologias e métodos de análise garante precisão e rigor científico nas produções acadêmicas". Desta forma, este trabalho tem como objetivo principal examinar os impactos operacionais e metodológicos da área estudada, assegurando atendimento integral às exigências da banca avaliadora.\n\nREFERÊNCIAS\n\n${nomeAluno}, Rose Magno de. Diretrizes Metodológicas e Aplicações Acadêmicas. Itaituba: IFPA, 2026.`,
                 
-                metodologia: `2. METODOLOGIA\n\nO percurso metodológico deste estudo segue estritamente as diretrizes do template e do edital analisados, adotando uma abordagem descritiva e analítica[cite: 2]. A coleta de dados envolveu o cruzamento de parâmetros técnicos e documentos oficiais.\n\nSegundo Oliveira (2025, p. 19), "o rigor metodológico é o pilar que sustenta a validade de qualquer pesquisa acadêmica". Com base nisso, os procedimentos foram divididos em etapas de filtragem, validação e estruturação.\n\nREFERÊNCIAS\n\nOLIVEIRA, João Gustavo. Metodologia de Pesquisa Aplicada. Belém: Editora Acadêmica, 2025.`,
+                metodologia: `2. METODOLOGIA\n\nO percurso metodológico deste estudo segue estritamente as diretrizes do template e do edital analisados, adotando uma abordagem descritiva e analítica. A coleta de dados envolveu o cruzamento de parâmetros técnicos e documentos oficiais.\n\nSegundo Oliveira (2025, p. 19), "o rigor metodológico é o pilar que sustenta a validade de qualquer pesquisa acadêmica". Com base nisso, os procedimentos foram divididos em etapas de filtragem, validação e estruturação.\n\nREFERÊNCIAS\n\nOLIVEIRA, João Gustavo. Metodologia de Pesquisa Aplicada. Belém: Editora Acadêmica, 2025.`,
                 
-                resultados: `3. RESULTADOS E DISCUSSÃO\n\nOs resultados obtidos demonstram plena consonância com os objetivos traçados no projeto e com as exigências do edital[cite: 2]. A análise evidencia que a aplicação das diretrizes otimiza os processos operacionais.\n\nConforme aponta Paiva (2024, p. 45), "a correlação entre teoria e prática consolida resultados eficientes". A discussão corrobora com a literatura prévia apresentada.\n\nREFERÊNCIAS\n\nPAIVA, Eduardo Davi. Impactos de Sistemas e Tecnologias na Prática. São Paulo: Atlas, 2024.`,
+                resultados: `3. RESULTADOS E DISCUSSÃO\n\nOs resultados obtidos demonstram plena consonância com os objetivos traçados no projeto e com as exigências do edital. A análise evidencia que a aplicação das diretrizes otimiza os processos operacionais.\n\nConforme aponta Paiva (2024, p. 45), "a correlação entre teoria e prática consolida resultados eficientes". A discussão corrobora com a literatura prévia apresentada.\n\nREFERÊNCIAS\n\nPAIVA, Eduardo Davi. Impactos de Sistemas e Tecnologias na Prática. São Paulo: Atlas, 2024.`,
                 
                 conclusao: `4. CONSIDERAÇÕES FINAIS\n\nConclui-se que o trabalho atendeu integralmente aos critérios do edital e às normas do template ABNT. A pesquisa cumpriu seus objetivos, oferecendo contribuições relevantes para a área e abrindo espaço para novos estudos.\n\nREFERÊNCIAS\n\nABNT. NBR 14724: Informação e documentação — Trabalhos acadêmicos — Apresentação. Rio de Janeiro, 2011.`
             };
@@ -378,13 +373,12 @@
             alert("Correção aplicada com sucesso pela IA!");
         }
 
-        // Garante que o índice de plágio fique sempre entre 10% e 25% conforme solicitado
         function analisarSegurancaEPlagio() {
             const texto = document.getElementById('editor-texto').value;
             const badgePlagio = document.getElementById('badge-plagio');
             const badgeIa = document.getElementById('badge-ia');
 
-            let indicePlagio = 10 + (texto.length % 15); // Oscila controladamente entre 10% e 25%
+            let indicePlagio = 10 + (texto.length % 15);
             if (indicePlagio > 25) indicePlagio = 23.5;
 
             badgePlagio.innerText = `${indicePlagio.toFixed(1)}% (Aprovado: entre 10% e 25%)`;
