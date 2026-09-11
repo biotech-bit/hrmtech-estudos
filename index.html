@@ -3,251 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador Acadêmico Inteligente - Projetos, TCCs e Feiras</title>
+    <title>Gerador Inteligente de Documentos por Edital</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Biblioteca para leitura de PDF no navegador -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col justify-between selection:bg-emerald-600 selection:text-white">
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col justify-between">
 
     <!-- Cabeçalho -->
-    <header class="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white shadow-xl relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px]"></div>
-        <div class="max-w-6xl mx-auto px-4 py-8 text-center relative z-10">
-            <div class="inline-flex items-center gap-2 bg-emerald-800/60 border border-emerald-700/50 px-3 py-1 rounded-full text-xs font-semibold mb-3 text-emerald-200 backdrop-blur-sm">
-                <i class="fa-solid fa-feather text-yellow-400"></i> Redação Acadêmica Humanizada & Alinhada a Editais
-            </div>
-            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight flex items-center justify-center gap-3">
-                <i class="fa-solid fa-graduation-cap text-yellow-400"></i> Gerador Acadêmico Pro
+    <header class="bg-slate-900 text-white shadow-lg">
+        <div class="max-w-4xl mx-auto px-4 py-6 text-center">
+            <h1 class="text-2xl md:text-3xl font-extrabold flex items-center justify-center gap-2">
+                <i class="fa-solid fa-file-shield text-emerald-400"></i> Leitor de Edital e Gerador de Documentos
             </h1>
-            <p class="text-emerald-100 text-sm md:text-base mt-2 max-w-2xl mx-auto font-light">
-                Insira o edital da feira, simpósio ou TCC, adicione as regras do template e gere trabalhos com linguagem autêntica de estudante, rigor técnico e elementos visuais exigidos.
-            </p>
+            <p class="text-slate-400 text-sm mt-1">Carregue o edital, informe seus dados e o sistema monta a documentação pronta para envio.</p>
         </div>
     </header>
 
-    <!-- Corpo Principal -->
-    <main class="max-w-5xl mx-auto px-4 py-8 flex-grow w-full space-y-8">
+    <!-- Conteúdo Principal -->
+    <main class="max-w-4xl mx-auto px-4 py-8 flex-grow w-full space-y-6">
         
-        <!-- Formulário de Entrada (Edital + Template + Tema) -->
-        <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-slate-100 space-y-6">
-            <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2 border-b pb-3">
-                <i class="fa-solid fa-sliders text-emerald-600"></i> Configuração do Projeto e Requisitos
+        <!-- Passo 1: Upload do Edital -->
+        <div class="bg-white rounded-xl shadow-md p-6 border border-slate-200 space-y-4">
+            <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2 border-b pb-2">
+                <i class="fa-solid fa-upload text-emerald-600"></i> Passo 1: Enviar o Arquivo do Edital (PDF)
             </h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Coluna Esquerda: Dados do Projeto -->
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Tipo de Evento / Trabalho</label>
-                        <select id="tipoTrabalho" class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white">
-                            <option value="secitec">Feira Tecnológica / SECITEC</option>
-                            <option value="simposio">Simpósio / Jornada Acadêmica</option>
-                            <option value="tcc">TCC / Monografia / Artigo</option>
-                            <option value="semana">Semana Pedagógica / Extensão</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Tema ou Título do Projeto</label>
-                        <input type="text" id="inputTema" placeholder="Ex: Protótipo de baixo custo para monitoramento..." class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Resumo das Regras do Edital</label>
-                        <textarea id="inputEdital" rows="4" placeholder="Cole aqui trechos principais do edital (ex: limite de páginas, formatação, itens obrigatórios como introdução, metodologia, resultados...)" class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
-                    </div>
-                </div>
-
-                <!-- Coluna Direita: Regras do Template e Elementos Extras -->
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Estrutura Exigida no Template</label>
-                        <textarea id="inputTemplate" rows="4" placeholder="Cole as exigências do template (ex: Resumo, Abstract, Introdução, Objetivos, Metodologia, Cronograma, Orçamento...)" class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Elementos Especiais Requeridos</label>
-                        <div class="grid grid-cols-2 gap-2 text-sm pt-1">
-                            <label class="flex items-center gap-2"><input type="checkbox" id="chkMapas" checked class="rounded text-emerald-600"> Mapas / Fluxogramas</label>
-                            <label class="flex items-center gap-2"><input type="checkbox" id="chkGlossario" checked class="rounded text-emerald-600"> Glossário de Termos</label>
-                            <label class="flex items-center gap-2"><input type="checkbox" id="chkImagens" checked class="rounded text-emerald-600"> Sugestão de Imagens/Gráficos</label>
-                            <label class="flex items-center gap-2"><input type="checkbox" id="chkReferencias" checked class="rounded text-emerald-600"> Referências Normatizadas</label>
-                        </div>
-                    </div>
-
-                    <div class="pt-2">
-                        <button onclick="gerarTrabalho()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl transition shadow-lg flex items-center justify-center gap-2 text-base">
-                            <i class="fa-solid fa-wand-magic-sparkles"></i> Gerar Material Pronto (Estilo Estudante)
-                        </button>
-                    </div>
-                </div>
+            <div>
+                <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Selecionar Arquivo PDF</label>
+                <input type="file" id="inputPdf" accept=".pdf" class="w-full border border-slate-300 rounded-lg p-2 text-sm bg-slate-50 cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700">
+                <p id="statusLeitura" class="text-xs text-slate-500 mt-2 italic">Nenhum edital carregado no momento.</p>
             </div>
         </div>
 
-        <!-- Seção de Resultado Gerado -->
-        <div id="resultadoContainer" class="hidden bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-slate-100 space-y-6">
-            <div class="flex justify-between items-center border-b pb-4 flex-wrap gap-4">
+        <!-- Passo 2: Informações do Candidato -->
+        <div class="bg-white rounded-xl shadow-md p-6 border border-slate-200 space-y-4">
+            <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2 border-b pb-2">
+                <i class="fa-solid fa-user-pen text-emerald-600"></i> Passo 2: Seus Dados Pessoais e Contexto
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <h3 class="text-xl font-extrabold text-slate-800 flex items-center gap-2">
-                        <i class="fa-solid fa-file-contract text-emerald-600"></i> Documento Pronto para Submissão
-                    </h3>
-                    <p class="text-xs text-slate-500">Desenvolvido com tom humanizado, seguindo rigorosamente o template e o edital informados.</p>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Nome Completo</label>
+                    <input type="text" id="nomeCandidato" placeholder="Ex: Maria da Silva" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm">
                 </div>
-                <div class="flex gap-2">
-                    <button onclick="copiarTexto()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
-                        <i class="fa-solid fa-copy"></i> Copiar Conteúdo
-                    </button>
-                    <button onclick="baixarArquivo()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
-                        <i class="fa-solid fa-download"></i> Baixar como Arquivo
-                    </button>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Documento / Passaporte / ID</label>
+                    <input type="text" id="docCandidato" placeholder="Ex: AB123456" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Qual documento você precisa gerar agora?</label>
+                    <select id="tipoDocumento" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white">
+                        <option value="formulario">Formulário de Inscrição e Declarações Obrigatórias</option>
+                        <option value="coverletter">Carta de Apresentação / Cover Letter (em inglês)</option>
+                        <option value="checklist">Checklist Completo de Envio</option>
+                    </select>
                 </div>
             </div>
 
-            <!-- Caixa de Exibição do Trabalho -->
-            <div id="conteudoGerado" class="bg-slate-50 p-6 rounded-xl border border-slate-200 text-sm leading-relaxed space-y-6 font-serif max-h-[600px] overflow-y-auto">
-                <!-- Conteúdo injetado via script -->
+            <div class="pt-2">
+                <button onclick="processarDocumento()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl transition shadow-md flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Analisar Edital e Gerar Documento Pronto
+                </button>
+            </div>
+        </div>
+
+        <!-- Passo 3: Resultado Gerado -->
+        <div id="resultadoBox" class="hidden bg-white rounded-xl shadow-md p-6 border border-slate-200 space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-file-circle-check text-emerald-600"></i> Documento Pronto com Base no Edital
+                </h3>
+                <button onclick="copiarResultado()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-3 py-1.5 rounded-lg text-xs transition">
+                    <i class="fa-solid fa-copy"></i> Copiar Texto
+                </button>
+            </div>
+            <div id="conteudoResultado" class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-sm whitespace-pre-line font-serif leading-relaxed max-h-96 overflow-y-auto">
+                <!-- Conteúdo gerado -->
             </div>
         </div>
 
     </main>
 
     <!-- Rodapé -->
-    <footer class="bg-slate-900 text-slate-400 py-6 text-center text-xs mt-12 border-t border-slate-800">
-        <p>&copy; 2026 Gerador Acadêmico Inteligente. Criado para aprovação de projetos estudantis de alto nível.</p>
+    <footer class="bg-slate-900 text-slate-400 py-4 text-center text-xs border-t border-slate-800">
+        <p>&copy; 2026 Gerador de Documentos por Edital.</p>
     </footer>
 
-    <!-- Script de Geração Humanizada -->
+    <!-- Script de Leitura de PDF e Geração -->
     <script>
-        function gerarTrabalho() {
-            const tema = document.getElementById('inputTema').value.trim() || "Desenvolvimento de Solução Tecnológica Sustentável";
-            const tipo = document.getElementById('tipoTrabalho').value;
-            const edital = document.getElementById('inputEdital').value;
-            const template = document.getElementById('inputTemplate').value;
+        let textoEditalExtraido = "";
 
-            const incluirMapas = document.getElementById('chkMapas').checked;
-            const incluirGlossario = document.getElementById('chkGlossario').checked;
-            const incluirImagens = document.getElementById('chkImagens').checked;
+        document.getElementById('inputPdf').addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
 
-            if (!tema) {
-                alert('Por favor, informe ao menos o tema ou título do projeto.');
-                return;
-            }
-
-            // Exibir container de resultado
-            document.getElementById('resultadoContainer').classList.remove('hidden');
+            document.getElementById('statusLeitura').innerText = "Lendo e processando o PDF do edital...";
             
-            // Gerar texto simulando a escrita de um estudante aplicado (sem cara de IA robótica)
-            let html = `
-                <div class="text-center space-y-1 mb-6 border-b pb-4">
-                    <h2 class="text-lg font-bold uppercase text-slate-900">${tema}</h2>
-                    <p class="text-xs text-slate-600 italic">Trabalho submetido para avaliação conforme as diretrizes do edital vigente.</p>
-                </div>
+            const reader = new FileReader();
+            reader.readAsArrayBuffer(file);
+            reader.onload = async function() {
+                const typedarray = new Uint8Array(this.result);
+                try {
+                    const pdf = await pdfjsLib.getDocument(typedarray).promise;
+                    let textoCompleto = "";
 
-                <div class="space-y-4">
-                    <h3 class="font-bold text-emerald-800 text-base border-l-4 border-emerald-600 pl-2">1. Resumo</h3>
-                    <p class="text-slate-700 text-justify">
-                        O presente projeto tem como objetivo principal propor uma abordagem prática voltada a ${tema.toLowerCase()}. A motivação surgiu da observação direta de gargalos na comunidade local, exigindo uma alternativa viável de baixo custo. Utilizando metodologias ativas e testes empíricos, buscou-se desenvolver um protótipo funcional que atenda aos requisitos técnicos exigidos. Os resultados parciais demonstram viabilidade operacional e grande potencial de escalabilidade para aplicação em feiras científicas e simpósios acadêmicos.
-                    </p>
-                </div>
+                    for (let i = 1; i <= pdf.numPages; i++) {
+                        const page = await pdf.getPage(i);
+                        const textContent = await page.getTextContent();
+                        const pageText = textContent.items.map(item => item.str).join(" ");
+                        textoCompleto += pageText + "\n";
+                    }
 
-                <div class="space-y-4 pt-2">
-                    <h3 class="font-bold text-emerald-800 text-base border-l-4 border-emerald-600 pl-2">2. Introdução e Justificativa</h3>
-                    <p class="text-slate-700 text-justify">
-                        No cenário atual, discussões acerca de inovação tecnológica e sustentabilidade tornaram-se indispensáveis na formação acadêmica. A necessidade de unir teoria e prática nos levou a investigar soluções para o problema delimitado. Nossa equipe percebeu que muitas iniciativas falham por não considerarem a realidade orçamentária e operacional dos locais onde são aplicadas. Portanto, este trabalho justifica-se pela urgência de ferramentas acessíveis, eficientes e de fácil replicação por estudantes e pesquisadores.
-                    </p>
-                </div>
-            `;
+                    textoEditalExtraido = textoCompleto;
+                    document.getElementById('statusLeitura').innerText = `Sucesso! Edital lido (${pdf.numPages} páginas processadas e compreendidas pelo sistema).`;
+                    document.getElementById('statusLeitura').className = "text-xs text-emerald-600 font-semibold mt-2";
+                } catch (error) {
+                    document.getElementById('statusLeitura').innerText = "Erro ao ler o PDF. Tente novamente.";
+                    document.getElementById('statusLeitura').className = "text-xs text-rose-600 font-semibold mt-2";
+                }
+            };
+        });
 
-            if (incluirImagens) {
-                html += `
-                    <div class="my-4 p-4 bg-white rounded-lg border border-slate-200 shadow-sm">
-                        <p class="text-xs font-bold text-slate-500 uppercase mb-2"><i class="fa-solid fa-image text-emerald-600"></i> Sugestão de Ilustração / Esquema Técnico no Template</p>
-                        <div class="bg-slate-100 h-40 rounded flex items-center justify-center text-slate-400 text-xs italic border border-dashed border-slate-300">
-                            [Inserir aqui imagem esquemática, fluxograma do sistema ou foto do protótipo montado]
-                        </div>
-                        <p class="text-[11px] text-slate-500 text-center mt-1">Figura 1 - Esquema estrutural do projeto proposto pela equipe.</p>
-                    </div>
-                `;
+        function processarDocumento() {
+            const nome = document.getElementById('nomeCandidato').value.trim() || "[Nome do Candidato]";
+            const doc = document.getElementById('docCandidato').value.trim() || "[Documento]";
+            const tipo = document.getElementById('tipoDocumento').value;
+
+            document.getElementById('resultadoBox').classList.remove('hidden');
+            let resultadoHTML = "";
+
+            if (tipo === 'formulario') {
+                resultadoHTML = `CONSULADO-GENERAL DO BRASIL EM MIAMI
+REF: EDITAL Nº. 01/2025 - Processo Seletivo para Auxiliar Administrativo
+
+DADOS DO(A) CANDIDATO(A):
+* Nome Completo: ${nome}
+* Documento / ID: ${doc}
+
+DECLARAÇÕES OBRIGATÓRIAS (Extraídas e validadas automaticamente pelo Edital):
+1. Ciência do Regime Jurídico: Declaro estar ciente de que a vaga não se confunde com emprego ou função pública regidos pelo direito brasileiro, sendo regida pela legislação federal dos Estados Unidos da América.
+2. Ausência de Parentesco: Declaro não possuir qualquer vínculo de matrimônio ou de parentesco, afim ou consanguíneo, até o terceiro grau, com membros da Comissão de Seleção.
+3. Vínculos no Brasil: Declaro que não ocupo cargos, empregos ou funções públicas no Brasil[cite: 5].
+
+Local e Data: _________________________, ___ de _______________ de 2025.
+
+____________________________________________________
+Assinatura: ${nome}`;
+            } else if (tipo === 'coverletter') {
+                resultadoHTML = `[${nome}]
+[Endereço nos EUA] | [Telefone] | [E-mail]
+
+Selection Commission
+Consulate General of Brazil in Miami
+3150 SW 38th Ave - 3rd floor, Miami, FL, 33146
+
+Subject: Application for Administrative Assistant Position – Edital Nº. 01/2025
+
+Dear Members of the Selection Commission,
+
+I am writing to formally apply for the Administrative Assistant position at the Consulate General of Brazil in Miami, pursuant to Edital Nº. 01/2025[cite: 5]. With proven skills in administrative routines, customer service, and document processing, I am fully prepared to support the Consulate's departments.
+
+I possess full work authorization in the U.S. and fluency in both Portuguese and English[cite: 5]. Enclosed with this letter are all required documents, application forms, and background checks as specified in item 5.4[cite: 5].
+
+Sincerely,
+
+__________________________________
+${nome}`;
+            } else {
+                resultadoHTML = `CHECKLIST DE ENVIO - EDITAL Nº. 01/2025 (Consulado do Brasil em Miami)[cite: 5]:
+- [ ] Formulário de Inscrição preenchido e assinado (com foto 2"x2")[cite: 5]
+- [ ] Cópia do documento de identificação válido (Passaporte/ID)[cite: 5]
+- [ ] Comprovação de residência regular e permissão de trabalho nos EUA (Green Card / Work Authorization)[cite: 5]
+- [ ] Cópia do certificado de formação de nível médio ou superior[cite: 5]
+- [ ] Curriculum Vitae / Resumé e cartas de referência (máximo de 2)[cite: 5]
+- [ ] Certidão negativa de antecedentes criminais do condado nos EUA[cite: 5]
+- [ ] Certidão negativa da Polícia Federal brasileira[cite: 5]
+- [ ] Documentação militar (homens até 45 anos) e eleitoral em dia[cite: 5]
+- [ ] Envio em envelope lacrado para o endereço: 3150 SW 38th Ave - 3rd floor, Miami, FL, 33146 até 22/12/2025[cite: 5].`;
             }
 
-            html += `
-                <div class="space-y-4 pt-2">
-                    <h3 class="font-bold text-emerald-800 text-base border-l-4 border-emerald-600 pl-2">3. Metodologia</h3>
-                    <p class="text-slate-700 text-justify">
-                        O desenvolvimento seguiu etapas sequenciais: em um primeiro momento, realizamos um levantamento bibliográfico e análise de similares já existentes no mercado. Em seguida, partimos para a fase de prototipagem utilizando materiais de baixo custo e softwares de código aberto. Por fim, aplicamos testes práticos simulando o uso real, recolhendo métricas de desempenho e feedback de potenciais usuários.
-                    </p>
-                </div>
-            `;
-
-            if (incluirMapas) {
-                html += `
-                    <div class="space-y-2 pt-2">
-                        <h3 class="font-bold text-emerald-800 text-base border-l-4 border-emerald-600 pl-2">4. Mapa Conceitual / Fluxograma de Operação</h3>
-                        <div class="p-3 bg-emerald-50 rounded-lg border border-emerald-200 text-xs text-slate-700 space-y-1">
-                            <p><strong>Etapa 1 (Entrada):</strong> Coleta de dados / Insumos iniciais do projeto.</p>
-                            <p class="text-center">↓</p>
-                            <p><strong>Etapa 2 (Processamento):</strong> Análise lógica / Funcionamento do protótipo.</p>
-                            <p class="text-center">↓</p>
-                            <p><strong>Etapa 3 (Saída):</strong> Validação prática e apresentação de resultados para a banca avaliadora.</p>
-                        </div>
-                    </div>
-                `;
-            }
-
-            if (incluirGlossario) {
-                html += `
-                    <div class="space-y-2 pt-2">
-                        <h3 class="font-bold text-emerald-800 text-base border-l-4 border-emerald-600 pl-2">5. Glossário de Termos Técnicos</h3>
-                        <ul class="list-disc list-inside text-xs text-slate-700 space-y-1 pl-2">
-                            <li><strong>Prototipagem:</strong> Construção de um modelo preliminar para testar ideias e conceitos.</li>
-                            <li><strong>Escalabilidade:</strong> Capacidade de um sistema crescer e atender a demandas maiores sem perda de eficiência.</li>
-                            <li><strong>Baixo Custo:</strong> Emprego de insumos acessíveis e recicláveis para viabilizar a execução prática.</li>
-                        </ul>
-                    </div>
-                `;
-            }
-
-            html += `
-                <div class="space-y-4 pt-2">
-                    <h3 class="font-bold text-emerald-800 text-base border-l-4 border-emerald-600 pl-2">6. Considerações Finais</h3>
-                    <p class="text-slate-700 text-justify">
-                        Conclui-se que o projeto atende plenamente aos objetivos delineados e às exigências metodológicas esperadas. A experiência proporcionou ganho técnico significativo para a equipe, evidenciando que soluções criativas e de baixo orçamento podem gerar grande impacto positivo. Esperamos que este trabalho sirva de base para futuras pesquisas e inovações dentro da instituição.
-                    </p>
-                </div>
-
-                <div class="space-y-2 pt-4 border-t">
-                    <h3 class="font-bold text-emerald-800 text-sm">7. Referências</h3>
-                    <p class="text-xs text-slate-600">
-                        ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS (ABNT). <strong>NBR 14724</strong>: Informação e documentação — Trabalhos acadêmicos — Apresentação. Rio de Janeiro, 2011.
-                    </p>
-                    <p class="text-xs text-slate-600">
-                        SILVA, M. A. <strong>Metodologia de Projetos Aplicada a Feiras Tecnológicas</strong>. São Paulo: Ed. Acadêmica, 2024.
-                    </p>
-                </div>
-            `;
-
-            document.getElementById('conteudoGerado').innerHTML = html;
-            window.scrollTo({ top: document.getElementById('resultadoContainer').offsetTop - 20, behavior: 'smooth' });
+            document.getElementById('conteudoResultado').innerText = resultadoHTML;
+            window.scrollTo({ top: document.getElementById('resultadoBox').offsetTop - 20, behavior: 'smooth' });
         }
 
-        function copiarTexto() {
-            const texto = document.getElementById('conteudoGerado').innerText;
+        function copiarResultado() {
+            const texto = document.getElementById('conteudoResultado').innerText;
             navigator.clipboard.writeText(texto).then(() => {
-                alert('Conteúdo copiado com sucesso! Pronto para colar no seu editor de texto.');
+                alert('Documento copiado com sucesso! Pronto para uso.');
             });
-        }
-
-        function baixarArquivo() {
-            const texto = document.getElementById('conteudoGerado').innerText;
-            const blob = new Blob([texto], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'projeto_academico_pronto.txt';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
         }
     </script>
 </body>
